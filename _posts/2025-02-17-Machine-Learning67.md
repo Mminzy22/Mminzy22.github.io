@@ -2,7 +2,7 @@
 title: "LangChain에서 응답 속도 최적화: Caching 활용하기"
 author: mminzy22
 date: 2025-02-17 19:40:00 +0900
-categories: [Machine Learning, Deep Learning, LLM]
+categories: [LangChain]
 tags: [Bootcamp, Python, Machine Learning, Deep Learning, LLM, RAG, LangChain, AI, TIL]
 description: "LangChain에서 캐싱을 활용하여 LLM의 응답 속도를 최적화하는 방법을 다룹니다. 캐싱의 기본 개념부터 다양한 캐싱 방식, 적용 예제, 그리고 캐싱을 활용한 응답 속도 비교 실험까지 자세히 설명합니다."
 pin: false

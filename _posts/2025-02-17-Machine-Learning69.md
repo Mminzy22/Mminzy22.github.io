@@ -2,7 +2,7 @@
 title: "LangChain에서 Multi-turn 대화 구현하기"
 author: mminzy22
 date: 2025-02-17 19:50:00 +0900
-categories: [Machine Learning, Deep Learning, LLM]
+categories: [LangChain]
 tags: [Bootcamp, Python, Machine Learning, Deep Learning, LLM, RAG, LangChain, AI, TIL]
 description: "LangChain을 사용하여 Multi-turn 대화를 구현하는 방법. 다양한 예시와 함께 대화 이력 관리, 메모리 최적화 등의 고려사항을 다룹니다."
 pin: false
