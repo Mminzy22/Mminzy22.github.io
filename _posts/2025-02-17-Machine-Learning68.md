@@ -4,7 +4,7 @@ author: mminzy22
 date: 2025-02-17 19:45:00 +0900
 categories: [Machine Learning, Deep Learning, LLM]
 tags: [Bootcamp, Python, Machine Learning, Deep Learning, LLM, RAG, LangChain, AI, TIL]
-description: ""
+description: "LangChain을 사용하여 프롬프트 템플릿과 다양한 메시지 유형을 활용하는 방법을 다룹니다. 이를 통해 일관된 형식의 프롬프트를 구성하고, 재사용 가능한 구조를 만들어 챗봇의 대화 품질을 향상시킬 수 있습니다."
 pin: false
 math: true
 ---
