@@ -1,7 +1,7 @@
 ---
 title: "LangChain에서 Chains와 Workflow 활용하기 - part.5"
 author: mminzy22
-date: 2025-02-21 20:00:00 +0900
+date: 2025-02-24 20:30:00 +0900
 categories: [LangChain]
 tags: [Bootcamp, Python, Machine Learning, LangChain, Chains, AI 워크플로우, AI, TIL]
 description: "LangChain에서 다양한 Chains를 활용하여 AI 워크플로우를 최적화하는 방법을 소개합니다."
