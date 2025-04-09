@@ -34,7 +34,9 @@ const swconf = {
 
       {%- comment -%} URLs containing the following prefixes will not be cached. {%- endcomment -%}
       urlPrefixes: [
-        'https://mminzy22.goatcounter.com/counter/'
+        {% if site.analytics.goatcounter.id != nil and site.pageviews.provider == 'goatcounter' %}
+          'https://{{ site.analytics.goatcounter.id }}.goatcounter.com/counter/'
+        {% endif %}
       ]
     },
 
