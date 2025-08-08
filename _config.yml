@@ -116,10 +116,10 @@ comments:
     repo: "Mminzy22/Mminzy22.github.io"
     repo_id: "R_kgDOPaWLDw"
     category: "General"
-    category_id: "DIC_kwDOPaWLD84Ct7QY"
+    category_id: "DIC_kwDONtvhq84CmOpn"
     mapping: "pathname"  # 기본값
     strict: "0"          # 기본값
-    input_position: "bottom"  # 기본값
+    input_position: "top"  # 기본값
     lang: "ko"           # 한국어 설정
     reactions_enabled: "1"  # 기본값
 
