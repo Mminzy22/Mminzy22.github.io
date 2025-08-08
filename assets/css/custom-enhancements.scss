@@ -1,0 +1,526 @@
+---
+---
+
+// 커스텀 개선사항들을 위한 SCSS 파일
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+// 커스텀 색상 변수
+:root {
+  // 브랜드 컬러 (그라데이션 기반)
+  --brand-primary: #667eea;
+  --brand-secondary: #764ba2;
+  --brand-accent: #f093fb;
+  --brand-success: #4facfe;
+  --brand-warning: #f6d365;
+  --brand-danger: #ff6b6b;
+  
+  // 그라데이션
+  --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  --gradient-accent: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  --gradient-warm: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+  
+  // 그림자 효과
+  --shadow-soft: 0 2px 20px rgba(0, 0, 0, 0.1);
+  --shadow-medium: 0 8px 30px rgba(0, 0, 0, 0.12);
+  --shadow-strong: 0 15px 35px rgba(0, 0, 0, 0.15);
+  --shadow-colored: 0 8px 30px rgba(102, 126, 234, 0.3);
+  
+  // 애니메이션 변수
+  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --transition-fast: all 0.2s ease-out;
+}
+
+// 전역 폰트 개선
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-weight: 400;
+  line-height: 1.7;
+  letter-spacing: -0.01em;
+}
+
+// 헤딩 폰트 개선
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+}
+
+// 코드 폰트 개선
+code, pre, kbd {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Monaco', 'Consolas', monospace;
+  font-weight: 400;
+}
+
+// 사이드바 개선
+#sidebar {
+  background: var(--gradient-primary);
+  backdrop-filter: blur(20px);
+  border: none;
+  box-shadow: var(--shadow-medium);
+  
+  .profile-wrapper {
+    text-align: center;
+    
+    #avatar {
+      transition: var(--transition-smooth);
+      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+      border: 3px solid rgba(255, 255, 255, 0.2);
+      
+      &:hover {
+        transform: translateY(-5px) scale(1.05);
+        box-shadow: 0 15px 35px rgba(102, 126, 234, 0.6);
+      }
+      
+      img {
+        transition: var(--transition-smooth);
+        
+        &:hover {
+          transform: scale(1.1);
+        }
+      }
+    }
+    
+    .site-title {
+      background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 700;
+      text-shadow: none;
+      margin-top: 1.5rem;
+    }
+    
+    .site-subtitle {
+      color: rgba(255, 255, 255, 0.8);
+      font-weight: 300;
+    }
+  }
+  
+  .nav-item {
+    margin: 0.25rem 0;
+    
+    .nav-link {
+      border-radius: 12px;
+      transition: var(--transition-smooth);
+      position: relative;
+      overflow: hidden;
+      
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: var(--transition-smooth);
+      }
+      
+      &:hover {
+        background: rgba(255, 255, 255, 0.15);
+        transform: translateX(5px);
+        
+        &::before {
+          left: 100%;
+        }
+      }
+      
+      &.active {
+        background: rgba(255, 255, 255, 0.2);
+        box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+    }
+  }
+  
+  .sidebar-bottom {
+    a, button {
+      transition: var(--transition-bounce);
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      
+      &:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+    }
+  }
+}
+
+// 탑바 개선
+#topbar-wrapper {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: var(--shadow-soft);
+}
+
+// 카드 스타일 개선
+.card, .post-preview {
+  border: none;
+  border-radius: 16px;
+  box-shadow: var(--shadow-soft);
+  transition: var(--transition-smooth);
+  overflow: hidden;
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--gradient-primary);
+    opacity: 0;
+    transition: var(--transition-smooth);
+  }
+  
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-strong);
+    
+    &::before {
+      opacity: 1;
+    }
+  }
+  
+  .card-body {
+    padding: 2rem;
+  }
+  
+  .card-title {
+    font-weight: 600;
+    color: var(--brand-primary);
+    margin-bottom: 1rem;
+  }
+}
+
+// 버튼 개선
+.btn {
+  border-radius: 10px;
+  font-weight: 500;
+  transition: var(--transition-smooth);
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+  
+  &:hover::before {
+    width: 300px;
+    height: 300px;
+  }
+  
+  &.btn-primary {
+    background: var(--gradient-primary);
+    border: none;
+    box-shadow: var(--shadow-colored);
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+    }
+  }
+  
+  &.btn-outline-primary {
+    border: 2px solid var(--brand-primary);
+    color: var(--brand-primary);
+    
+    &:hover {
+      background: var(--gradient-primary);
+      transform: translateY(-2px);
+    }
+  }
+}
+
+// 태그 스타일 개선
+.post-tag, .tag {
+  background: var(--gradient-accent);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 0.4rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: var(--transition-smooth);
+  display: inline-block;
+  margin: 0.2rem;
+  
+  &:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: var(--shadow-medium);
+    text-decoration: none;
+    color: white;
+  }
+}
+
+// 검색 박스 개선
+#search {
+  border-radius: 25px;
+  border: 2px solid transparent;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  transition: var(--transition-smooth);
+  
+  &:focus-within {
+    border-color: var(--brand-primary);
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    background: white;
+  }
+  
+  input {
+    background: transparent;
+    border: none;
+    
+    &::placeholder {
+      color: rgba(0, 0, 0, 0.5);
+    }
+  }
+}
+
+// 코드 블록 개선
+.highlight, div[class^='language-'] {
+  border-radius: 12px;
+  box-shadow: var(--shadow-soft);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  
+  .code-header {
+    background: var(--gradient-primary);
+    color: white;
+    border-radius: 12px 12px 0 0;
+    
+    span::after {
+      color: rgba(255, 255, 255, 0.9);
+    }
+    
+    button {
+      color: rgba(255, 255, 255, 0.8);
+      
+      &:hover {
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+      }
+    }
+  }
+}
+
+// 애니메이션 키프레임
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+// 페이지 로드 애니메이션
+.content > * {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+#post-list .card-wrapper {
+  animation: slideInRight 0.6s ease-out;
+  
+  &:nth-child(2) { animation-delay: 0.1s; }
+  &:nth-child(3) { animation-delay: 0.2s; }
+  &:nth-child(4) { animation-delay: 0.3s; }
+  &:nth-child(5) { animation-delay: 0.4s; }
+}
+
+// 백투탑 버튼 개선
+#back-to-top {
+  background: var(--gradient-primary);
+  border: none;
+  box-shadow: var(--shadow-colored);
+  transition: var(--transition-bounce);
+  
+  &:hover {
+    transform: translateY(-5px) scale(1.1);
+    box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
+  }
+  
+  &.show {
+    animation: pulse 2s infinite;
+  }
+}
+
+// 푸터 개선
+footer {
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
+  
+  a {
+    color: rgba(255, 255, 255, 0.9);
+    transition: var(--transition-smooth);
+    
+    &:hover {
+      color: white;
+      text-decoration: none;
+      transform: translateY(-1px);
+    }
+  }
+}
+
+// 다크모드 개선
+[data-mode="dark"] {
+  .card, .post-preview {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  #topbar-wrapper {
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(20px);
+  }
+}
+
+// 반응형 개선
+@media (max-width: 768px) {
+  .card .card-body {
+    padding: 1.5rem;
+  }
+  
+  #post-list .card-wrapper {
+    margin-bottom: 1.5rem;
+  }
+}
+
+// 스크롤바 커스터마이징
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gradient-primary);
+  border-radius: 10px;
+  
+  &:hover {
+    background: var(--gradient-secondary);
+  }
+}
+
+// 선택 텍스트 스타일
+::selection {
+  background: var(--brand-primary);
+  color: white;
+}
+
+::-moz-selection {
+  background: var(--brand-primary);
+  color: white;
+}
+
+// 로딩 애니메이션
+.loading {
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    animation: shimmer 1.5s infinite;
+  }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+// 호버 효과 개선
+a:not(.btn):not(.nav-link) {
+  transition: var(--transition-smooth);
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--gradient-primary);
+    transition: var(--transition-smooth);
+  }
+  
+  &:hover::after {
+    width: 100%;
+  }
+}
+
+// 이미지 개선
+img {
+  border-radius: 8px;
+  transition: var(--transition-smooth);
+  
+  &:hover {
+    transform: scale(1.02);
+    box-shadow: var(--shadow-medium);
+  }
+}
+
+// 테이블 개선
+.table-wrapper table {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+  
+  th {
+    background: var(--gradient-primary);
+    color: white;
+    font-weight: 600;
+  }
+  
+  tr:hover {
+    background: rgba(102, 126, 234, 0.05);
+  }
+}

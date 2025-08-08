@@ -1,0 +1,9 @@
+#cursor {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background: url('/assets/img/shark_no_bg.gif') no-repeat center center;
+    background-size: contain;
+    pointer-events: none; /* 요소에 마우스 이벤트를 막지 않음 */
+    transform: translate(-10%, -10%);
+}

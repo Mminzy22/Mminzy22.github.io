@@ -1,0 +1,220 @@
+# The Site Configuration
+
+# Import the theme
+theme: jekyll-theme-chirpy
+
+# The language of the webpage › http://www.lingoes.net/en/translator/langcode.htm
+# If it has the same name as one of the files in folder `_data/locales`, the layout language will also be changed,
+# otherwise, the layout language will use the default value of 'en'.
+lang: en
+
+# Change to your timezone › https://kevinnovak.github.io/Time-Zone-Picker
+timezone:
+
+# jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
+# ↓ --------------------------
+
+title: MINJI BLOG # the main title
+
+tagline: AI 서비스 개발 # it will display as the subtitle
+
+description: >- # used by seo meta and the atom feed
+  박민지의 AI 서비스 개발 블로그입니다.
+
+# Fill in the protocol & hostname for your site.
+# E.g. 'https://username.github.io', note that it does not end with a '/'.
+url: "https://Mminzy22.github.io"
+
+github:
+  username: Mminzy22 # change to your GitHub username
+
+twitter:
+  username:  # change to your Twitter username
+
+social:
+  # Change to your full name.
+  # It will be displayed as the default author of the posts and the copyright owner in the Footer
+  name: 박민지
+  email: minji.dev22@gmail.com # change to your email address
+  links:
+    # The first element serves as the copyright owner's link
+    - https://github.com/Mminzy22 # change to your GitHub homepage
+    # Uncomment below to add more social links
+    # - https://twitter.com/username # change to your Twitter homepage
+    # - https://www.facebook.com/username
+    # - https://www.linkedin.com/in/username
+
+# Site Verification Settings
+webmaster_verifications:
+  google: "U7F6owsFqz3tSPM4wh393Sj453gcK3TdKNvaB5zKbqw" # fill in your Google verification code
+  naver: "8d190dc0010122208ccf90e47fc912706de41275"
+  bing: # fill in your Bing verification code
+  alexa: # fill in your Alexa verification code
+  yandex: # fill in your Yandex verification code
+  baidu: # fill in your Baidu verification code
+  facebook: # fill in your Facebook verification code
+
+# ↑ --------------------------
+# The end of `jekyll-seo-tag` settings
+
+# Web Analytics Settings
+analytics:
+  google:
+    id:  "G-K0WC76ZYL2" # fill in your Google Analytics ID
+  goatcounter:
+    id: "mminzy22"
+  umami:
+    id: # fill in your Umami ID
+    domain: # fill in your Umami domain
+  matomo:
+    id: # fill in your Matomo ID
+    domain: # fill in your Matomo domain
+  cloudflare:
+    id: # fill in your Cloudflare Web Analytics token
+  fathom:
+    id: # fill in your Fathom Site ID
+
+# Page views settings
+pageviews:
+  provider: goatcounter
+  id: "mminzy22"
+
+# Prefer color scheme setting.
+#
+# Note: Keep empty will follow the system prefer color by default,
+# and there will be a toggle to switch the theme between dark and light
+# on the bottom left of the sidebar.
+#
+# Available options:
+#
+#     light — Use the light color scheme
+#     dark — Use the dark color scheme
+#
+theme_mode: # [light | dark]
+
+# The CDN endpoint for media resources.
+# Notice that once it is assigned, the CDN url
+# will be added to all media resources (site avatar, posts' images, audio and video files) paths starting with '/'
+#
+# e.g. 'https://cdn.com'
+cdn: "https://mminzy22.github.io"
+
+# the avatar on sidebar, support local or CORS resources
+# avatar: "/images/avatar.png"  # 블로그 리포지토리의 `/images/avatar.png` 경로에 저장된 파일
+avatar: "/assets/img/20181105_164857.jpg"
+
+# The URL of the site-wide social preview image used in SEO `og:image` meta tag.
+# It can be overridden by a customized `page.image` in front matter.
+social_preview_image: # string, local or CORS resources
+
+# boolean type, the global switch for TOC in posts.
+toc: true
+
+comments:
+  provider: giscus
+  giscus:
+    repo: "Mminzy22/Mminzy22.github.io"
+    repo_id: "R_kgDOPaWLDw"
+    category: "General"
+    category_id: "DIC_kwDOPaWLD84Ct7QY"
+    mapping: "pathname"  # 기본값
+    strict: "0"          # 기본값
+    input_position: "bottom"  # 기본값
+    lang: "ko"           # 한국어 설정
+    reactions_enabled: "1"  # 기본값
+
+# Self-hosted static assets, optional › https://github.com/cotes2020/chirpy-static-assets
+assets:
+  self_host:
+    enabled: # boolean, keep empty means false
+    # specify the Jekyll environment, empty means both
+    # only works if `assets.self_host.enabled` is 'true'
+    env: # [development | production]
+
+pwa:
+  enabled: true # The option for PWA feature (installable)
+  cache:
+    enabled: true # The option for PWA offline cache
+    # Paths defined here will be excluded from the PWA cache.
+    # Usually its value is the `baseurl` of another website that
+    # shares the same domain name as the current website.
+    deny_paths:
+      # - "/example"  # URLs match `<SITE_URL>/example/*` will not be cached by the PWA
+
+paginate: 10
+
+# The base URL of your site
+baseurl: ""
+
+# ------------ The following options are not recommended to be modified ------------------
+
+kramdown:
+  footnote_backlink: "&#8617;&#xfe0e;"
+  syntax_highlighter: rouge
+  syntax_highlighter_opts: # Rouge Options › https://github.com/jneen/rouge#full-options
+    css_class: highlight
+    # default_lang: console
+    span:
+      line_numbers: false
+    block:
+      line_numbers: true
+      start_line: 1
+
+collections:
+  tabs:
+    output: true
+    sort_by: order
+
+defaults:
+  - scope:
+      path: "" # An empty string here means all files in the project
+      type: posts
+    values:
+      layout: post
+      comments: true # Enable comments in posts.
+      toc: true # Display TOC column in posts.
+      # DO NOT modify the following parameter unless you are confident enough
+      # to update the code of all other post links in this project.
+      permalink: /posts/:title/
+  - scope:
+      path: _drafts
+    values:
+      comments: false
+  - scope:
+      path: ""
+      type: tabs # see `site.collections`
+    values:
+      layout: page
+      permalink: /:title/
+
+sass:
+  style: compressed
+
+compress_html:
+  clippings: all
+  comments: all
+  endings: all
+  profile: false
+  blanklines: false
+  ignore:
+    envs: [development]
+
+exclude:
+  - "*.gem"
+  - "*.gemspec"
+  - docs
+  - tools
+  - README.md
+  - LICENSE
+  - purgecss.js
+  - rollup.config.js
+  - "package*.json"
+
+jekyll-archives:
+  enabled: [categories, tags]
+  layouts:
+    category: category
+    tag: tag
+  permalinks:
+    tag: /tags/:name/
+    category: /categories/:name/
