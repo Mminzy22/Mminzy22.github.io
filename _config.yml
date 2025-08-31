@@ -16,10 +16,10 @@ timezone:
 
 title: MINJI BLOG # the main title
 
-tagline: AI 서비스 개발 # it will display as the subtitle
+tagline: Backend · Cloud/DevOps · AI # it will display as the subtitle
 
 description: >- # used by seo meta and the atom feed
-  박민지의 AI 서비스 개발 블로그입니다.
+  백엔드 개발, 클라우드 인프라, AI 응용을 다루는 박민지의 기술 블로그입니다.
 
 # Fill in the protocol & hostname for your site.
 # E.g. 'https://username.github.io', note that it does not end with a '/'.
