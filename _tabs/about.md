@@ -16,4 +16,4 @@ order: 4
 ### Contact
 - E-Mail: minji.dev22@gmail.com
 - [GitHub](https://github.com/Mminzy22)
-- [Portfolio](https://github.com/Mminzy22/portfolio-site)
+- [Portfolio](https://portfolio-site-eight-zeta.vercel.app/)
