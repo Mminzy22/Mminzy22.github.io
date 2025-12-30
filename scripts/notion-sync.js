@@ -94,12 +94,17 @@ function getPropertyValue(page, propertyName, propertyType) {
       return prop.rich_text?.[0]?.plain_text || '';
     case 'date':
       return prop.date?.start || null;
+    case 'created_time':
+      // created_time은 ISO 8601 문자열 형식
+      return prop.created_time ? new Date(prop.created_time).toISOString() : null;
     case 'multi_select':
       return prop.multi_select?.map(item => item.name) || [];
     case 'checkbox':
       return prop.checkbox || false;
     case 'select':
       return prop.select?.name || null;
+    case 'status':
+      return prop.status?.name || null;
     default:
       return null;
   }
@@ -111,7 +116,7 @@ function getPropertyValue(page, propertyName, propertyType) {
 function generateFrontMatter(page) {
   const title = getPropertyValue(page, '파일명', 'title') || 'Untitled';
   const author = getPropertyValue(page, '작성자', 'rich_text') || 'mminzy22';
-  const dateStr = getPropertyValue(page, '생성 일시', 'date');
+  const dateStr = getPropertyValue(page, '생성 일시', 'created_time');
   const description = getPropertyValue(page, '설명', 'rich_text') || '';
   const categories = getPropertyValue(page, '카테고리', 'multi_select') || [];
   const tags = getPropertyValue(page, '태그', 'multi_select') || [];
@@ -143,7 +148,7 @@ function generateFrontMatter(page) {
   yaml += `mermaid: ${frontMatter.mermaid}\n`;
   yaml += '---\n';
 
-  return { frontMatter, title, dateStr };
+  return { frontMatter: yaml, title, dateStr };
 }
 
 /**
@@ -182,12 +187,12 @@ async function main() {
     while (hasMore) {
       const response = await notion.databases.query({
         database_id: NOTION_DATABASE_ID,
-        filter: {
-          property: '상태',
-          select: {
-            equals: '완료'
-          }
-        },
+      filter: {
+        property: '상태',
+        status: {
+          equals: '완료'
+        }
+      },
         sorts: [
           {
             property: '생성 일시',
