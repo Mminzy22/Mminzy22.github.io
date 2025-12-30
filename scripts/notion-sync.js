@@ -11,6 +11,7 @@ import { writeFile, mkdir, stat } from 'fs/promises';
 import { existsSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { execSync } from 'child_process';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -175,6 +176,34 @@ function generateFrontMatter(page) {
 }
 
 /**
+ * Git에서 파일의 마지막 커밋 시간 가져오기
+ */
+function getGitLastCommitTime(filepath) {
+  try {
+    // Git 저장소인지 확인
+    const gitDir = join(__dirname, '..', '.git');
+    if (!existsSync(gitDir)) {
+      return null;
+    }
+
+    // 파일의 마지막 커밋 시간 가져오기 (Unix timestamp)
+    const result = execSync(
+      `git log -1 --format=%ct -- "${filepath}"`,
+      { cwd: join(__dirname, '..'), encoding: 'utf-8' }
+    ).trim();
+
+    if (!result) {
+      return null;
+    }
+
+    return parseInt(result) * 1000; // 밀리초로 변환
+  } catch (error) {
+    // 파일이 Git에 없거나 에러 발생 시 null 반환
+    return null;
+  }
+}
+
+/**
  * Notion 페이지를 Markdown으로 변환
  */
 async function convertPageToMarkdown(pageId) {
@@ -271,33 +300,40 @@ async function main() {
 
         if (fileExists) {
           try {
-            const fileStat = await stat(filepath);
-            const fileModifiedTime = fileStat.mtime.getTime();
+            // Git의 마지막 커밋 시간 사용 (GitHub에 올라간 실제 수정 시간)
+            const gitCommitTime = getGitLastCommitTime(filepath);
             // Notion API가 자동으로 제공하는 페이지 마지막 수정 시간
             const notionLastEdited = new Date(page.last_edited_time).getTime();
             
-            // 디버깅: 시간 비교 정보 출력 (환경 변수로 제어 가능)
-            if (process.env.DEBUG) {
-              console.log(`  📅 ${filename}:`);
-              console.log(`     Notion 수정: ${new Date(notionLastEdited).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })}`);
-              console.log(`     파일 수정: ${new Date(fileModifiedTime).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })}`);
-            }
-            
-            // Notion에서 수정된 시간이 파일 수정 시간보다 이전이거나 같으면 스킵
-            if (notionLastEdited <= fileModifiedTime) {
-              shouldUpdate = false;
-              skipCount++;
+            // Git에 커밋 기록이 없으면 업데이트 진행
+            if (gitCommitTime === null) {
               if (process.env.DEBUG) {
-                console.log(`     → 변경 없음, 스킵`);
+                console.log(`  📅 ${filename}: Git 커밋 기록 없음, 업데이트 진행`);
               }
             } else {
+              // 디버깅: 시간 비교 정보 출력 (환경 변수로 제어 가능)
               if (process.env.DEBUG) {
-                console.log(`     → 변경 감지, 업데이트 필요`);
+                console.log(`  📅 ${filename}:`);
+                console.log(`     Notion 수정: ${new Date(notionLastEdited).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })}`);
+                console.log(`     Git 커밋: ${new Date(gitCommitTime).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })}`);
+              }
+              
+              // Notion에서 수정된 시간이 Git 커밋 시간보다 이전이거나 같으면 스킵
+              if (notionLastEdited <= gitCommitTime) {
+                shouldUpdate = false;
+                skipCount++;
+                if (process.env.DEBUG) {
+                  console.log(`     → 변경 없음, 스킵`);
+                }
+              } else {
+                if (process.env.DEBUG) {
+                  console.log(`     → 변경 감지, 업데이트 필요`);
+                }
               }
             }
-          } catch (statError) {
-            // stat 실패 시 업데이트 진행
-            console.warn(`⚠️  파일 정보 확인 실패 (${filename}), 업데이트 진행:`, statError.message);
+          } catch (error) {
+            // 에러 발생 시 업데이트 진행
+            console.warn(`⚠️  파일 정보 확인 실패 (${filename}), 업데이트 진행:`, error.message);
           }
         }
 
