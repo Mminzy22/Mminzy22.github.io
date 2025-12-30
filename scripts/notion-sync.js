@@ -173,25 +173,36 @@ async function main() {
       console.log(`📁 ${POSTS_DIR} 디렉토리 생성됨`);
     }
 
-    // Notion 데이터베이스에서 상태가 "완료"인 페이지 조회
+    // Notion 데이터베이스에서 상태가 "완료"인 페이지 조회 (페이지네이션 처리)
     console.log('📡 Notion 데이터베이스 조회 중...');
-    const response = await notion.databases.query({
-      database_id: NOTION_DATABASE_ID,
-      filter: {
-        property: '상태',
-        select: {
-          equals: '완료'
-        }
-      },
-      sorts: [
-        {
-          property: '생성 일시',
-          direction: 'descending'
-        }
-      ]
-    });
+    const pages = [];
+    let cursor = undefined;
+    let hasMore = true;
 
-    const pages = response.results;
+    while (hasMore) {
+      const response = await notion.databases.query({
+        database_id: NOTION_DATABASE_ID,
+        filter: {
+          property: '상태',
+          select: {
+            equals: '완료'
+          }
+        },
+        sorts: [
+          {
+            property: '생성 일시',
+            direction: 'descending'
+          }
+        ],
+        start_cursor: cursor,
+        page_size: 100
+      });
+
+      pages.push(...response.results);
+      hasMore = response.has_more;
+      cursor = response.next_cursor;
+    }
+
     console.log(`✓ ${pages.length}개의 완료된 페이지 발견\n`);
 
     if (pages.length === 0) {
