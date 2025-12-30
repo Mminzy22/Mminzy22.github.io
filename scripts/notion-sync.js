@@ -122,6 +122,12 @@ function generateFrontMatter(page) {
   const tags = getPropertyValue(page, '태그', 'multi_select') || [];
   const pin = getPropertyValue(page, 'pin', 'checkbox') || false;
   const mermaid = getPropertyValue(page, 'mermaid', 'checkbox') || false;
+  const math = getPropertyValue(page, 'math', 'checkbox') || false;
+  
+  // 이미지 관련 속성 (선택사항)
+  const mediaSubpath = getPropertyValue(page, '미디어 경로', 'rich_text') || null;
+  const imagePath = getPropertyValue(page, '이미지 경로', 'rich_text') || null;
+  const imageAlt = getPropertyValue(page, '이미지 설명', 'rich_text') || null;
 
   const date = dateStr ? formatDate(dateStr) : new Date().toISOString();
 
@@ -133,7 +139,8 @@ function generateFrontMatter(page) {
     tags: tags.length > 0 ? tags : [],
     description: `"${description}"`,
     pin,
-    mermaid
+    mermaid,
+    math
   };
 
   // YAML 형식으로 변환
@@ -146,6 +153,22 @@ function generateFrontMatter(page) {
   yaml += `description: ${frontMatter.description}\n`;
   yaml += `pin: ${frontMatter.pin}\n`;
   yaml += `mermaid: ${frontMatter.mermaid}\n`;
+  yaml += `math: ${frontMatter.math}\n`;
+  
+  // 미디어 경로가 있으면 추가 (null, 빈 문자열, 공백만 있는 경우 제외)
+  if (mediaSubpath && mediaSubpath.trim()) {
+    yaml += `media_subpath: ${mediaSubpath.trim()}\n`;
+  }
+  
+  // 이미지 정보가 있으면 추가 (null, 빈 문자열, 공백만 있는 경우 제외)
+  if (imagePath && imagePath.trim()) {
+    yaml += `image:\n`;
+    yaml += `  path: ${imagePath.trim()}\n`;
+    if (imageAlt && imageAlt.trim()) {
+      yaml += `  alt: "${imageAlt.trim()}"\n`;
+    }
+  }
+  
   yaml += '---\n';
 
   return { frontMatter: yaml, title, dateStr };
