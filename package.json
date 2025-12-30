@@ -1,6 +1,7 @@
 {
   "name": "jekyll-theme-chirpy",
   "version": "7.2.4",
+  "type": "module",
   "description": "A minimal, responsive, and feature-rich Jekyll theme for technical writing.",
   "repository": {
     "type": "git",
@@ -24,8 +25,10 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@notionhq/client": "^2.2.15",
     "@popperjs/core": "^2.11.8",
-    "bootstrap": "^5.3.3"
+    "bootstrap": "^5.3.3",
+    "notion-to-md": "^3.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
