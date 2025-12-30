@@ -3,9 +3,9 @@ name: Notion to Jekyll Sync
 on:
   # 수동 실행
   workflow_dispatch:
-  # 스케줄 실행 (10분 간격)
+  # 스케줄 실행 (하루에 한 번, 한국 시간 자정 = UTC 15시)
   schedule:
-    - cron: '*/10 * * * *'
+    - cron: '0 15 * * *'
 
 jobs:
   sync:
