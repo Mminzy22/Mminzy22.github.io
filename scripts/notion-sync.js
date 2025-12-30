@@ -7,7 +7,7 @@
 
 import { Client } from '@notionhq/client';
 import { NotionToMarkdown } from 'notion-to-md';
-import { writeFile, mkdir, stat } from 'fs/promises';
+import { writeFile, mkdir, stat, readdir, unlink } from 'fs/promises';
 import { existsSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
@@ -239,12 +239,12 @@ async function main() {
     while (hasMore) {
       const response = await notion.databases.query({
         database_id: NOTION_DATABASE_ID,
-      filter: {
-        property: '상태',
-        status: {
-          equals: '완료'
-        }
-      },
+        filter: {
+          property: '상태',
+          status: {
+            equals: '완료'
+          }
+        },
         sorts: [
           {
             property: '생성 일시',
@@ -261,6 +261,38 @@ async function main() {
     }
 
     console.log(`✓ ${pages.length}개의 완료된 페이지 발견\n`);
+
+    // 상태가 "삭제"인 페이지 조회 (삭제 대상)
+    console.log('🗑️  삭제 대상 페이지 조회 중...');
+    const deletePages = [];
+    cursor = undefined;
+    hasMore = true;
+
+    while (hasMore) {
+      const response = await notion.databases.query({
+        database_id: NOTION_DATABASE_ID,
+        filter: {
+          property: '상태',
+          status: {
+            equals: '삭제'
+          }
+        },
+        sorts: [
+          {
+            property: '생성 일시',
+            direction: 'descending'
+          }
+        ],
+        start_cursor: cursor,
+        page_size: 100
+      });
+
+      deletePages.push(...response.results);
+      hasMore = response.has_more;
+      cursor = response.next_cursor;
+    }
+
+    console.log(`✓ ${deletePages.length}개의 삭제 대상 페이지 발견\n`);
 
     if (pages.length === 0) {
       console.log('⚠️  동기화할 페이지가 없습니다.');
@@ -359,15 +391,64 @@ async function main() {
       }
     }
 
+    // 상태가 "삭제"인 페이지의 파일 삭제
+    let deletedCount = 0;
+    const deletedFiles = [];
+    
+    if (deletePages.length > 0) {
+      console.log('\n🗑️  삭제 대상 파일 처리 중...');
+      
+      for (const page of deletePages) {
+        try {
+          const { title, dateStr } = generateFrontMatter(page);
+          
+          if (!title || title === 'Untitled') {
+            console.warn(`⚠️  제목이 없는 삭제 대상 페이지 건너뜀: ${page.id}`);
+            continue;
+          }
+
+          if (!dateStr) {
+            console.warn(`⚠️  생성 일시가 없는 삭제 대상 페이지 건너뜀: ${title}`);
+            continue;
+          }
+
+          // 파일명 생성
+          const slug = createSlug(title);
+          const datePrefix = getDatePrefix(dateStr);
+          const filename = `${datePrefix}-${slug}.md`;
+          const filepath = join(POSTS_DIR, filename);
+
+          // 파일이 존재하면 삭제
+          if (existsSync(filepath)) {
+            await unlink(filepath);
+            console.log(`🗑️  ${filename} (삭제)`);
+            deletedFiles.push(filename);
+            deletedCount++;
+          } else {
+            console.log(`⚠️  ${filename} (파일 없음, 스킵)`);
+          }
+        } catch (error) {
+          console.error(`❌ 삭제 대상 페이지 처리 실패 (${page.id}):`, error.message);
+        }
+      }
+    }
+
     console.log(`\n✅ 동기화 완료:`);
     console.log(`   - 생성/업데이트: ${successCount}개 (신규: ${successCount - updateCount}개, 업데이트: ${updateCount}개)`);
     console.log(`   - 변경 없음: ${skipCount}개`);
+    console.log(`   - 삭제: ${deletedCount}개`);
     console.log(`   - 실패: ${errorCount}개`);
     
-    // 업데이트된 파일 목록을 환경 변수로 내보내기 (GitHub Actions에서 사용)
-    if (updatedFiles.length > 0) {
-      process.env.UPDATED_FILES = JSON.stringify(updatedFiles);
-      console.log(`\n📝 업데이트된 파일: ${updatedFiles.join(', ')}`);
+    // 업데이트/삭제된 파일 목록을 환경 변수로 내보내기 (GitHub Actions에서 사용)
+    const allChangedFiles = [...updatedFiles, ...deletedFiles];
+    if (allChangedFiles.length > 0) {
+      process.env.UPDATED_FILES = JSON.stringify(allChangedFiles);
+      if (updatedFiles.length > 0) {
+        console.log(`\n📝 업데이트된 파일: ${updatedFiles.join(', ')}`);
+      }
+      if (deletedFiles.length > 0) {
+        console.log(`🗑️  삭제된 파일: ${deletedFiles.join(', ')}`);
+      }
     }
   } catch (error) {
     console.error('❌ 동기화 중 오류 발생:', error);
