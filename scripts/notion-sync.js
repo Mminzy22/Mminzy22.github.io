@@ -294,11 +294,6 @@ async function main() {
 
     console.log(`✓ ${deletePages.length}개의 삭제 대상 페이지 발견\n`);
 
-    if (pages.length === 0) {
-      console.log('⚠️  동기화할 페이지가 없습니다.');
-      return;
-    }
-
     let successCount = 0;
     let errorCount = 0;
     let updateCount = 0;
@@ -306,6 +301,10 @@ async function main() {
     const updatedFiles = [];
 
     // 각 페이지를 처리
+    if (pages.length === 0) {
+      console.log('⚠️  동기화할 완료된 페이지가 없습니다.\n');
+    }
+
     for (const page of pages) {
       try {
         const { frontMatter, title, dateStr } = generateFrontMatter(page);
