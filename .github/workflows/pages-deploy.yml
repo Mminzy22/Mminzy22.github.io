@@ -11,14 +11,6 @@ on:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-  
-  # Notion 동기화 워크플로우 완료 후 자동 빌드
-  workflow_run:
-    workflows: ["Notion to Jekyll Sync"]
-    types:
-      - completed
-    branches:
-      - main
 
 permissions:
   contents: read
@@ -33,16 +25,12 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    # workflow_run 이벤트일 때는 성공한 경우에만 실행
-    if: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' || github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          # workflow_run일 때는 트리거한 워크플로우의 커밋을 사용
-          ref: ${{ github.event.workflow_run.head_branch || github.ref }}
           # submodules: true
           # If using the 'assets' git submodule from Chirpy Starter, uncomment above
           # (See: https://github.com/cotes2020/chirpy-starter/tree/main/assets)
