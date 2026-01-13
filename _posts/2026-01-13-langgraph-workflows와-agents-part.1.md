@@ -20,7 +20,7 @@ media_subpath: /assets/img/langgraph
 - **Workflows**는 미리 정해진 코드 경로를 가지고 있고, 특정 순서대로 실행되도록 설계된 구조이다.
 - **Agents**는 동적으로 동작하며, 스스로 프로세스와 툴 사용을 결정하는 구조이다.
 
-![Agent Workflow]](agent_workflow.avif)
+![Agent Workflow](agent_workflow.avif)
 
 
 LangGraph는 agent와 workflow를 만들 때 다음과 같은 이점을 제공한다.
