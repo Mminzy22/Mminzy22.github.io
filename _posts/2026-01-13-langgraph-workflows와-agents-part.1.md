@@ -14,7 +14,8 @@ media_subpath: /assets/img/langgraph
 
 ## Workflows and agents
 
-이 글은 LangGraph에서 자주 등장하는 workflow 패턴과 agent 패턴을 정리한 내용이다.
+
+LangGraph에서 자주 등장하는 workflow 패턴과 agent 패턴 정리
 
 - **Workflows**는 미리 정해진 코드 경로를 가지고 있고, 특정 순서대로 실행되도록 설계된 구조이다.
 - **Agents**는 동적으로 동작하며, 스스로 프로세스와 툴 사용을 결정하는 구조이다.
@@ -276,7 +277,4 @@ for step in prompt_chaining_workflow.stream("cats", stream_mode="updates"):
     print(step)
     print("\n")
 ```
-
-
----
 
