@@ -14,7 +14,6 @@ media_subpath: /assets/img/langgraph
 
 ## Workflows and agents
 
-
 이 글은 LangGraph에서 자주 등장하는 workflow 패턴과 agent 패턴을 정리한 내용이다.
 
 - **Workflows**는 미리 정해진 코드 경로를 가지고 있고, 특정 순서대로 실행되도록 설계된 구조이다.
