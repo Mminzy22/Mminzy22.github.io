@@ -15,7 +15,7 @@ media_subpath: /assets/img/langgraph
 ## Agents
 
 
-Agents는 일반적으로 LLM이 [tools]([https://docs.langchain.com/oss/python/langchain/tools](https://docs.langchain.com/oss/python/langchain/tools))를 사용해 행동을 수행하는 구조로 구현된다. 에이전트는 **연속적인 피드백 루프** 안에서 동작하며, 문제와 해결 방법이 사전에 명확히 정의되지 않은 상황에서 사용된다. 워크플로우보다 높은 자율성을 가지며, 어떤 도구를 사용할지, 어떤 순서로 문제를 해결할지 스스로 판단한다.
+Agents는 일반적으로 LLM이 [tools](https://docs.langchain.com/oss/python/langchain/tools)를 사용해 행동을 수행하는 구조로 구현된다. 에이전트는 **연속적인 피드백 루프** 안에서 동작하며, 문제와 해결 방법이 사전에 명확히 정의되지 않은 상황에서 사용된다. 워크플로우보다 높은 자율성을 가지며, 어떤 도구를 사용할지, 어떤 순서로 문제를 해결할지 스스로 판단한다.
 
 
 다만 완전한 자유를 주는 것은 아니며, 사용할 수 있는 **도구 집합**과 **행동 가이드라인**은 여전히 개발자가 정의한다.
