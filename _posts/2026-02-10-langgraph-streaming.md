@@ -48,8 +48,7 @@ for chunk in graph.stream(inputs, stream_mode="updates"):
     print(chunk)
 ```
 
-<details>
-<summary><b>Extended example: streaming updates</b></summary>
+#### Extended example: streaming updates
 
 ```python
 from typing import TypedDict
@@ -89,8 +88,6 @@ for chunk in graph.stream(  # [!code highlight]
 {'refineTopic': {'topic': 'ice cream and cats'}}
 {'generateJoke': {'joke': 'This is a joke about ice cream and cats'}}
 ```
-
-</details>
 
 ## Stream multiple modes
 
@@ -181,8 +178,7 @@ for chunk in graph.stream(
     print(chunk)
 ```
 
-<details>
-<summary><b>Extended example: streaming from subgraphs</b></summary>
+#### Extended example: streaming from subgraphs
 
 ```python
 from langgraph.graph import START, StateGraph
@@ -237,8 +233,6 @@ for chunk in graph.stream(
 ```
 
 **Note**: 노드 업데이트뿐 아니라 네임스페이스가 함께 들어오기 때문에, 현재 어떤 그래프(또는 서브그래프)에서 스트리밍되는지 구분할 수 있다.
-
-</details>
 
 ### Debugging
 
@@ -336,8 +330,7 @@ async for msg, metadata in graph.astream(
         print(msg.content, end="|", flush=True)
 ```
 
-<details>
-<summary><b>Extended example: filtering by tags</b></summary>
+#### Extended example: filtering by tags
 
 ```python
 from typing import TypedDict
@@ -393,8 +386,6 @@ async for msg, metadata in graph.astream(
         print(msg.content, end="|", flush=True)
 ```
 
-</details>
-
 #### Filter by node
 
 특정 노드에서만 토큰을 스트리밍하려면 `stream_mode="messages"`로 받은 후, 메타데이터의 `langgraph_node` 필드로 필터링하면 된다.
@@ -413,8 +404,7 @@ for msg, metadata in graph.stream(
         ...
 ```
 
-<details>
-<summary><b>Extended example: streaming LLM tokens from specific nodes</b></summary>
+#### Extended example: streaming LLM tokens from specific nodes
 
 ```python
 from typing import TypedDict
@@ -468,8 +458,6 @@ for msg, metadata in graph.stream(
     if msg.content and metadata["langgraph_node"] == "write_poem":
         print(msg.content, end="|", flush=True)
 ```
-
-</details>
 
 ## Stream custom data
 
@@ -578,8 +566,7 @@ for chunk in graph.stream(
     print(chunk)
 ```
 
-<details>
-<summary><b>Extended example: streaming arbitrary chat model</b></summary>
+#### Extended example: streaming arbitrary chat model
 
 ```python
 import operator
@@ -698,8 +685,6 @@ async for chunk in graph.astream(
     print(chunk["content"], end="|", flush=True)
 ```
 
-</details>
-
 ## Disable streaming for specific chat models
 
 스트리밍을 지원하는 모델과 지원하지 않는 모델을 혼용하는 애플리케이션에서는, 스트리밍을 지원하지 않는 모델에 대해 명시적으로 스트리밍을 비활성화해야 할 수 있다.
@@ -737,8 +722,7 @@ Python < 3.11에서는 `asyncio.create_task`가 `context` 파라미터를 지원
 1. async LLM 호출(예: `ainvoke()`)에 `RunnableConfig`를 반드시 명시적으로 전달해야 한다. 콜백이 자동으로 전파되지 않기 때문이다.
 2. async 노드 또는 도구에서 `get_stream_writer`를 사용할 수 없다. 대신 함수 인자로 `writer`를 직접 받아야 한다.
 
-<details>
-<summary><b>Extended example: async LLM call with manual config</b></summary>
+#### Extended example: async LLM call with manual config
 
 ```python
 from typing import TypedDict
@@ -778,10 +762,7 @@ async for chunk, metadata in graph.astream(
         print(chunk.content, end="|", flush=True)
 ```
 
-</details>
-
-<details>
-<summary><b>Extended example: async custom streaming with stream writer</b></summary>
+#### Extended example: async custom streaming with stream writer
 
 ```python
 from typing import TypedDict
@@ -811,5 +792,3 @@ async for chunk in graph.astream(
 ):
       print(chunk)
 ```
-
-</details>

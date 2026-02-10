@@ -176,8 +176,7 @@ graph.invoke(Command(resume=True), config=config)
 graph.invoke(Command(resume=False), config=config)
 ```
 
-<details>
-<summary><b>Full example</b></summary>
+#### Full example
 
 ```python
 from typing import Literal, Optional, TypedDict
@@ -235,8 +234,6 @@ resumed = graph.invoke(Command(resume=True), config=config)
 print(resumed["status"])  # -> "approved"
 ```
 
-</details>
-
 ### Review and edit state
 
 그래프 상태의 일부를 사람이 검토하고 수정한 뒤에 진행하고 싶을 때가 있다. LLM 출력 교정, 누락 정보 추가, 사소한 수정 등의 용도로 유용하다.
@@ -264,8 +261,7 @@ graph.invoke(
 )
 ```
 
-<details>
-<summary><b>Full example</b></summary>
+#### Full example
 
 ```python
 import sqlite3
@@ -309,8 +305,6 @@ final_state = graph.invoke(
 print(final_state["generated_text"])  # -> "Improved draft after review"
 ```
 
-</details>
-
 ### Interrupts in tools
 
 인터럽트는 tool 함수 내부에도 직접 넣을 수 있다. 이렇게 하면 도구가 호출될 때마다 승인/검토를 위해 멈추도록 만들 수 있고, 실행 전에 tool call을 사람이 수정하는 것도 가능해진다.
@@ -345,8 +339,7 @@ def send_email(to: str, subject: str, body: str):
 
 이 접근은 승인 로직을 도구(tool) 자체에 붙여 재사용성을 높이는 데 유용하다. LLM이 자연스럽게 도구를 호출하더라도, 도구가 실행되기 전에 interrupt가 걸려 승인/수정/취소를 할 수 있게 된다.
 
-<details>
-<summary><b>Full example</b></summary>
+#### Full example
 
 ```python
 import sqlite3
@@ -424,8 +417,6 @@ resumed = graph.invoke(
 print(resumed["messages"][-1])  # -> Tool result returned by send_email
 ```
 
-</details>
-
 ### Validating human input
 
 사람 입력을 검증하고, 유효하지 않으면 다시 물어봐야 하는 경우가 있다. 이런 패턴은 루프 안에서 `interrupt`를 여러 번 호출하는 방식으로 구현할 수 있다.
@@ -452,8 +443,7 @@ def get_age_node(state: State):
 
 유효하지 않은 입력으로 재개할 때마다 더 명확한 프롬프트로 다시 묻게 된다. 유효한 입력이 들어오면 노드가 완료되고 그래프는 다음으로 진행한다.
 
-<details>
-<summary><b>Full example</b></summary>
+#### Full example
 
 ```python
 import sqlite3
@@ -500,5 +490,3 @@ print(retry["__interrupt__"])  # -> [Interrupt(value="'thirty' is not a valid ag
 final = graph.invoke(Command(resume=30), config=config)
 print(final["age"])  # -> 30
 ```
-
-</details>
