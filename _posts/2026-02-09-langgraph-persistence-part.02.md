@@ -97,10 +97,6 @@ memories[-1].dict()
 - `key`: namespace 내에서의 고유 키
 - `namespace`: memory 타입의 namespace
     > 타입은 `tuple[str, ...]`이지만 JSON으로 변환될 때 `['1', 'memories']`처럼 리스트로 직렬화될 수 있다.
->
->     {: .prompt-tip }
->
->
 - `created_at`: 생성 시각
 - `updated_at`: 업데이트 시각
 
