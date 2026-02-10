@@ -240,8 +240,6 @@ for chunk in graph.stream(
 
 </details>
 
-<a id="debug" />
-
 ### Debugging
 
 `debug` 스트리밍 모드는 그래프 실행 동안 가능한 한 많은 정보를 스트리밍한다. 출력에는 노드 이름과 전체 상태가 포함된다.
@@ -254,8 +252,6 @@ for chunk in graph.stream(
     print(chunk)
 ```
 
-<a id="messages" />
-
 ## LLM tokens
 
 `messages` 스트리밍 모드는 그래프 어느 위치에서든(노드, 도구, 서브그래프, task 포함) LLM 출력 토큰을 **토큰 단위(token by token)**로 스트리밍할 수 있다.
@@ -265,11 +261,11 @@ for chunk in graph.stream(
 * `message_chunk`: LLM이 내보낸 토큰 또는 메시지 조각이다.
 * `metadata`: 그래프 노드, LLM 호출 등에 대한 정보를 담은 딕셔너리이다.
 
-> LLM이 LangChain 통합(integration)으로 제공되지 않는 경우에는 `custom` 모드로도 스트리밍이 가능하다. 자세한 내용은 [Use with any LLM](#use-with-any-llm) 섹션을 참고하면 된다.
+> LLM이 LangChain 통합(integration)으로 제공되지 않는 경우에는 `custom` 모드로도 스트리밍이 가능하다. 자세한 내용은 Use with any LLM 섹션을 참고하면 된다.
 
 > Warning
 > **Manual config required for async in Python < 3.11**
-> Python < 3.11 환경에서 async 코드를 사용할 때는 `ainvoke()`에 `RunnableConfig`를 명시적으로 전달해야 정상적인 스트리밍이 활성화된다. 자세한 내용은 [Async with Python < 3.11](#async) 섹션을 참고하거나 Python 3.11+로 업그레이드하면 된다.
+> Python < 3.11 환경에서 async 코드를 사용할 때는 `ainvoke()`에 `RunnableConfig`를 명시적으로 전달해야 정상적인 스트리밍이 활성화된다. 자세한 내용은 Async with Python < 3.11 섹션을 참고하거나 Python 3.11+로 업그레이드하면 된다.
 
 ```python
 from dataclasses import dataclass
@@ -486,7 +482,7 @@ LangGraph 노드 또는 도구(tool) 내부에서 **사용자 정의(custom) 데
 > **No get_stream_writer in async for Python < 3.11**
 > Python < 3.11에서 async 코드로 실행할 경우 `get_stream_writer`는 동작하지 않는다.
 > 대신 노드/도구 시그니처에 `writer` 파라미터를 추가하고, 이를 수동으로 전달해야 한다.
-> 사용 예시는 [Async with Python < 3.11](#async) 섹션을 참고하면 된다.
+> 사용 예시는 Async with Python < 3.11 섹션을 참고하면 된다.
 
 ### node
 
@@ -733,8 +729,6 @@ model = ChatOpenAI(model="o1-preview", streaming=False)
 
 > Note
 > 모든 채팅 모델 통합이 `streaming` 파라미터를 지원하는 것은 아니다. 해당 파라미터를 지원하지 않는 모델이라면 `disable_streaming=True`를 사용하면 된다. 이 파라미터는 베이스 클래스 기준으로 모든 채팅 모델에서 사용 가능하다.
-
-<a id="async" />
 
 ### Async with Python < 3.11
 
