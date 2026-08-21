@@ -38,7 +38,7 @@
 details {
   margin-bottom: 1rem;
   padding: 0.6rem 1rem;
-  border: 1px solid var(--main-border-color);
+  border: 1px solid var(--notion-box-border);
   border-radius: 6px;
 }
 
@@ -61,7 +61,7 @@ details > :last-child {
    kramdown 이 라디오와 라벨을 <p> 로 감싸므로 형제 선택자 대신 :has() 를 쓴다. */
 .notion-tabs {
   margin-bottom: 1rem;
-  border: 1px solid var(--main-border-color);
+  border: 1px solid var(--notion-box-border);
   border-radius: 10px;
   overflow: hidden;
   background: var(--main-bg);
@@ -80,7 +80,7 @@ details > :last-child {
   margin: 0; /* 문단 기본 여백이 탭 위에 빈 공간을 만든다 */
   padding: 0.55rem 0.8rem 0;
   background: var(--main-border-color);
-  border-bottom: 1px solid var(--main-border-color);
+  border-bottom: 1px solid var(--notion-box-border);
 }
 
 .notion-tabs label {
@@ -150,7 +150,7 @@ details > :last-child {
   display: flex;
   align-items: stretch;
   margin-bottom: 1rem;
-  border: 1px solid var(--main-border-color);
+  border: 1px solid var(--notion-box-border);
   border-radius: 10px;
   overflow: hidden;
   text-decoration: none !important;
