@@ -28,10 +28,7 @@ LangGraph에는 `checkpointer`로 구현된 내장 persistence 레이어가 있�
 ![checkpoints](checkpoints.avif)
 
 > Agent Server를 사용하는 경우 checkpointing은 서버에서 자동 처리하므로, checkpointer를 직접 구현/설정하지 않아도 된다.
->
-> {: .prompt-info }
->
->
+{: .prompt-info }
 
 ---
 

@@ -58,10 +58,7 @@ LangGraph의 checkpointing은 내부적으로 [`BaseCheckpointSaver`](https://re
 
 - `.aput`, `.aput_writes`, `.aget_tuple`, `.alist`
 > 비동기로 그래프를 실행하려면 [`InMemorySaver`](https://reference.langchain.com/python/langgraph/checkpoints/#langgraph.checkpoint.memory.InMemorySaver) 또는 SQLite/Postgres checkpointer의 async 버전인 [`AsyncSqliteSaver`](https://reference.langchain.com/python/langgraph/checkpoints/#langgraph.checkpoint.sqlite.aio.AsyncSqliteSaver), [`AsyncPostgresSaver`](https://reference.langchain.com/python/langgraph/checkpoints/#langgraph.checkpoint.postgres.aio.AsyncPostgresSaver)를 사용할 수 있다.
->
-> {: .prompt-tip }
->
->
+{: .prompt-tip }
 
 ---
 

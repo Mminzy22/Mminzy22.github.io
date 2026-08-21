@@ -27,10 +27,7 @@ LangGraph에서 **state schema**는 그래프 실행 중 채워지는 키 집합
 LangGraph는 thread 내부의 상태(=checkpointer)가 아니라, **thread를 넘어 공유되는 정보 저장소**를 위해 [`Store`](https://reference.langchain.com/python/langgraph/store/) 인터페이스를 제공한다. 대표적으로 `InMemoryStore`를 사용하면 사용자에 대한 정보를 thread와 무관하게 저장/조회할 수 있다.
 
 > LangGraph API를 사용할 때는 store를 직접 구현/설정하지 않아도 되는 경우가 있다. API가 저장 인프라를 뒤에서 자동으로 처리하기 때문이다.
->
-> {: .prompt-info }
->
->
+{: .prompt-info }
 
 ---
 
