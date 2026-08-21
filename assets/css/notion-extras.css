@@ -137,3 +137,72 @@ details > :last-child {
   outline: 2px solid var(--link-color);
   outline-offset: -2px;
 }
+
+/* 북마크 카드 (Notion bookmark) */
+.notion-bookmark {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  margin-bottom: 1rem;
+  border: 1px solid var(--main-border-color);
+  border-radius: 8px;
+  overflow: hidden;
+  text-decoration: none !important;
+  color: inherit;
+  transition: background-color 0.15s;
+}
+
+.notion-bookmark:hover {
+  background: var(--main-border-color);
+}
+
+.notion-bookmark-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.85rem 1rem;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.notion-bookmark-title {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text-color);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.notion-bookmark-desc {
+  font-size: 0.82rem;
+  color: var(--text-muted-color);
+  /* 두 줄까지만 보여준다 */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.notion-bookmark-site {
+  font-size: 0.78rem;
+  color: var(--text-muted-color);
+  margin-top: 0.15rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.notion-bookmark-thumb {
+  flex: 0 0 33%;
+  max-width: 200px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+@media (max-width: 576px) {
+  .notion-bookmark-thumb {
+    display: none;
+  }
+}

@@ -12,7 +12,7 @@ import { existsSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { execSync } from 'child_process';
-import { postProcess } from './notion-postprocess.js';
+import { postProcess, fetchLinkPreview, renderLinkCard } from './notion-postprocess.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -74,7 +74,17 @@ n2m.setCustomTransformer('bookmark', async (block) => {
   if (embed) return `{% include embed/${embed.platform}.html id='${embed.id}' %}\n\n`;
 
   const caption = (content.caption || []).map((item) => item.plain_text).join('').trim();
-  return `[${caption || content.url}](${content.url})\n\n`;
+  const fallback = `[${caption || content.url}](${content.url})\n\n`;
+
+  // 링크의 Open Graph 정보를 읽어 카드로 만든다. 실패하면 단순 링크로 둔다.
+  try {
+    const preview = await fetchLinkPreview(content.url);
+    if (caption) preview.title = caption;
+    return `${renderLinkCard(content.url, preview)}\n\n`;
+  } catch (error) {
+    console.warn(`   ⚠️  링크 정보를 읽지 못해 단순 링크로 대체(${error.message}): ${content.url.slice(0, 60)}`);
+    return fallback;
+  }
 });
 
 // 기본 변환은 Notion 캡션을 alt 로만 넣어 화면에 보이지 않는다.

@@ -319,6 +319,116 @@ export async function extractThumbnail(markdown, { mediaDir }) {
   };
 }
 
+// 북마크 카드용 메타데이터 조회 설정
+const OG_TIMEOUT_MS = 6000;
+const OG_USER_AGENT = 'Mozilla/5.0 (compatible; MinjiBlogBot/1.0; +https://mminzy22.github.io)';
+
+function firstMatch(html, patterns) {
+  for (const pattern of patterns) {
+    const found = html.match(pattern);
+    if (found?.[1]) return decodeEntities(found[1].trim());
+  }
+  return null;
+}
+
+function decodeEntities(text) {
+  return text
+    .replace(/&quot;/g, '"')
+    .replace(/&#0?39;/g, "'")
+    .replace(/&apos;/g, "'")
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&');
+}
+
+const metaPattern = (property) =>
+  new RegExp(
+    `<meta[^>]+(?:property|name)=["']${property}["'][^>]+content=["']([^"']*)["']`,
+    'i'
+  );
+
+const metaPatternReversed = (property) =>
+  new RegExp(
+    `<meta[^>]+content=["']([^"']*)["'][^>]+(?:property|name)=["']${property}["']`,
+    'i'
+  );
+
+/**
+ * 링크의 Open Graph 정보를 읽어 카드에 쓸 값을 돌려준다.
+ * 실패하면 null 을 돌려주고 호출부가 단순 링크로 대체한다.
+ */
+export async function fetchLinkPreview(url) {
+  const response = await fetch(url, {
+    headers: { 'user-agent': OG_USER_AGENT, accept: 'text/html,*/*' },
+    redirect: 'follow',
+    signal: AbortSignal.timeout(OG_TIMEOUT_MS)
+  });
+
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+  const type = response.headers.get('content-type') || '';
+  if (!type.includes('html')) throw new Error(`HTML 이 아님 (${type.split(';')[0]})`);
+
+  // 메타 정보는 head 에 있으므로 앞부분만 읽어도 충분하다
+  const html = (await response.text()).slice(0, 200000);
+
+  const title =
+    firstMatch(html, [
+      metaPattern('og:title'),
+      metaPatternReversed('og:title'),
+      metaPattern('twitter:title'),
+      /<title[^>]*>([\s\S]*?)<\/title>/i
+    ]) || new URL(url).hostname;
+
+  const description = firstMatch(html, [
+    metaPattern('og:description'),
+    metaPatternReversed('og:description'),
+    metaPattern('twitter:description'),
+    metaPattern('description')
+  ]);
+
+  const image = firstMatch(html, [
+    metaPattern('og:image'),
+    metaPatternReversed('og:image'),
+    metaPattern('twitter:image')
+  ]);
+
+  return {
+    title,
+    description,
+    image: image ? new URL(image, response.url).href : null,
+    site: new URL(response.url).hostname.replace(/^www\./, '')
+  };
+}
+
+/**
+ * 링크 미리보기 카드 HTML 을 만든다.
+ *
+ * 썸네일에 <img> 대신 배경 이미지를 쓰는 이유는, Chirpy 가 본문의 <img> 를
+ * 자동으로 <a> 로 감싸면서 카드 링크 안에 링크가 중첩되기 때문이다.
+ * kramdown 이 중간에 문단을 끼워 넣지 않도록 한 줄로 만든다.
+ */
+export function renderLinkCard(url, preview) {
+  const parts = [
+    `<span class="notion-bookmark-title">${escapeHtml(preview.title)}</span>`
+  ];
+
+  if (preview.description) {
+    parts.push(`<span class="notion-bookmark-desc">${escapeHtml(preview.description)}</span>`);
+  }
+  parts.push(`<span class="notion-bookmark-site">${escapeHtml(preview.site)}</span>`);
+
+  const thumb = preview.image
+    ? `<span class="notion-bookmark-thumb" style="background-image:url('${preview.image.replace(/['"\\]/g, '')}')"></span>`
+    : '';
+
+  return (
+    `<a class="notion-bookmark" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">` +
+    `<span class="notion-bookmark-body">${parts.join('')}</span>${thumb}</a>`
+  );
+}
+
 const TAB_OPEN = /^<!--notion-tab:(.*)-->$/;
 const TAB_CLOSE = /^<!--\/notion-tab-->$/;
 
