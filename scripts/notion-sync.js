@@ -34,6 +34,34 @@ if (!NOTION_TOKEN || !NOTION_DATABASE_ID) {
 const notion = new Client({ auth: NOTION_TOKEN });
 const n2m = new NotionToMarkdown({ notionClient: notion });
 
+// Notion 의 신기능(예: 탭)은 공개 API 에 블록 타입이 없어 'unsupported' 로 온다.
+// 기본 변환기는 이런 블록을 빈 문자열로 만들어 내용이 조용히 사라진다.
+// 최소한 안쪽 내용은 살리고, 로그로 알려서 눈치챌 수 있게 한다.
+n2m.setCustomTransformer('unsupported', async (block) => {
+  console.warn(`   ⚠️  API 가 지원하지 않는 블록 발견 (id: ${block.id})`);
+
+  if (!block.has_children) {
+    console.warn('      └ 하위 내용이 없어 건너뜁니다');
+    return false;
+  }
+
+  try {
+    const mdBlocks = await n2m.pageToMarkdown(block.id);
+    const md = (n2m.toMarkdownString(mdBlocks).parent || '').trim();
+
+    if (!md) {
+      console.warn('      └ 하위 내용을 읽지 못했습니다');
+      return false;
+    }
+
+    console.warn('      └ 하위 내용은 살려서 이어붙입니다 (구조는 유지되지 않음)');
+    return `${md}\n\n`;
+  } catch (error) {
+    console.warn(`      └ 하위 내용 조회 실패: ${error.message}`);
+    return false;
+  }
+});
+
 // Notion 콜아웃 이모지 → Chirpy prompt 종류
 const PROMPT_BY_EMOJI = {
   '💡': 'tip',
