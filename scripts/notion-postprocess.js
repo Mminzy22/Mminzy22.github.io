@@ -319,6 +319,79 @@ export async function extractThumbnail(markdown, { mediaDir }) {
   };
 }
 
+const TAB_OPEN = /^<!--notion-tab:(.*)-->$/;
+const TAB_CLOSE = /^<!--\/notion-tab-->$/;
+
+function escapeHtml(text) {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+/**
+ * 변환기가 남긴 탭 표시를 찾아 연속된 것끼리 하나의 탭 묶음으로 만든다.
+ *
+ * 라디오 버튼과 라벨을 앞에 모으고 패널을 뒤에 두면
+ * CSS 만으로 탭 전환이 되어 자바스크립트가 필요 없다.
+ */
+export function groupTabs(markdown) {
+  const lines = markdown.split('\n');
+  const out = [];
+  let group = 0;
+  let i = 0;
+
+  while (i < lines.length) {
+    if (!TAB_OPEN.test(lines[i])) {
+      out.push(lines[i]);
+      i++;
+      continue;
+    }
+
+    const tabs = [];
+    while (i < lines.length) {
+      // 탭 사이의 빈 줄은 건너뛰되, 뒤에 탭이 없으면 멈춘다
+      let peek = i;
+      while (peek < lines.length && lines[peek].trim() === '') peek++;
+      if (peek >= lines.length || !TAB_OPEN.test(lines[peek])) break;
+
+      const title = lines[peek].match(TAB_OPEN)[1];
+      const body = [];
+      i = peek + 1;
+      while (i < lines.length && !TAB_CLOSE.test(lines[i])) {
+        body.push(lines[i]);
+        i++;
+      }
+      i++; // 닫는 표시 건너뛰기
+      tabs.push({ title, body: body.join('\n').trim() });
+    }
+
+    if (tabs.length === 0) continue;
+
+    group++;
+    const name = `notion-tabs-${group}`;
+    const head = tabs.map(
+      (tab, index) =>
+        `<input type="radio" name="${name}" id="${name}-${index}"${index === 0 ? ' checked="checked"' : ''} />\n` +
+        `<label for="${name}-${index}">${escapeHtml(tab.title)}</label>`
+    );
+    const panels = tabs.map(
+      (tab) => `<div class="notion-tab-panel" markdown="1">\n\n${tab.body}\n\n</div>`
+    );
+
+    out.push(
+      `<div class="notion-tabs" markdown="1">`,
+      ...head,
+      ...panels,
+      `</div>`,
+      ''
+    );
+  }
+
+  return out.join('\n');
+}
+
 /**
  * 본문을 보고 mermaid / math 사용 여부를 판단한다.
  *
@@ -345,7 +418,8 @@ export async function postProcess(markdown, { mediaDir, mediaSubpath }) {
   // 콜아웃은 notion-sync.js 의 커스텀 변환기가 이미 prompt 로 바꿔둔다
   const audio = await processEmbeddedMedia(fixToggles(media.markdown), { mediaDir });
 
-  const { markdown: body, thumbnail } = await extractThumbnail(audio.markdown, { mediaDir });
+  const { markdown: withoutThumb, thumbnail } = await extractThumbnail(audio.markdown, { mediaDir });
+  const body = groupTabs(withoutThumb);
 
   return {
     markdown: body,

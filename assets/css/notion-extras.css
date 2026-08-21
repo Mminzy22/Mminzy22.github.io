@@ -56,3 +56,84 @@ details[open] > summary {
 details > :last-child {
   margin-bottom: 0;
 }
+
+/* 탭 (Notion tab) — 라디오 + 라벨로 자바스크립트 없이 전환한다.
+   kramdown 이 라디오와 라벨을 <p> 로 감싸므로 형제 선택자 대신 :has() 를 쓴다. */
+.notion-tabs {
+  margin-bottom: 1rem;
+}
+
+.notion-tabs input[type='radio'] {
+  display: none;
+}
+
+/* 라디오와 라벨이 모인 첫 문단이 탭 막대가 된다 */
+.notion-tabs > p:first-child {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.15rem;
+  margin-bottom: 0;
+  border-bottom: 1px solid var(--main-border-color);
+}
+
+.notion-tabs label {
+  padding: 0.45rem 0.9rem;
+  margin-bottom: -1px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text-muted-color);
+  border: 1px solid transparent;
+  border-radius: 6px 6px 0 0;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.notion-tabs label:hover {
+  color: var(--text-color);
+}
+
+.notion-tabs > .notion-tab-panel {
+  display: none;
+  padding: 1rem 0.2rem 0.2rem;
+}
+
+.notion-tabs > .notion-tab-panel > :first-child {
+  margin-top: 0;
+}
+
+.notion-tabs > .notion-tab-panel > :last-child {
+  margin-bottom: 0;
+}
+
+/* 선택된 탭 강조 (최대 8개) */
+.notion-tabs:has(> p > input:nth-of-type(1):checked) > p > label:nth-of-type(1),
+.notion-tabs:has(> p > input:nth-of-type(2):checked) > p > label:nth-of-type(2),
+.notion-tabs:has(> p > input:nth-of-type(3):checked) > p > label:nth-of-type(3),
+.notion-tabs:has(> p > input:nth-of-type(4):checked) > p > label:nth-of-type(4),
+.notion-tabs:has(> p > input:nth-of-type(5):checked) > p > label:nth-of-type(5),
+.notion-tabs:has(> p > input:nth-of-type(6):checked) > p > label:nth-of-type(6),
+.notion-tabs:has(> p > input:nth-of-type(7):checked) > p > label:nth-of-type(7),
+.notion-tabs:has(> p > input:nth-of-type(8):checked) > p > label:nth-of-type(8) {
+  color: var(--link-color);
+  border-color: var(--main-border-color);
+  border-bottom-color: var(--main-bg);
+  background: var(--main-bg);
+}
+
+/* 선택된 탭의 패널만 보여준다 */
+.notion-tabs:has(> p > input:nth-of-type(1):checked) > .notion-tab-panel:nth-of-type(1),
+.notion-tabs:has(> p > input:nth-of-type(2):checked) > .notion-tab-panel:nth-of-type(2),
+.notion-tabs:has(> p > input:nth-of-type(3):checked) > .notion-tab-panel:nth-of-type(3),
+.notion-tabs:has(> p > input:nth-of-type(4):checked) > .notion-tab-panel:nth-of-type(4),
+.notion-tabs:has(> p > input:nth-of-type(5):checked) > .notion-tab-panel:nth-of-type(5),
+.notion-tabs:has(> p > input:nth-of-type(6):checked) > .notion-tab-panel:nth-of-type(6),
+.notion-tabs:has(> p > input:nth-of-type(7):checked) > .notion-tab-panel:nth-of-type(7),
+.notion-tabs:has(> p > input:nth-of-type(8):checked) > .notion-tab-panel:nth-of-type(8) {
+  display: block;
+}
+
+.notion-tabs input:focus-visible + label {
+  outline: 2px solid var(--link-color);
+  outline-offset: -2px;
+}

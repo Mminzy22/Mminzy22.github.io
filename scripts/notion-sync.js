@@ -36,7 +36,7 @@ const n2m = new NotionToMarkdown({ notionClient: notion });
 
 // Notion 탭은 공개 API 에 정식 타입이 없어 'tab' 으로만 온다.
 // 기본 동작은 내용을 들여쓰기로 뱉어 마크다운 코드블록으로 깨진다.
-// 구조가 가장 가까운 토글로 바꿔 최소한 읽을 수 있게 한다.
+// 여기서는 표시만 남기고, 연속된 탭을 하나로 묶는 일은 후처리가 맡는다.
 n2m.setCustomTransformer('tab', async (block) => {
   try {
     const data = block.tab || {};
@@ -54,7 +54,10 @@ n2m.setCustomTransformer('tab', async (block) => {
 
     if (!body) return false;
 
-    return `<details markdown="1">\n<summary>${title}</summary>\n\n${body}\n\n</details>\n\n`;
+    // 주석 문법을 깨뜨리지 않도록 제목을 정리한다
+    const safeTitle = title.replace(/-->/g, '→').replace(/[\r\n]+/g, ' ');
+
+    return `<!--notion-tab:${safeTitle}-->\n${body}\n<!--/notion-tab-->\n\n`;
   } catch (error) {
     console.warn(`   ⚠️  탭 변환 실패, 기본 처리로 대체: ${error.message}`);
     return false;
