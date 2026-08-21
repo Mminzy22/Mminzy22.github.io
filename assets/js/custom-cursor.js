@@ -23,12 +23,27 @@ document.addEventListener('DOMContentLoaded', () => {
     (event) => {
       x = event.clientX;
       y = event.clientY;
+      // mousemove 가 왔다는 것 자체가 iframe 밖이라는 뜻이다
       cursor.classList.add('is-visible');
 
       // 프레임당 한 번만 갱신
       if (!ticking) {
         ticking = true;
         requestAnimationFrame(render);
+      }
+    },
+    { passive: true }
+  );
+
+  // giscus 댓글이나 유튜브 임베드 같은 iframe 안에서는 마우스 이벤트가
+  // 부모 페이지로 오지 않아 상어가 그 자리에 멈춘 것처럼 보인다.
+  // 다른 출처의 iframe 내부를 추적할 방법은 없으므로, 들어가는 순간 숨긴다.
+  // (iframe 요소에 대한 mouseover 는 부모로 전달되고 document 까지 버블링된다)
+  document.addEventListener(
+    'mouseover',
+    (event) => {
+      if (event.target.tagName === 'IFRAME') {
+        cursor.classList.remove('is-visible');
       }
     },
     { passive: true }
