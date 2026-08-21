@@ -6,7 +6,7 @@ categories: [Machine Learning, Deep Learning, LLM]
 tags: [Bootcamp, Python, Machine Learning, Deep Learning, LLM, AI, TIL]
 description: "LangChain의 ChatPromptTemplate 클래스를 사용하여 프롬프트를 템플릿화하는 방법과 이를 통해 효율적으로 LLM과 상호작용하는 방법을 다룹니다."
 pin: false
-math: true
+math: false
 ---
 
 

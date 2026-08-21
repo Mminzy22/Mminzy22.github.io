@@ -6,8 +6,8 @@ categories: ["LangChain","LangGraph"]
 tags: ["TIL","LangChain","LangGraph","AI","LLM"]
 description: "LangGraph의 checkpointer 라이브러리 구성, BaseCheckpointSaver 인터페이스, serializer(pickle/encryption) 옵션, 그리고 persistence로 가능한 기능(HITL/Memory/Time travel/Fault-tolerance)을 정리"
 pin: false
-mermaid: true
-math: true
+mermaid: false
+math: false
 media_subpath: /assets/img/langgraph
 ---
 

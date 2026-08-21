@@ -6,7 +6,7 @@ categories: [Machine Learning]
 tags: [Bootcamp, Python, Machine Learning, GitHub, Deep Learning, PyTorch, API, Transformers, TIL]
 description: "GitHub의 오픈소스 프로젝트를 활용하여 다양한 AI 프로젝트를 시작하는 방법 소개"
 pin: false
-math: true
+math: false
 ---
 
 

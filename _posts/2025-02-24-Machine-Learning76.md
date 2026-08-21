@@ -6,7 +6,7 @@ categories: [LangChain]
 tags: [Bootcamp, Python, Machine Learning, LangChain, Chains, AI 워크플로우, AI, TIL]
 description: "LangChain에서 다양한 Chains를 활용하여 AI 워크플로우를 최적화하는 방법을 소개합니다."
 pin: false
-math: true
+math: false
 ---
 
 

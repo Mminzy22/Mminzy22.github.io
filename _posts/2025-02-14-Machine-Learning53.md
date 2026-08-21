@@ -6,7 +6,7 @@ categories: [Machine Learning, Deep Learning, LLM]
 tags: [Bootcamp, Python, Machine Learning, Deep Learning, LLM, AI, TIL]
 description: "LangChain을 사용하여 대규모 언어 모델(LLM) 애플리케이션을 쉽게 개발하는 방법을 소개합니다. 환경 설정, 설치, 간단한 예제를 통해 LangChain의 기본 개념을 이해할 수 있습니다."
 pin: false
-math: true
+math: false
 ---
 
 

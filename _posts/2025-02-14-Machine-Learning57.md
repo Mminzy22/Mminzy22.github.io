@@ -6,7 +6,7 @@ categories: [Machine Learning, Deep Learning, LLM]
 tags: [Bootcamp, Python, Machine Learning, Deep Learning, LLM, AI, TIL]
 description: "LangChain의 Runnable 컴포넌트를 활용하여 체인을 구성하고 확장하는 방법을 다룹니다. 기본적인 체인 구성부터 커스텀 함수 적용, 실행 시간 측정, 추가적인 컴포넌트 활용 방법까지 다양한 예제를 통해 설명합니다."
 pin: false
-math: true
+math: false
 ---
 
 

@@ -6,7 +6,7 @@ categories: [LangChain]
 tags: [Bootcamp, Python, Machine Learning, Deep Learning, LLM, RAG, LangChain, AI, TIL]
 description: "LangChain을 사용하기 위한 필수 라이브러리를 설치하고, 환경을 설정하는 방법을 단계별로 설명"
 pin: false
-math: true
+math: false
 ---
 
 

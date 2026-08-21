@@ -6,8 +6,8 @@ categories: ["LangChain","LangGraph"]
 tags: ["TIL","LangChain","LangGraph","AI","LLM"]
 description: "LangGraph Agents 패턴 구조와 예제 정리"
 pin: false
-mermaid: true
-math: true
+mermaid: false
+math: false
 media_subpath: /assets/img/langgraph
 ---
 

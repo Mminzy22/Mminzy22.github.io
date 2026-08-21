@@ -6,7 +6,7 @@ categories: [LangChain]
 tags: [Bootcamp, Python, Machine Learning, LangChain, AI, TIL]
 description: "LangGraph를 활용하여 복잡한 AI 워크플로우를 설계하고 실행하는 방법을 소개합니다."
 pin: false
-math: true
+math: false
 ---
 
 

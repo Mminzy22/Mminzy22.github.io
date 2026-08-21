@@ -6,7 +6,7 @@ categories: [Machine Learning]
 tags: [Bootcamp, Python, Machine Learning, Deep Learning, AI활용, HuggingFace, TIL]
 description: "AI 활용과 연구의 차이점. 그리고 API 및 사전 학습 모델, 파이썬 패키지 관리, 허깅페이스를 활용하는 방법"
 pin: false
-math: true
+math: false
 ---
 
 

@@ -6,7 +6,7 @@ categories: [LangChain]
 tags: [Bootcamp, Python, Machine Learning, LangChain, Tools, Agents, AI, TIL]
 description: "LangChain에서 Tools와 Agents를 활용하여 LLM을 더욱 강력하게 활용하는 방법을 소개합니다."
 pin: false
-math: true
+math: false
 ---
 
 

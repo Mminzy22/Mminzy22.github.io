@@ -6,7 +6,7 @@ categories: [Machine Learning, Deep Learning, LLM]
 tags: [Bootcamp, Python, Machine Learning, Deep Learning, LLM, RAG, AI, TIL]
 description: "필요한 라이브러리 설치부터 OpenAI API 설정, 문서 로딩, 벡터 변환까지 따라하기 쉬운 단계별 튜토리얼을 제공합니다."
 pin: false
-math: true
+math: false
 ---
 
 

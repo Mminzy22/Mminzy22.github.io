@@ -6,7 +6,7 @@ categories: [Web Development]
 tags: [Bootcamp, 웹개발, 프론트엔드, 백엔드, 웹보안, 웹접근성, 웹호스팅, 웹트렌드, TIL]
 description: "웹의 기초 개념부터 프론트엔드, 백엔드, 웹 보안, 웹3.0, 클라우드 호스팅, 웹 접근성까지. 웹 개발 입문 가이드"
 pin: false
-math: true
+math: false
 ---
 
 

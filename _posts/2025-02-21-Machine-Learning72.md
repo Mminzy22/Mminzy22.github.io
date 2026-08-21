@@ -6,7 +6,7 @@ categories: [LangChain]
 tags: [Bootcamp, Python, Machine Learning, LangChain, LLM, AI, TIL]
 description: "LangChain의 개념과 주요 기능, 환경 설정 방법을 소개합니다."
 pin: false
-math: true
+math: false
 ---
 
 

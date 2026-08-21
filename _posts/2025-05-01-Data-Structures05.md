@@ -6,7 +6,7 @@ categories: [CS, 자료구조]
 tags: [TIL, 자료구조, 해시]
 description: "해시 테이블(Hash Table)의 개념, 동작 방식, 충돌 처리 방법, 시간복잡도 및 활용 예시를 정리한 글입니다."
 pin: false
-mermaid: true
+mermaid: false
 ---
 
 ## 해시(Hash Table)란?

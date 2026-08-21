@@ -6,7 +6,7 @@ categories: ["LangChain","LangGraph"]
 tags: ["TIL","LangChain","LangGraph","AI","LLM"]
 description: "LangGraph의 interrupt()로 그래프 실행을 중단하고 Command로 재개하는 방법을, Rules of interrupts 섹션 전까지 정리"
 pin: false
-mermaid: true
+mermaid: false
 math: true
 media_subpath: /assets/img/langgraph
 ---

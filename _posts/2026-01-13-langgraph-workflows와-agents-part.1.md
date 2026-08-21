@@ -6,8 +6,8 @@ categories: ["LangChain","LangGraph"]
 tags: ["TIL","LangChain","LangGraph","AI","LLM"]
 description: "LangGraph의 workflow/agent 개념을 정리하고, LLM augmentations와 Prompt Chaining 패턴을 예제로 이해한다."
 pin: false
-mermaid: true
-math: true
+mermaid: false
+math: false
 media_subpath: /assets/img/langgraph
 ---
 

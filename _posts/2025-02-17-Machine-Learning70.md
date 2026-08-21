@@ -6,7 +6,7 @@ categories: [LangChain]
 tags: [Bootcamp, Python, Machine Learning, Deep Learning, LLM, RAG, LangChain, AI, TIL]
 description: "LangChain 에이전트의 개념, 동작 원리, 기본 구현 및 도구 활용 방법을 소개합니다. ReAct 원리를 기반으로 한 에이전트의 실행 방식을 설명하고, 다양한 예제를 통해 실습해봅니다."
 pin: false
-math: true
+math: false
 ---
 
 

@@ -6,8 +6,8 @@ categories: ["LangChain","LangGraph"]
 tags: ["TIL","LangChain","LangGraph","AI","LLM"]
 description: "LangGraph 공식 문서의 Run a local server 가이드를 기반으로, 로컬에서 Agent Server를 실행하고 Studio와 API로 테스트하는 과정 정리"
 pin: false
-mermaid: true
-math: true
+mermaid: false
+math: false
 ---
 
 

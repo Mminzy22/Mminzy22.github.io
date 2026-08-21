@@ -6,7 +6,7 @@ categories: [Machine Learning, Deep Learning, LLM]
 tags: [Bootcamp, Python, Machine Learning, Deep Learning, LLM, RAG, AI, TIL]
 description: "RAG 챗봇의 성능을 최적화하는 방법. 검색된 문서 품질 점검, 프롬프트 최적화, Top-K 검색 조정, Chunk 크기 튜닝, AI 챗봇 환각 방지 등의 고급 최적화 기법을 소개합니다."
 pin: false
-math: true
+math: false
 ---
 
 

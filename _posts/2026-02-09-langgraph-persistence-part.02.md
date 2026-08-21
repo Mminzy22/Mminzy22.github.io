@@ -6,7 +6,7 @@ categories: ["LangChain","LangGraph"]
 tags: ["TIL","LangChain","LangGraph","AI","LLM"]
 description: "LangGraph의 Memory store(Store 인터페이스)를 통해 thread 간에 정보를 공유하는 방법을 정리"
 pin: false
-mermaid: true
+mermaid: false
 math: true
 media_subpath: /assets/img/langgraph
 ---

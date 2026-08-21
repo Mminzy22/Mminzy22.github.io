@@ -6,7 +6,7 @@ categories: [CS, 자료구조]
 tags: [TIL, 자료구조, 스택]
 description: "자료구조의 스택이란 무엇인지, 어떻게 작동하는지, 어떤 특징과 활용이 있는지 설명한 글입니다."
 pin: false
-mermaid: true
+mermaid: false
 ---
 
 ## 스택이란 무엇일까?

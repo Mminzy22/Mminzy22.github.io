@@ -6,7 +6,7 @@ categories: [Machine Learning, Deep Learning, LLM]
 tags: [Bootcamp, Python, Machine Learning, Deep Learning, LLM, AI, TIL]
 description: "LangChain을 사용하여 다양한 페르소나를 가진 챗봇을 구현하는 방법을 소개합니다. 조폭 챗봇, 심리상담 챗봇, 피카츄 챗봇 등 다양한 예제를 통해 프롬프트 템플릿의 활용법을 알 수 있습니다."
 pin: false
-math: true
+math: false
 ---
 
 

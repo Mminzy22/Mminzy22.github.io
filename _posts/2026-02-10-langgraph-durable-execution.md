@@ -6,8 +6,8 @@ categories: ["LangChain","LangGraph"]
 tags: ["TIL","LangChain","LangGraph","AI","LLM"]
 description: "LangGraph의 Durable Execution 개념과 persistence, determinism, task 사용 방법 정리"
 pin: false
-mermaid: true
-math: true
+mermaid: false
+math: false
 media_subpath: /assets/img/langgraph
 ---
 

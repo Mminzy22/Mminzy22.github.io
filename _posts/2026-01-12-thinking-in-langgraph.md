@@ -7,7 +7,7 @@ tags: ["TIL","LangChain","LangGraph","AI","LLM"]
 description: "LangGraph 공식 문서 기반 에이전트를 설계하는 사고방식"
 pin: false
 mermaid: true
-math: true
+math: false
 ---
 
 

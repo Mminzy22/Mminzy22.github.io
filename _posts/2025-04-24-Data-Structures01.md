@@ -6,7 +6,7 @@ categories: [CS, 자료구조]
 tags: [TIL, 자료구조, 배열]
 description: "자료구조의 가장 기초인 배열(Array)에 대해 구조, 시간복잡도 등을 정리한 글입니다."
 pin: false
-mermaid: true
+mermaid: false
 ---
 
 ## 배열이란 무엇일까?

@@ -6,7 +6,7 @@ categories: [Machine Learning]
 tags: [Bootcamp, Python, Machine Learning, Deep Learning, Hugging Face, Stable Diffusion, NLP, AI, TIL]
 description: "Hugging Face와 Stable Diffusion을 활용하여 텍스트 생성 및 이미지 생성 모델을 실제로 사용하는 방법"
 pin: false
-math: true
+math: false
 ---
 
 ## 1. Hugging Face의 생성형 텍스트 모델 활용하기

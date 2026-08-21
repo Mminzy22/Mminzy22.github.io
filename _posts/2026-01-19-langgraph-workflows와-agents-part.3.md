@@ -6,8 +6,8 @@ categories: ["LangChain","LangGraph"]
 tags: ["TIL","LangChain","LangGraph","AI","LLM"]
 description: "LangGraph의 Orchestrator-worker 패턴 구조와 Graph API / Functional API 예제로 이해한다."
 pin: false
-mermaid: true
-math: true
+mermaid: false
+math: false
 media_subpath: /assets/img/langgraph
 ---
 

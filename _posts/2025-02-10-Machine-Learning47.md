@@ -6,7 +6,7 @@ categories: [Machine Learning]
 tags: [Bootcamp, Python, Machine Learning, Fine-tuning, AI, TIL]
 description: "생성형 AI의 개념, 개발 과정에서의 어려움, 그리고 이를 극복하기 위한 파인 튜닝의 중요성에 대해 다룹니다."
 pin: false
-math: true
+math: false
 ---
 
 

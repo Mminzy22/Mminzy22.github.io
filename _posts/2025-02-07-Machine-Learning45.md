@@ -6,7 +6,7 @@ categories: [Machine Learning]
 tags: [Bootcamp, Python, Machine Learning, Hugging Face, Transformers, Deep Learning, AI, TIL]
 description: "Hugging Face의 Transformers 라이브러리를 활용해 BERT, GPT-2, RoBERTa 등 다양한 NLP 모델을 쉽게 사용하는 방법"
 pin: false
-math: true
+math: false
 ---
 
 

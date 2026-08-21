@@ -6,7 +6,7 @@ categories: [LangChain]
 tags: [Bootcamp, Python, Machine Learning, LangChain, VectorDB, AI, TIL]
 description: "LangChain을 활용하여 관계형 데이터베이스(SQL) 및 벡터 데이터베이스(VectorDB)와 연동하는 방법을 소개합니다."
 pin: false
-math: true
+math: false
 ---
 
 

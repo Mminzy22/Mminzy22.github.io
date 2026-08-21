@@ -6,7 +6,7 @@ categories: [CS, 자료구조]
 tags: [TIL, 자료구조, 큐]
 description: "큐(Queue)의 기본 개념, 동작 원리, 시간복잡도, 실생활 비유 및 활용 예시를 정리한 글입니다."
 pin: false
-mermaid: true
+mermaid: false
 ---
 
 ## 큐란 무엇일까?

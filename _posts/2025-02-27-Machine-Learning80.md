@@ -6,7 +6,7 @@ categories: [LangChain]
 tags: [Bootcamp, Python, Machine Learning, LangGraph, AI, TIL]
 description: "LangChain과 LangGraph를 활용하여 AI 기반 실전 프로젝트를 구축하는 방법을 소개합니다."
 pin: false
-math: true
+math: false
 ---
 
 

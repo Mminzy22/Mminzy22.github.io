@@ -6,7 +6,7 @@ categories: [Machine Learning]
 tags: [Bootcamp, Python, Machine Learning, Deep Learning, NLP, AI, TIL]
 description: "생성형 모델의 원리와 랜덤성, 조건성을 활용한 텍스트·이미지·오디오 생성 방법을 설명합니다."
 pin: false
-math: true
+math: false
 ---
 
 ## 생성형 모델이란?

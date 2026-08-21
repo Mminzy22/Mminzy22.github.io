@@ -6,7 +6,7 @@ categories: [LangChain]
 tags: [Bootcamp, Python, Machine Learning, Deep Learning, LLM, RAG, LangChain, AI, TIL]
 description: "LangSmith Hub를 활용하여 고급 프롬프트를 최적화하고, RAG 챗봇 등 다양한 AI 모델에 적용하는 방법을 소개합니다."
 pin: false
-math: true
+math: false
 ---
 
 

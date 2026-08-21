@@ -6,8 +6,8 @@ categories: ["LangChain","LangGraph"]
 tags: ["TIL","LangChain","LangGraph","AI","LLM"]
 description: "Evaluator-Optimizer 패턴의 개념, 사용 사례, 반복 개선 루프, LangGraph 구현 예시(Graph API/Functional API)를 정리한다."
 pin: false
-mermaid: true
-math: true
+mermaid: false
+math: false
 media_subpath: /assets/img/langgraph
 ---
 

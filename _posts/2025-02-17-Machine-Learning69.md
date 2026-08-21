@@ -6,7 +6,7 @@ categories: [LangChain]
 tags: [Bootcamp, Python, Machine Learning, Deep Learning, LLM, RAG, LangChain, AI, TIL]
 description: "LangChain을 사용하여 Multi-turn 대화를 구현하는 방법. 다양한 예시와 함께 대화 이력 관리, 메모리 최적화 등의 고려사항을 다룹니다."
 pin: false
-math: true
+math: false
 ---
 
 

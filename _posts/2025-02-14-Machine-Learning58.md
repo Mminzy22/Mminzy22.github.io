@@ -6,7 +6,7 @@ categories: [Machine Learning, Deep Learning, LLM]
 tags: [Bootcamp, Python, Machine Learning, Deep Learning, LLM, LangChain, AI, TIL]
 description: "LangChain을 활용하여 고급 체인 구성 및 최적화 전략을 다루는 글입니다. 동적 체인 구성, 병렬 처리, 캐싱, 디버깅 및 로깅, 조건부 실행 등 다양한 기법을 통해 효율적인 애플리케이션 개발 방법을 소개합니다."
 pin: false
-math: true
+math: false
 ---
 
 

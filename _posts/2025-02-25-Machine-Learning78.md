@@ -6,7 +6,7 @@ categories: [LangChain]
 tags: [Bootcamp, Python, Machine Learning, LangChain, AI, TIL]
 description: "LangChain을 활용하여 REST API 및 외부 서비스와 연동하는 방법을 소개합니다."
 pin: false
-math: true
+math: false
 ---
 
 

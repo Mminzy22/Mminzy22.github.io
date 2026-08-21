@@ -6,7 +6,7 @@ categories: [Machine Learning]
 tags: [Bootcamp, Python, Machine Learning, PyTorch, TIL]
 description: "PyTorch의 기본 개념과 텐서를 활용한 연산"
 pin: false
-math: true
+math: false
 ---
 
 
