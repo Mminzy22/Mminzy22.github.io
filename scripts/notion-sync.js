@@ -34,6 +34,61 @@ if (!NOTION_TOKEN || !NOTION_DATABASE_ID) {
 const notion = new Client({ auth: NOTION_TOKEN });
 const n2m = new NotionToMarkdown({ notionClient: notion });
 
+// Notion 콜아웃 이모지 → Chirpy prompt 종류
+const PROMPT_BY_EMOJI = {
+  '💡': 'tip',
+  '🌟': 'tip',
+  '✅': 'tip',
+  'ℹ️': 'info',
+  '📌': 'info',
+  '📘': 'info',
+  '📝': 'info',
+  '⚠️': 'warning',
+  '🚧': 'warning',
+  '❗': 'danger',
+  '❌': 'danger',
+  '🚨': 'danger',
+  '⛔': 'danger'
+};
+
+// 기본 변환에서는 콜아웃과 인용이 똑같은 인용구로 나와 구분되지 않는다.
+// 콜아웃만 Chirpy prompt 로 바꿔서 둘을 시각적으로 분리한다.
+n2m.setCustomTransformer('callout', async (block) => {
+  try {
+    const { rich_text, icon } = block.callout;
+
+    // 굵게·링크 같은 서식을 살리려고 문단 블록인 척해서 기본 변환기를 재사용한다
+    const paragraph = await n2m.blockToMarkdown({
+      ...block,
+      type: 'paragraph',
+      has_children: false,
+      paragraph: { rich_text }
+    });
+
+    let nested = '';
+    if (block.has_children) {
+      const mdBlocks = await n2m.pageToMarkdown(block.id);
+      nested = (n2m.toMarkdownString(mdBlocks).parent || '').trim();
+    }
+
+    const content = [paragraph.trim(), nested].filter(Boolean).join('\n\n');
+    if (!content) return false;
+
+    const quoted = content
+      .split('\n')
+      .map((line) => (line.trim() ? `> ${line}` : '>'))
+      .join('\n');
+
+    const emoji = icon && icon.type === 'emoji' ? icon.emoji : null;
+    const kind = PROMPT_BY_EMOJI[emoji] || 'info';
+
+    return `${quoted}\n{: .prompt-${kind} }\n\n`;
+  } catch (error) {
+    console.warn(`   ⚠️  콜아웃 변환 실패, 기본 처리로 대체: ${error.message}`);
+    return false;
+  }
+});
+
 // notion-to-md 는 컬럼을 세로로 이어붙이기만 하므로, 좌우 배치를 유지하도록 직접 변환한다.
 // 문자열이 아닌 값을 반환하면 기본 동작으로 넘어간다.
 n2m.setCustomTransformer('column_list', async (block) => {

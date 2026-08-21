@@ -168,77 +168,6 @@ export function fixToggles(markdown) {
   return markdown.replace(/<details>/g, '<details markdown="1">');
 }
 
-// Notion 콜아웃 이모지 → Chirpy prompt 종류
-const PROMPT_BY_EMOJI = [
-  ['💡', 'tip'],
-  ['🌟', 'tip'],
-  ['✅', 'tip'],
-  ['ℹ️', 'info'],
-  ['ℹ', 'info'],
-  ['📌', 'info'],
-  ['📘', 'info'],
-  ['📝', 'info'],
-  ['⚠️', 'warning'],
-  ['⚠', 'warning'],
-  ['🚧', 'warning'],
-  ['❗', 'danger'],
-  ['❌', 'danger'],
-  ['🚨', 'danger'],
-  ['⛔', 'danger']
-];
-
-/**
- * `> 💡 내용` 형태로 나오는 Notion 콜아웃을 Chirpy 의 prompt 로 바꾼다.
- * 아는 이모지로 시작하는 인용구만 변환하고, 나머지는 그대로 둔다.
- */
-export function convertCallouts(markdown) {
-  const lines = markdown.split('\n');
-  const output = [];
-
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i];
-    const match = line.match(/^>\s*(\S+)\s*(.*)$/);
-    const entry = match && PROMPT_BY_EMOJI.find(([emoji]) => match[1] === emoji);
-
-    if (!entry) {
-      output.push(line);
-      continue;
-    }
-
-    // 인용구 블록의 끝까지 모은다
-    const block = [`> ${match[2]}`.trimEnd()];
-    let j = i + 1;
-    while (j < lines.length && lines[j].startsWith('>')) {
-      block.push(lines[j]);
-      j++;
-    }
-
-    output.push(...block, `{: .prompt-${entry[1]} }`);
-    i = j - 1;
-  }
-
-  return output.join('\n');
-}
-
-/**
- * 본문을 보고 mermaid / math 사용 여부를 판단한다.
- *
- * Chirpy 는 front matter 플래그가 켜져 있을 때만 해당 라이브러리를 불러오는데,
- * 두 라이브러리 모두 1MB 급이라 실제로 쓰지 않는 글에서 켜두면 낭비다.
- */
-export function detectFeatures(markdown) {
-  // 코드블록 안의 내용이 오탐을 만들지 않도록, 펜스 언어만 따로 본다
-  const hasMermaid = /^```\s*mermaid\b/m.test(markdown);
-
-  // 블록 수식($$), 인라인 수식($...$), LaTeX 구분자(\( \[)
-  const hasMath =
-    /\$\$[\s\S]*?\$\$/.test(markdown) ||
-    /(^|[^\\$])\$[^$\n]+\$/.test(markdown) ||
-    /\\\(|\\\[/.test(markdown);
-
-  return { mermaid: hasMermaid, math: hasMath };
-}
-
 // 본문 최상단의 "썸네일" 섹션을 대문 이미지로 승격시킨다.
 const THUMBNAIL_HEADING = /^#{1,6}\s*(썸네일|thumbnail)\s*$/i;
 
@@ -343,8 +272,8 @@ export async function extractThumbnail(markdown, { mediaDir }) {
 export async function postProcess(markdown, { mediaDir, mediaSubpath }) {
   const media = await processMedia(markdown, { mediaDir, mediaSubpath });
 
-  let result = fixToggles(media.markdown);
-  result = convertCallouts(result);
+  // 콜아웃은 notion-sync.js 의 커스텀 변환기가 이미 prompt 로 바꿔둔다
+  const result = fixToggles(media.markdown);
 
   const { markdown: body, thumbnail } = await extractThumbnail(result, { mediaDir });
 
