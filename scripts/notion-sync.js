@@ -34,6 +34,24 @@ if (!NOTION_TOKEN || !NOTION_DATABASE_ID) {
 const notion = new Client({ auth: NOTION_TOKEN });
 const n2m = new NotionToMarkdown({ notionClient: notion });
 
+// 기본 변환은 Notion 캡션을 alt 로만 넣어 화면에 보이지 않는다.
+// Chirpy 는 이미지 다음 줄의 기울임을 캡션으로 표시하므로 그 형태로 만든다.
+n2m.setCustomTransformer('image', async (block) => {
+  const content = block.image;
+  if (!content) return false;
+
+  const caption = (content.caption || []).map((item) => item.plain_text).join('').trim();
+  if (!caption) return false; // 캡션이 없으면 기본 동작에 맡긴다
+
+  const url = content.type === 'external' ? content.external?.url : content.file?.url;
+  if (!url) return false;
+
+  // 대괄호는 마크다운 링크 문법을 깨므로 정리한다
+  const alt = caption.replace(/\r?\n/g, ' ').replace(/[[\]]/g, '');
+
+  return `![${alt}](${url})\n_${alt}_\n\n`;
+});
+
 // 동영상 플랫폼 URL 에서 Chirpy 임베드에 필요한 ID 를 뽑는다
 function parseVideoEmbed(url) {
   let parsed;
