@@ -239,6 +239,66 @@ export function detectFeatures(markdown) {
   return { mermaid: hasMermaid, math: hasMath };
 }
 
+// 본문 최상단의 "썸네일" 섹션을 대문 이미지로 승격시킨다.
+const THUMBNAIL_HEADING = /^#{1,6}\s*(썸네일|thumbnail)\s*$/i;
+
+/**
+ * 소셜 공유 미리보기는 WebP 를 못 읽는 클라이언트가 아직 있어서
+ * 썸네일만은 JPEG 사본을 만들어 그쪽을 가리킨다.
+ */
+async function toShareableThumbnail(mediaDir, filename) {
+  if (!filename.endsWith('.webp')) return filename;
+
+  const jpegName = filename.replace(/\.webp$/, '.jpg');
+  const jpegPath = join(mediaDir, jpegName);
+
+  if (!existsSync(jpegPath)) {
+    await sharp(join(mediaDir, filename))
+      .jpeg({ quality: 85 })
+      .toFile(jpegPath);
+  }
+
+  return jpegName;
+}
+
+/**
+ * 최상단 "썸네일" 섹션을 찾아 본문에서 떼어내고 대문 이미지 정보를 돌려준다.
+ * 섹션이 없으면 아무것도 하지 않고, 섹션이 비어 있으면 제목만 지운다.
+ */
+export async function extractThumbnail(markdown, { mediaDir }) {
+  const lines = markdown.split('\n');
+
+  let start = 0;
+  while (start < lines.length && lines[start].trim() === '') start++;
+
+  if (start >= lines.length || !THUMBNAIL_HEADING.test(lines[start].trim())) {
+    return { markdown, thumbnail: null };
+  }
+
+  // 다음 제목이 나오기 전까지가 썸네일 섹션
+  let end = start + 1;
+  while (end < lines.length && !/^#{1,6}\s/.test(lines[end])) end++;
+
+  const section = lines.slice(start + 1, end).join('\n');
+  const rest = lines.slice(end).join('\n').replace(/^\n+/, '');
+  const found = section.match(/!\[([^\]]*)\]\(([^)]+)\)/);
+
+  if (!found) {
+    return { markdown: rest, thumbnail: null };
+  }
+
+  const [, alt, path] = found;
+  const isLocal = !/^https?:\/\//.test(path);
+
+  return {
+    markdown: rest,
+    thumbnail: {
+      path: isLocal ? await toShareableThumbnail(mediaDir, path) : path,
+      alt: alt || null
+    }
+  };
+}
+
 /**
  * 후처리 전체를 순서대로 적용한다.
  */
@@ -248,5 +308,8 @@ export async function postProcess(markdown, { mediaDir, mediaSubpath }) {
   let result = fixToggles(media.markdown);
   result = convertCallouts(result);
 
-  return { markdown: result, ...media, features: detectFeatures(result) };
+  const { markdown: body, thumbnail } = await extractThumbnail(result, { mediaDir });
+
+  // media 를 먼저 펼친다. 순서를 바꾸면 media.markdown 이 후처리 결과를 덮어쓴다.
+  return { ...media, markdown: body, features: detectFeatures(body), thumbnail };
 }

@@ -171,8 +171,11 @@ function generateFrontMatter(page, options = {}) {
   // Notion 속성으로 지정한 경로가 우선하고, 없으면 동기화가 정한 경로를 쓴다
   const mediaSubpath =
     getPropertyValue(page, '미디어 경로', 'rich_text') || options.mediaSubpath || null;
-  const imagePath = getPropertyValue(page, '이미지 경로', 'rich_text') || null;
-  const imageAlt = getPropertyValue(page, '이미지 설명', 'rich_text') || null;
+  // 본문 최상단 "썸네일" 섹션이 우선하고, 없으면 Notion 속성을 쓴다
+  const imagePath =
+    options.thumbnail?.path || getPropertyValue(page, '이미지 경로', 'rich_text') || null;
+  const imageAlt =
+    options.thumbnail?.alt || getPropertyValue(page, '이미지 설명', 'rich_text') || null;
 
   const date = dateStr ? formatDate(dateStr) : new Date().toISOString();
 
@@ -258,7 +261,13 @@ async function convertPageToMarkdown(pageId, { mediaDir, mediaSubpath }) {
     return await postProcess(mdString.parent || '', { mediaDir, mediaSubpath });
   } catch (error) {
     console.error(`❌ 페이지 변환 실패 (${pageId}):`, error.message);
-    return { markdown: '', downloaded: 0, skipped: 0, features: { mermaid: false, math: false } };
+    return {
+      markdown: '',
+      downloaded: 0,
+      skipped: 0,
+      features: { mermaid: false, math: false },
+      thumbnail: null
+    };
   }
 }
 
@@ -426,19 +435,22 @@ async function main() {
         const mediaDir = join(REPO_ROOT, mediaSubpath.replace(/^\//, ''));
 
         // 본문 변환 (+ 미디어 내려받기, 토글·콜아웃 보정)
-        const { markdown: content, downloaded, skipped, features } = await convertPageToMarkdown(
-          page.id,
-          { mediaDir, mediaSubpath }
-        );
+        const { markdown: content, downloaded, skipped, features, thumbnail } =
+          await convertPageToMarkdown(page.id, { mediaDir, mediaSubpath });
 
         if (downloaded > 0) {
           console.log(`   📎 미디어 ${downloaded}개 저장 (재사용 ${skipped}개)`);
         }
 
         // 미디어가 있을 때만 media_subpath 를 남긴다
+        if (thumbnail) {
+          console.log(`   🖼️  썸네일: ${thumbnail.path}`);
+        }
+
         const { frontMatter } = generateFrontMatter(page, {
           mediaSubpath: downloaded + skipped > 0 ? mediaSubpath : null,
-          features
+          features,
+          thumbnail
         });
 
         // 파일 작성
