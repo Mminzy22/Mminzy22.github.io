@@ -221,6 +221,25 @@ export function convertCallouts(markdown) {
 }
 
 /**
+ * 본문을 보고 mermaid / math 사용 여부를 판단한다.
+ *
+ * Chirpy 는 front matter 플래그가 켜져 있을 때만 해당 라이브러리를 불러오는데,
+ * 두 라이브러리 모두 1MB 급이라 실제로 쓰지 않는 글에서 켜두면 낭비다.
+ */
+export function detectFeatures(markdown) {
+  // 코드블록 안의 내용이 오탐을 만들지 않도록, 펜스 언어만 따로 본다
+  const hasMermaid = /^```\s*mermaid\b/m.test(markdown);
+
+  // 블록 수식($$), 인라인 수식($...$), LaTeX 구분자(\( \[)
+  const hasMath =
+    /\$\$[\s\S]*?\$\$/.test(markdown) ||
+    /(^|[^\\$])\$[^$\n]+\$/.test(markdown) ||
+    /\\\(|\\\[/.test(markdown);
+
+  return { mermaid: hasMermaid, math: hasMath };
+}
+
+/**
  * 후처리 전체를 순서대로 적용한다.
  */
 export async function postProcess(markdown, { mediaDir, mediaSubpath }) {
@@ -229,5 +248,5 @@ export async function postProcess(markdown, { mediaDir, mediaSubpath }) {
   let result = fixToggles(media.markdown);
   result = convertCallouts(result);
 
-  return { markdown: result, ...media };
+  return { markdown: result, ...media, features: detectFeatures(result) };
 }

@@ -157,8 +157,15 @@ function generateFrontMatter(page, options = {}) {
   const categories = getPropertyValue(page, '카테고리', 'multi_select') || [];
   const tags = getPropertyValue(page, '태그', 'multi_select') || [];
   const pin = getPropertyValue(page, 'pin', 'checkbox') || false;
-  const mermaid = getPropertyValue(page, 'mermaid', 'checkbox') || false;
-  const math = getPropertyValue(page, 'math', 'checkbox') || false;
+  // mermaid/math 는 본문을 보고 판단한다. 두 라이브러리 모두 1MB 급이라
+  // 실제로 쓰지 않는 글에서 켜두면 방문자가 헛되이 내려받게 된다.
+  // 본문 분석 결과가 없을 때만 Notion 체크박스를 쓴다.
+  const mermaid = options.features
+    ? options.features.mermaid
+    : getPropertyValue(page, 'mermaid', 'checkbox') || false;
+  const math = options.features
+    ? options.features.math
+    : getPropertyValue(page, 'math', 'checkbox') || false;
   
   // 이미지 관련 속성 (선택사항)
   // Notion 속성으로 지정한 경로가 우선하고, 없으면 동기화가 정한 경로를 쓴다
@@ -251,7 +258,7 @@ async function convertPageToMarkdown(pageId, { mediaDir, mediaSubpath }) {
     return await postProcess(mdString.parent || '', { mediaDir, mediaSubpath });
   } catch (error) {
     console.error(`❌ 페이지 변환 실패 (${pageId}):`, error.message);
-    return { markdown: '', downloaded: 0, skipped: 0 };
+    return { markdown: '', downloaded: 0, skipped: 0, features: { mermaid: false, math: false } };
   }
 }
 
@@ -419,10 +426,10 @@ async function main() {
         const mediaDir = join(REPO_ROOT, mediaSubpath.replace(/^\//, ''));
 
         // 본문 변환 (+ 미디어 내려받기, 토글·콜아웃 보정)
-        const { markdown: content, downloaded, skipped } = await convertPageToMarkdown(page.id, {
-          mediaDir,
-          mediaSubpath
-        });
+        const { markdown: content, downloaded, skipped, features } = await convertPageToMarkdown(
+          page.id,
+          { mediaDir, mediaSubpath }
+        );
 
         if (downloaded > 0) {
           console.log(`   📎 미디어 ${downloaded}개 저장 (재사용 ${skipped}개)`);
@@ -430,7 +437,8 @@ async function main() {
 
         // 미디어가 있을 때만 media_subpath 를 남긴다
         const { frontMatter } = generateFrontMatter(page, {
-          mediaSubpath: downloaded + skipped > 0 ? mediaSubpath : null
+          mediaSubpath: downloaded + skipped > 0 ? mediaSubpath : null,
+          features
         });
 
         // 파일 작성
