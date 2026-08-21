@@ -12,10 +12,12 @@ import { existsSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { execSync } from 'child_process';
+import { postProcess } from './notion-postprocess.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const POSTS_DIR = join(__dirname, '..', '_posts');
+const REPO_ROOT = join(__dirname, '..');
+const POSTS_DIR = join(REPO_ROOT, '_posts');
 
 // 환경 변수에서 Notion 설정 가져오기
 const NOTION_TOKEN = process.env.NOTION_TOKEN;
@@ -31,6 +33,29 @@ if (!NOTION_TOKEN || !NOTION_DATABASE_ID) {
 // Notion 클라이언트 초기화
 const notion = new Client({ auth: NOTION_TOKEN });
 const n2m = new NotionToMarkdown({ notionClient: notion });
+
+// notion-to-md 는 컬럼을 세로로 이어붙이기만 하므로, 좌우 배치를 유지하도록 직접 변환한다.
+// 문자열이 아닌 값을 반환하면 기본 동작으로 넘어간다.
+n2m.setCustomTransformer('column_list', async (block) => {
+  try {
+    const { results } = await notion.blocks.children.list({ block_id: block.id, page_size: 100 });
+    const columns = [];
+
+    for (const column of results) {
+      const mdBlocks = await n2m.pageToMarkdown(column.id);
+      const md = (n2m.toMarkdownString(mdBlocks).parent || '').trim();
+      if (md) {
+        columns.push(`<div class="notion-column" markdown="1">\n\n${md}\n\n</div>`);
+      }
+    }
+
+    if (columns.length === 0) return false;
+    return `<div class="notion-columns" markdown="1">\n${columns.join('\n')}\n</div>\n\n`;
+  } catch (error) {
+    console.warn(`   ⚠️  컬럼 변환 실패, 기본 처리로 대체: ${error.message}`);
+    return false;
+  }
+});
 
 /**
  * 파일명에서 위험 문자를 제거하고 slug 생성
@@ -112,9 +137,19 @@ function getPropertyValue(page, propertyName, propertyType) {
 }
 
 /**
+ * 파일명·경로 결정에 필요한 값만 먼저 추출
+ */
+function getPostIdentity(page) {
+  return {
+    title: getPropertyValue(page, '파일명', 'title') || 'Untitled',
+    dateStr: getPropertyValue(page, '생성 일시', 'created_time')
+  };
+}
+
+/**
  * Front matter 생성
  */
-function generateFrontMatter(page) {
+function generateFrontMatter(page, options = {}) {
   const title = getPropertyValue(page, '파일명', 'title') || 'Untitled';
   const author = getPropertyValue(page, '작성자', 'rich_text') || 'mminzy22';
   const dateStr = getPropertyValue(page, '생성 일시', 'created_time');
@@ -126,7 +161,9 @@ function generateFrontMatter(page) {
   const math = getPropertyValue(page, 'math', 'checkbox') || false;
   
   // 이미지 관련 속성 (선택사항)
-  const mediaSubpath = getPropertyValue(page, '미디어 경로', 'rich_text') || null;
+  // Notion 속성으로 지정한 경로가 우선하고, 없으면 동기화가 정한 경로를 쓴다
+  const mediaSubpath =
+    getPropertyValue(page, '미디어 경로', 'rich_text') || options.mediaSubpath || null;
   const imagePath = getPropertyValue(page, '이미지 경로', 'rich_text') || null;
   const imageAlt = getPropertyValue(page, '이미지 설명', 'rich_text') || null;
 
@@ -206,14 +243,15 @@ function getGitLastCommitTime(filepath) {
 /**
  * Notion 페이지를 Markdown으로 변환
  */
-async function convertPageToMarkdown(pageId) {
+async function convertPageToMarkdown(pageId, { mediaDir, mediaSubpath }) {
   try {
     const mdBlocks = await n2m.pageToMarkdown(pageId);
     const mdString = n2m.toMarkdownString(mdBlocks);
-    return mdString.parent || '';
+
+    return await postProcess(mdString.parent || '', { mediaDir, mediaSubpath });
   } catch (error) {
     console.error(`❌ 페이지 변환 실패 (${pageId}):`, error.message);
-    return '';
+    return { markdown: '', downloaded: 0, skipped: 0 };
   }
 }
 
@@ -307,7 +345,7 @@ async function main() {
 
     for (const page of pages) {
       try {
-        const { frontMatter, title, dateStr } = generateFrontMatter(page);
+        const { title, dateStr } = getPostIdentity(page);
         
         if (!title || title === 'Untitled') {
           console.warn(`⚠️  제목이 없는 페이지 건너뜀: ${page.id}`);
@@ -372,9 +410,29 @@ async function main() {
           continue;
         }
 
-        // 본문 변환
-        const content = await convertPageToMarkdown(page.id);
-        
+        // 미디어 저장 위치 결정 (Notion 속성이 있으면 그쪽을 쓴다)
+        const declaredSubpath = getPropertyValue(page, '미디어 경로', 'rich_text');
+        const mediaSubpath =
+          declaredSubpath && declaredSubpath.trim()
+            ? declaredSubpath.trim()
+            : `/assets/img/${slug}`;
+        const mediaDir = join(REPO_ROOT, mediaSubpath.replace(/^\//, ''));
+
+        // 본문 변환 (+ 미디어 내려받기, 토글·콜아웃 보정)
+        const { markdown: content, downloaded, skipped } = await convertPageToMarkdown(page.id, {
+          mediaDir,
+          mediaSubpath
+        });
+
+        if (downloaded > 0) {
+          console.log(`   📎 미디어 ${downloaded}개 저장 (재사용 ${skipped}개)`);
+        }
+
+        // 미디어가 있을 때만 media_subpath 를 남긴다
+        const { frontMatter } = generateFrontMatter(page, {
+          mediaSubpath: downloaded + skipped > 0 ? mediaSubpath : null
+        });
+
         // 파일 작성
         const fullContent = frontMatter + '\n' + content;
         await writeFile(filepath, fullContent, 'utf-8');
@@ -399,7 +457,7 @@ async function main() {
       
       for (const page of deletePages) {
         try {
-          const { title, dateStr } = generateFrontMatter(page);
+          const { title, dateStr } = getPostIdentity(page);
           
           if (!title || title === 'Untitled') {
             console.warn(`⚠️  제목이 없는 삭제 대상 페이지 건너뜀: ${page.id}`);

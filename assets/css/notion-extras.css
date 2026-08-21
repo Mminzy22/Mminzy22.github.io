@@ -1,0 +1,56 @@
+/* Notion 에서 옮겨온 블록을 위한 스타일 */
+
+/* 단 나누기 (Notion column_list) */
+.notion-columns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.notion-column {
+  flex: 1 1 0;
+  min-width: 0; /* 긴 코드블록이 칸을 밀어내지 않도록 */
+}
+
+.notion-column > :first-child {
+  margin-top: 0;
+}
+
+.notion-column > :last-child {
+  margin-bottom: 0;
+}
+
+/* 좁은 화면에서는 세로로 쌓는다 */
+@media (max-width: 768px) {
+  .notion-columns {
+    display: block;
+  }
+
+  .notion-column + .notion-column {
+    margin-top: 1.5rem;
+  }
+}
+
+/* 토글 (Notion toggle → <details>) */
+details {
+  margin-bottom: 1rem;
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--main-border-color);
+  border-radius: 6px;
+}
+
+details > summary {
+  cursor: pointer;
+  font-weight: 600;
+  /* 열림 상태에서만 아래 여백을 준다 */
+  margin: 0;
+}
+
+details[open] > summary {
+  margin-bottom: 0.6rem;
+}
+
+details > :last-child {
+  margin-bottom: 0;
+}
