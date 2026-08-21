@@ -34,6 +34,72 @@ if (!NOTION_TOKEN || !NOTION_DATABASE_ID) {
 const notion = new Client({ auth: NOTION_TOKEN });
 const n2m = new NotionToMarkdown({ notionClient: notion });
 
+// 동영상 플랫폼 URL 에서 Chirpy 임베드에 필요한 ID 를 뽑는다
+function parseVideoEmbed(url) {
+  let parsed;
+  try {
+    parsed = new URL(url);
+  } catch {
+    return null;
+  }
+
+  const host = parsed.hostname.replace(/^www\./, '');
+  const segments = parsed.pathname.split('/').filter(Boolean);
+
+  if (host === 'youtu.be') {
+    return segments[0] ? { platform: 'youtube', id: segments[0] } : null;
+  }
+
+  if (host.endsWith('youtube.com') || host.endsWith('youtube-nocookie.com')) {
+    const v = parsed.searchParams.get('v');
+    if (v) return { platform: 'youtube', id: v };
+    // /embed/ID, /shorts/ID, /live/ID
+    if (['embed', 'shorts', 'live'].includes(segments[0]) && segments[1]) {
+      return { platform: 'youtube', id: segments[1] };
+    }
+    return null;
+  }
+
+  if (host.endsWith('twitch.tv') && segments[0] === 'videos' && segments[1]) {
+    return { platform: 'twitch', id: segments[1] };
+  }
+
+  if (host.endsWith('bilibili.com') && segments[0] === 'video' && segments[1]) {
+    return { platform: 'bilibili', id: segments[1] };
+  }
+
+  return null;
+}
+
+// Liquid 인자는 작은따옴표로 감싸므로 안쪽 작은따옴표를 정리한다
+function liquidTitle(caption) {
+  const text = (caption || []).map((item) => item.plain_text).join('').trim();
+  return text ? ` title='${text.replace(/'/g, '’')}'` : '';
+}
+
+// Notion 의 동영상/임베드 블록을 Chirpy 임베드로 바꾼다.
+// 기본 변환은 단순 링크라 재생기가 나오지 않는다.
+const videoTransformer = async (block) => {
+  const content = block[block.type];
+  if (!content) return false;
+
+  // 업로드한 동영상 파일: src 의 임시 URL 은 후처리에서 파일로 교체된다
+  if (content.type === 'file' && content.file?.url) {
+    return `{% include embed/video.html src='${content.file.url}'${liquidTitle(content.caption)} %}\n\n`;
+  }
+
+  const url = content.type === 'external' ? content.external?.url : content.url;
+  if (!url) return false;
+
+  const embed = parseVideoEmbed(url);
+  if (!embed) return false; // 아는 플랫폼이 아니면 기본 동작(링크)에 맡긴다
+
+  return `{% include embed/${embed.platform}.html id='${embed.id}' %}\n\n`;
+};
+
+n2m.setCustomTransformer('video', videoTransformer);
+n2m.setCustomTransformer('embed', videoTransformer);
+
 // notion-to-md 는 오디오 블록을 처리하지 않아 내용이 사라진다.
 // Chirpy 의 오디오 임베드로 바꿔준다. src 의 임시 URL 은 후처리에서 파일로 교체된다.
 n2m.setCustomTransformer('audio', async (block) => {

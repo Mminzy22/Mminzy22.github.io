@@ -181,15 +181,15 @@ async function saveAttachment(url, mediaDir) {
   return { filename, downloaded: true };
 }
 
-// notion-sync.js 의 오디오 변환기가 남긴 Liquid include 안의 src 를 찾는다
-const AUDIO_SRC_PATTERN = /(\{%\s*include\s+embed\/audio\.html\s+src=')([^']+)(')/g;
+// notion-sync.js 의 오디오/동영상 변환기가 남긴 Liquid include 안의 src 를 찾는다
+const EMBED_SRC_PATTERN = /(\{%\s*include\s+embed\/(?:audio|video)\.html\s+src=')([^']+)(')/g;
 
 /**
- * 오디오 include 의 src 가 Notion 임시 URL 이면 파일을 내려받아 파일명으로 바꾼다.
+ * 오디오/동영상 include 의 src 가 Notion 임시 URL 이면 파일을 내려받아 파일명으로 바꾼다.
  * media_subpath 가 적용되므로 파일명만 남기면 된다.
  */
-export async function processAudio(markdown, { mediaDir }) {
-  const matches = [...markdown.matchAll(AUDIO_SRC_PATTERN)].filter((m) => isNotionHosted(m[2]));
+export async function processEmbeddedMedia(markdown, { mediaDir }) {
+  const matches = [...markdown.matchAll(EMBED_SRC_PATTERN)].filter((m) => isNotionHosted(m[2]));
   if (matches.length === 0) return { markdown, downloaded: 0, skipped: 0 };
 
   let downloaded = 0;
@@ -203,7 +203,7 @@ export async function processAudio(markdown, { mediaDir }) {
       saved.downloaded ? downloaded++ : skipped++;
       replacements.set(full, `${head}${saved.filename}${tail}`);
     } catch (error) {
-      console.warn(`   ⚠️  오디오 처리 실패(${error.message}): ${url.slice(0, 60)}...`);
+      console.warn(`   ⚠️  첨부 미디어 처리 실패(${error.message}): ${url.slice(0, 60)}...`);
     }
   }
 
@@ -326,7 +326,7 @@ export async function postProcess(markdown, { mediaDir, mediaSubpath }) {
   const media = await processMedia(markdown, { mediaDir, mediaSubpath });
 
   // 콜아웃은 notion-sync.js 의 커스텀 변환기가 이미 prompt 로 바꿔둔다
-  const audio = await processAudio(fixToggles(media.markdown), { mediaDir });
+  const audio = await processEmbeddedMedia(fixToggles(media.markdown), { mediaDir });
 
   const { markdown: body, thumbnail } = await extractThumbnail(audio.markdown, { mediaDir });
 
