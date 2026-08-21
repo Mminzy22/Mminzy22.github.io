@@ -84,7 +84,7 @@ plt.show()
 ```
 
 결과는 아래와 같은 그래프로 나타납니다.
-![농어 데이터 분포]({{ site.baseurl }}/assets/images/2024-12-10_산점도5.png)
+![농어 데이터 분포]({{ site.baseurl }}/assets/img/2024-12-10_산점도5.png)
 
 
 #### 핵심 팁: 데이터의 패턴 이해

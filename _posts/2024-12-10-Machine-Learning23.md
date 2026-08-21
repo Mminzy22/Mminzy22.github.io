@@ -110,8 +110,8 @@ plt.title("회귀 데이터 예시")
 plt.show()
 ```
 
-![분류 데이터 예시]({{ site.baseurl }}/assets/images/2024-12-10_산점도2.png)
-![회귀 데이터 예시]({{ site.baseurl }}/assets/images/2024-12-10_산점도3.png)
+![분류 데이터 예시]({{ site.baseurl }}/assets/img/2024-12-10_산점도2.png)
+![회귀 데이터 예시]({{ site.baseurl }}/assets/img/2024-12-10_산점도3.png)
 
 
 ### **2. k-최근접 이웃 알고리즘**
@@ -252,7 +252,7 @@ plt.title('Length vs Weight of Fish')  # 그래프 제목
 plt.show()
 ```
 
-![산점도]({{ site.baseurl }}/assets/images/2024-12-10_산점도4.png)
+![산점도]({{ site.baseurl }}/assets/img/2024-12-10_산점도4.png)
 
 ##### **그래프 해석**:
 - 그래프를 통해 물고기 길이와 무게 간의 **양의 상관관계**를 확인할 수 있습니다.  
