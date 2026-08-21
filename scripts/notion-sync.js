@@ -490,13 +490,8 @@ async function convertPageToMarkdown(pageId, { mediaDir, mediaSubpath }) {
     return await postProcess(mdString.parent || '', { mediaDir, mediaSubpath });
   } catch (error) {
     console.error(`❌ 페이지 변환 실패 (${pageId}):`, error.message);
-    return {
-      markdown: '',
-      downloaded: 0,
-      skipped: 0,
-      features: { mermaid: false, math: false },
-      thumbnail: null
-    };
+    // 빈 글을 써버리면 다음 동기화에서 '변경 없음'으로 걸러져 영영 복구되지 않는다
+    return null;
   }
 }
 
@@ -661,8 +656,15 @@ async function main() {
         const mediaDir = join(REPO_ROOT, mediaSubpath.replace(/^\//, ''));
 
         // 본문 변환 (+ 미디어 내려받기, 토글·콜아웃 보정)
-        const { markdown: content, downloaded, skipped, features, thumbnail } =
-          await convertPageToMarkdown(page.id, { mediaDir, mediaSubpath });
+        const converted = await convertPageToMarkdown(page.id, { mediaDir, mediaSubpath });
+
+        if (!converted) {
+          console.error(`❌ 변환 실패로 건너뜀: ${filename}`);
+          errorCount++;
+          continue;
+        }
+
+        const { markdown: content, downloaded, skipped, features, thumbnail } = converted;
 
         if (downloaded > 0) {
           console.log(`   📎 미디어 ${downloaded}개 저장 (재사용 ${skipped}개)`);

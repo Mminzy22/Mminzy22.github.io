@@ -320,6 +320,23 @@ export async function extractThumbnail(markdown, { mediaDir }) {
 }
 
 /**
+ * 본문을 보고 mermaid / math 사용 여부를 판단한다.
+ *
+ * Chirpy 는 front matter 플래그가 켜져 있을 때만 해당 라이브러리를 불러오는데,
+ * 두 라이브러리 모두 1MB 급이라 실제로 쓰지 않는 글에서 켜두면 낭비다.
+ */
+export function detectFeatures(markdown) {
+  const hasMermaid = /^```\s*mermaid\b/m.test(markdown);
+
+  const hasMath =
+    /\$\$[\s\S]*?\$\$/.test(markdown) ||
+    /(^|[^\\$])\$[^$\n]+\$/.test(markdown) ||
+    /\\\(|\\\[/.test(markdown);
+
+  return { mermaid: hasMermaid, math: hasMath };
+}
+
+/**
  * 후처리 전체를 순서대로 적용한다.
  */
 export async function postProcess(markdown, { mediaDir, mediaSubpath }) {
