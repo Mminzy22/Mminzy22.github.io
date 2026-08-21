@@ -161,6 +161,59 @@ export async function processMedia(markdown, { mediaDir, mediaSubpath }) {
 }
 
 /**
+ * Notion 이 호스팅하는 첨부를 내려받아 저장하고 파일명을 돌려준다.
+ * 이미지가 아니므로 재인코딩 없이 원본 그대로 보관한다.
+ */
+async function saveAttachment(url, mediaDir) {
+  const { hash, ext } = assetBasename(url);
+  const filename = `${hash}${ext || ''}`;
+  const target = join(mediaDir, filename);
+
+  if (existsSync(target)) return { filename, downloaded: false };
+
+  const buffer = await fetchBuffer(url);
+  if (buffer.length > MAX_ATTACHMENT_BYTES) {
+    throw new Error(`파일이 너무 큽니다 (${(buffer.length / 1048576).toFixed(1)}MB)`);
+  }
+
+  await mkdir(mediaDir, { recursive: true });
+  await writeFile(target, buffer);
+  return { filename, downloaded: true };
+}
+
+// notion-sync.js 의 오디오 변환기가 남긴 Liquid include 안의 src 를 찾는다
+const AUDIO_SRC_PATTERN = /(\{%\s*include\s+embed\/audio\.html\s+src=')([^']+)(')/g;
+
+/**
+ * 오디오 include 의 src 가 Notion 임시 URL 이면 파일을 내려받아 파일명으로 바꾼다.
+ * media_subpath 가 적용되므로 파일명만 남기면 된다.
+ */
+export async function processAudio(markdown, { mediaDir }) {
+  const matches = [...markdown.matchAll(AUDIO_SRC_PATTERN)].filter((m) => isNotionHosted(m[2]));
+  if (matches.length === 0) return { markdown, downloaded: 0, skipped: 0 };
+
+  let downloaded = 0;
+  let skipped = 0;
+  const replacements = new Map();
+
+  for (const [full, head, url, tail] of matches) {
+    if (replacements.has(full)) continue;
+    try {
+      const saved = await saveAttachment(url, mediaDir);
+      saved.downloaded ? downloaded++ : skipped++;
+      replacements.set(full, `${head}${saved.filename}${tail}`);
+    } catch (error) {
+      console.warn(`   ⚠️  오디오 처리 실패(${error.message}): ${url.slice(0, 60)}...`);
+    }
+  }
+
+  let result = markdown;
+  for (const [from, to] of replacements) result = result.split(from).join(to);
+
+  return { markdown: result, downloaded, skipped };
+}
+
+/**
  * kramdown 은 기본적으로 HTML 블록 안의 마크다운을 파싱하지 않는다.
  * markdown="1" 을 붙여야 토글 내용이 제대로 렌더링된다.
  */
@@ -273,10 +326,15 @@ export async function postProcess(markdown, { mediaDir, mediaSubpath }) {
   const media = await processMedia(markdown, { mediaDir, mediaSubpath });
 
   // 콜아웃은 notion-sync.js 의 커스텀 변환기가 이미 prompt 로 바꿔둔다
-  const result = fixToggles(media.markdown);
+  const audio = await processAudio(fixToggles(media.markdown), { mediaDir });
 
-  const { markdown: body, thumbnail } = await extractThumbnail(result, { mediaDir });
+  const { markdown: body, thumbnail } = await extractThumbnail(audio.markdown, { mediaDir });
 
-  // media 를 먼저 펼친다. 순서를 바꾸면 media.markdown 이 후처리 결과를 덮어쓴다.
-  return { ...media, markdown: body, features: detectFeatures(body), thumbnail };
+  return {
+    markdown: body,
+    downloaded: media.downloaded + audio.downloaded,
+    skipped: media.skipped + audio.skipped,
+    features: detectFeatures(body),
+    thumbnail
+  };
 }

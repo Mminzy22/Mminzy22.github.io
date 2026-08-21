@@ -34,6 +34,22 @@ if (!NOTION_TOKEN || !NOTION_DATABASE_ID) {
 const notion = new Client({ auth: NOTION_TOKEN });
 const n2m = new NotionToMarkdown({ notionClient: notion });
 
+// notion-to-md 는 오디오 블록을 처리하지 않아 내용이 사라진다.
+// Chirpy 의 오디오 임베드로 바꿔준다. src 의 임시 URL 은 후처리에서 파일로 교체된다.
+n2m.setCustomTransformer('audio', async (block) => {
+  const content = block.audio;
+  if (!content) return false;
+
+  const url = content.type === 'external' ? content.external?.url : content.file?.url;
+  if (!url) return false;
+
+  const caption = (content.caption || []).map((item) => item.plain_text).join('').trim();
+  // Liquid 인자는 작은따옴표로 감싸므로 안쪽 작은따옴표를 정리한다
+  const title = caption ? ` title='${caption.replace(/'/g, '\u2019')}'` : '';
+
+  return `{% include embed/audio.html src='${url}'${title} %}\n\n`;
+});
+
 // Notion 의 신기능(예: 탭)은 공개 API 에 블록 타입이 없어 'unsupported' 로 온다.
 // 기본 변환기는 이런 블록을 빈 문자열로 만들어 내용이 조용히 사라진다.
 // 최소한 안쪽 내용은 살리고, 로그로 알려서 눈치챌 수 있게 한다.
