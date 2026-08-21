@@ -252,18 +252,27 @@ async function toShareableThumbnail(mediaDir, filename) {
   const jpegName = filename.replace(/\.webp$/, '.jpg');
   const jpegPath = join(mediaDir, jpegName);
 
-  if (!existsSync(jpegPath)) {
-    await sharp(join(mediaDir, filename))
-      .jpeg({ quality: 85 })
-      .toFile(jpegPath);
+  try {
+    if (!existsSync(jpegPath)) {
+      await sharp(join(mediaDir, filename)).jpeg({ quality: 85 }).toFile(jpegPath);
+    }
+    return jpegName;
+  } catch (error) {
+    // 사본을 못 만들어도 썸네일 자체는 살린다
+    console.warn(`   ⚠️  썸네일 JPEG 사본 생성 실패(${error.message}), 원본 사용`);
+    return filename;
   }
-
-  return jpegName;
 }
+
+const DIVIDER_LINE = /^(-{3,}|\*{3,}|_{3,})$/;
+const HEADING_LINE = /^#{1,6}\s/;
+const IMAGE_LINE = /!\[([^\]]*)\]\(([^)]+)\)/;
 
 /**
  * 최상단 "썸네일" 섹션을 찾아 본문에서 떼어내고 대문 이미지 정보를 돌려준다.
- * 섹션이 없으면 아무것도 하지 않고, 섹션이 비어 있으면 제목만 지운다.
+ *
+ * 섹션의 끝은 구분선(---) 또는 다음 제목이다. 구분선은 함께 지우고 제목은 남긴다.
+ * 둘 다 없으면 본문을 통째로 삼키지 않도록 이미지 한 장까지만 걷어낸다.
  */
 export async function extractThumbnail(markdown, { mediaDir }) {
   const lines = markdown.split('\n');
@@ -275,13 +284,42 @@ export async function extractThumbnail(markdown, { mediaDir }) {
     return { markdown, thumbnail: null };
   }
 
-  // 다음 제목이 나오기 전까지가 썸네일 섹션
-  let end = start + 1;
-  while (end < lines.length && !/^#{1,6}\s/.test(lines[end])) end++;
+  let terminator = -1;
+  let terminatorIsDivider = false;
 
-  const section = lines.slice(start + 1, end).join('\n');
-  const rest = lines.slice(end).join('\n').replace(/^\n+/, '');
-  const found = section.match(/!\[([^\]]*)\]\(([^)]+)\)/);
+  for (let i = start + 1; i < lines.length; i++) {
+    if (DIVIDER_LINE.test(lines[i].trim())) {
+      terminator = i;
+      terminatorIsDivider = true;
+      break;
+    }
+    if (HEADING_LINE.test(lines[i])) {
+      terminator = i;
+      break;
+    }
+  }
+
+  let section;
+  let bodyStart;
+
+  if (terminator !== -1) {
+    section = lines.slice(start + 1, terminator).join('\n');
+    bodyStart = terminatorIsDivider ? terminator + 1 : terminator;
+  } else {
+    // 종료 표시가 없다: 제목 바로 다음의 이미지 한 줄까지만 안전하게 처리
+    let imageIndex = -1;
+    for (let i = start + 1; i < lines.length; i++) {
+      if (lines[i].trim() === '') continue;
+      if (IMAGE_LINE.test(lines[i])) imageIndex = i;
+      break;
+    }
+
+    section = imageIndex === -1 ? '' : lines[imageIndex];
+    bodyStart = imageIndex === -1 ? start + 1 : imageIndex + 1;
+  }
+
+  const rest = lines.slice(bodyStart).join('\n').replace(/^\n+/, '');
+  const found = section.match(IMAGE_LINE);
 
   if (!found) {
     return { markdown: rest, thumbnail: null };
