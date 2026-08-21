@@ -34,6 +34,15 @@ if (!NOTION_TOKEN || !NOTION_DATABASE_ID) {
 const notion = new Client({ auth: NOTION_TOKEN });
 const n2m = new NotionToMarkdown({ notionClient: notion });
 
+// 기본 변환은 링크 글자를 'bookmark' 라는 타입 이름으로 넣어 읽기 나쁘다.
+n2m.setCustomTransformer('bookmark', async (block) => {
+  const content = block.bookmark;
+  if (!content?.url) return false;
+
+  const caption = (content.caption || []).map((item) => item.plain_text).join('').trim();
+  return `[${caption || content.url}](${content.url})\n\n`;
+});
+
 // 기본 변환은 Notion 캡션을 alt 로만 넣어 화면에 보이지 않는다.
 // Chirpy 는 이미지 다음 줄의 기울임을 캡션으로 표시하므로 그 형태로 만든다.
 n2m.setCustomTransformer('image', async (block) => {
@@ -497,12 +506,41 @@ function getGitLastCommitTime(filepath) {
   }
 }
 
+// 변환기가 제대로 다루는 블록 타입. 여기 없는 타입이 나오면 출력이 깨질 수 있다.
+const KNOWN_BLOCK_TYPES = new Set([
+  'paragraph', 'heading_1', 'heading_2', 'heading_3',
+  'bulleted_list_item', 'numbered_list_item', 'to_do', 'toggle',
+  'code', 'quote', 'callout', 'divider', 'equation',
+  'image', 'video', 'audio', 'file', 'pdf',
+  'bookmark', 'embed', 'link_preview', 'link_to_page',
+  'table', 'table_row', 'column_list', 'column', 'synced_block',
+  'child_page', 'child_database', 'breadcrumb', 'table_of_contents', 'template'
+]);
+
+/**
+ * 변환 결과에 등장한 블록 타입을 모아 처음 보는 것이 있으면 알려준다.
+ * Notion 신기능은 이름조차 모르는 타입으로 오기 때문에 이렇게 잡아낸다.
+ */
+function warnUnknownBlockTypes(mdBlocks, seen = new Set()) {
+  for (const block of mdBlocks) {
+    if (block.type) seen.add(block.type);
+    if (block.children?.length) warnUnknownBlockTypes(block.children, seen);
+  }
+  return seen;
+}
+
 /**
  * Notion 페이지를 Markdown으로 변환
  */
 async function convertPageToMarkdown(pageId, { mediaDir, mediaSubpath }) {
   try {
     const mdBlocks = await n2m.pageToMarkdown(pageId);
+
+    const unknown = [...warnUnknownBlockTypes(mdBlocks)].filter((t) => !KNOWN_BLOCK_TYPES.has(t));
+    if (unknown.length > 0) {
+      console.warn(`   ⚠️  처음 보는 블록 타입: ${unknown.join(', ')} — 출력이 깨질 수 있습니다`);
+    }
+
     const mdString = n2m.toMarkdownString(mdBlocks);
 
     return await postProcess(mdString.parent || '', { mediaDir, mediaSubpath });
