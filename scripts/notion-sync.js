@@ -7,7 +7,7 @@
 
 import { Client } from '@notionhq/client';
 import { NotionToMarkdown } from 'notion-to-md';
-import { writeFile, mkdir, stat, readdir, unlink } from 'fs/promises';
+import { writeFile, readFile, mkdir, stat, readdir, unlink } from 'fs/promises';
 import { existsSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
@@ -302,6 +302,53 @@ function getPropertyValue(page, propertyName, propertyType) {
 }
 
 const MEDIA_ROOT = 'assets/img';
+
+/**
+ * 삭제된 글이 쓰던 미디어 폴더가 고아가 됐는지 확인해 알려준다.
+ *
+ * 시리즈물은 여러 글이 한 폴더를 공유하므로 자동 삭제는 하지 않는다.
+ * 정리는 사람이 확인하고 하도록 보고만 한다.
+ */
+async function reportOrphanMedia(removedSubpaths) {
+  if (removedSubpaths.length === 0) return;
+
+  // 남아 있는 글들이 참조하는 경로 수집
+  const stillUsed = new Set();
+  for (const name of await readdir(POSTS_DIR)) {
+    if (!name.endsWith('.md')) continue;
+    const raw = await readFile(join(POSTS_DIR, name), 'utf-8');
+    const found = raw.match(/^media_subpath:\s*(.+)$/m);
+    if (found) stillUsed.add(found[1].trim().replace(/\/+$/, ''));
+  }
+
+  const orphans = [];
+  for (const subpath of new Set(removedSubpaths)) {
+    if (stillUsed.has(subpath)) continue;
+
+    const dir = join(REPO_ROOT, subpath.replace(/^\//, ''));
+    if (!existsSync(dir)) continue;
+
+    const files = await readdir(dir);
+    let bytes = 0;
+    for (const f of files) {
+      try {
+        bytes += (await stat(join(dir, f))).size;
+      } catch {
+        // 하위 디렉터리 등은 무시
+      }
+    }
+    orphans.push({ subpath, count: files.length, bytes });
+  }
+
+  if (orphans.length === 0) return;
+
+  console.log('\n📂 참조가 사라진 미디어 폴더 (자동 삭제하지 않음):');
+  for (const o of orphans) {
+    console.log(`   ${o.subpath}  —  파일 ${o.count}개, ${(o.bytes / 1024).toFixed(0)}KB`);
+  }
+  console.log('   확인 후 필요 없으면 직접 지우세요.');
+}
+
 
 /**
  * Notion 의 "미디어 경로" 속성을 실제 경로로 정규화한다.
@@ -651,6 +698,7 @@ async function main() {
     // 상태가 "삭제"인 페이지의 파일 삭제
     let deletedCount = 0;
     const deletedFiles = [];
+    const removedSubpaths = [];
     
     if (deletePages.length > 0) {
       console.log('\n🗑️  삭제 대상 파일 처리 중...');
@@ -677,6 +725,13 @@ async function main() {
 
           // 파일이 존재하면 삭제
           if (existsSync(filepath)) {
+            // 지우기 전에 어떤 미디어 폴더를 쓰던 글인지 기억해둔다
+            const removed = await readFile(filepath, 'utf-8');
+            const usedSubpath = removed.match(/^media_subpath:\s*(.+)$/m);
+            if (usedSubpath) {
+              removedSubpaths.push(usedSubpath[1].trim().replace(/\/+$/, ''));
+            }
+
             await unlink(filepath);
             console.log(`🗑️  ${filename} (삭제)`);
             deletedFiles.push(filename);
@@ -689,6 +744,8 @@ async function main() {
         }
       }
     }
+
+    await reportOrphanMedia(removedSubpaths);
 
     console.log(`\n✅ 동기화 완료:`);
     console.log(`   - 생성/업데이트: ${successCount}개 (신규: ${successCount - updateCount}개, 업데이트: ${updateCount}개)`);
