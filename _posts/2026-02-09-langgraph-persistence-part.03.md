@@ -15,7 +15,7 @@ media_subpath: /assets/img/langgraph
 ## Checkpointer libraries
 
 
-LangGraph의 checkpointing은 내부적으로 [`BaseCheckpointSaver`](https://reference.langchain.com/python/langgraph/checkpoints/#langgraph.checkpoint.base.BaseCheckpointSaver) 인터페이스를 따르는 **checkpointer 객체**로 구현된다. LangGraph는 여러 가지 checkpointer 구현체를 제공하며, 각각은 **별도 설치 가능한 라이브러리** 형태로 제공된
+LangGraph의 checkpointing은 내부적으로 [`BaseCheckpointSaver`](https://reference.langchain.com/python/langgraph/checkpoints/#langgraph.checkpoint.base.BaseCheckpointSaver) 인터페이스를 따르는 **checkpointer 객체**로 구현된다. LangGraph는 여러 가지 checkpointer 구현체를 제공하며, 각각은 **별도 설치 가능한 라이브러리** 형태로 제공된다.
 
 - `langgraph-checkpoint`
     - checkpointer saver의 기본 인터페이스([`BaseCheckpointSaver`](https://reference.langchain.com/python/langgraph/checkpoints/#langgraph.checkpoint.base.BaseCheckpointSaver))와 직렬화/역직렬화 인터페이스([`SerializerProtocol`](https://reference.langchain.com/python/langgraph/checkpoints/#langgraph.checkpoint.serde.base.SerializerProtocol))를 포함한다.
