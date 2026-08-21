@@ -1,9 +1,32 @@
 #cursor {
-    position: absolute;
-    width: 60px;
-    height: 60px;
-    background: url('/assets/img/shark_no_bg.gif') no-repeat center center;
-    background-size: contain;
-    pointer-events: none; /* 요소에 마우스 이벤트를 막지 않음 */
-    transform: translate(-10%, -10%);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 60px;
+  height: 60px;
+  background: url('/assets/img/shark_no_bg.webp') no-repeat center center;
+  background-size: contain;
+  pointer-events: none; /* 요소에 마우스 이벤트를 막지 않음 */
+  will-change: transform;
+  z-index: 9999;
+  opacity: 0; /* 첫 마우스 이동 전까지 숨김 */
+  transition: opacity 0.2s;
+}
+
+#cursor.is-visible {
+  opacity: 1;
+}
+
+/* 터치 기기에는 커서가 없으므로 표시하지 않는다 */
+@media (hover: none), (pointer: coarse) {
+  #cursor {
+    display: none;
+  }
+}
+
+/* 움직임 최소화를 선호하는 사용자에게는 표시하지 않는다 */
+@media (prefers-reduced-motion: reduce) {
+  #cursor {
+    display: none;
+  }
 }
