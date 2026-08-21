@@ -236,7 +236,11 @@ async function toShareableThumbnail(mediaDir, filename) {
 
   try {
     if (!existsSync(jpegPath)) {
-      await sharp(join(mediaDir, filename)).jpeg({ quality: 85 }).toFile(jpegPath);
+      // JPEG 는 투명도를 못 담는다. sharp 기본 채움색이 검정이라 흰색을 지정한다.
+      await sharp(join(mediaDir, filename))
+        .flatten({ background: '#ffffff' })
+        .jpeg({ quality: 85 })
+        .toFile(jpegPath);
     }
     return jpegName;
   } catch (error) {
@@ -355,10 +359,45 @@ const metaPatternReversed = (property) =>
   );
 
 /**
+ * 유튜브 링크면 oEmbed 로 제목·채널·썸네일을 받아온다.
+ * 유튜브가 아니거나 실패하면 null 을 돌려 일반 경로로 넘긴다.
+ */
+async function fetchYoutubePreview(url) {
+  let host;
+  try {
+    host = new URL(url).hostname.replace(/^www\./, '');
+  } catch {
+    return null;
+  }
+  if (!/^(youtu\.be|(m\.)?youtube\.com|youtube-nocookie\.com)$/.test(host)) return null;
+
+  try {
+    const endpoint = `https://www.youtube.com/oembed?url=${encodeURIComponent(url)}&format=json`;
+    const response = await fetch(endpoint, { signal: AbortSignal.timeout(OG_TIMEOUT_MS) });
+    if (!response.ok) return null;
+
+    const data = await response.json();
+    return {
+      title: data.title || 'YouTube',
+      description: data.author_name ? `${data.author_name} · YouTube` : null,
+      image: data.thumbnail_url || null,
+      favicon: 'https://www.youtube.com/favicon.ico',
+      site: 'youtube.com'
+    };
+  } catch {
+    return null;
+  }
+}
+
+/**
  * 링크의 Open Graph 정보를 읽어 카드에 쓸 값을 돌려준다.
  * 실패하면 null 을 돌려주고 호출부가 단순 링크로 대체한다.
  */
 export async function fetchLinkPreview(url) {
+  // 유튜브는 페이지를 긁어도 메타 정보를 주지 않는다. 공식 oEmbed 를 쓴다.
+  const youtube = await fetchYoutubePreview(url);
+  if (youtube) return youtube;
+
   const response = await fetch(url, {
     headers: { 'user-agent': OG_USER_AGENT, accept: 'text/html,*/*' },
     redirect: 'follow',
@@ -515,77 +554,12 @@ export function fixIndentedBlocks(markdown) {
   return out.join('\n');
 }
 
-const TAB_OPEN = /^<!--notion-tab:(.*)-->$/;
-const TAB_CLOSE = /^<!--\/notion-tab-->$/;
-
 function escapeHtml(text) {
   return text
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
-}
-
-/**
- * 변환기가 남긴 탭 표시를 찾아 연속된 것끼리 하나의 탭 묶음으로 만든다.
- *
- * 라디오 버튼과 라벨을 앞에 모으고 패널을 뒤에 두면
- * CSS 만으로 탭 전환이 되어 자바스크립트가 필요 없다.
- */
-export function groupTabs(markdown) {
-  const lines = markdown.split('\n');
-  const out = [];
-  let group = 0;
-  let i = 0;
-
-  while (i < lines.length) {
-    if (!TAB_OPEN.test(lines[i])) {
-      out.push(lines[i]);
-      i++;
-      continue;
-    }
-
-    const tabs = [];
-    while (i < lines.length) {
-      // 탭 사이의 빈 줄은 건너뛰되, 뒤에 탭이 없으면 멈춘다
-      let peek = i;
-      while (peek < lines.length && lines[peek].trim() === '') peek++;
-      if (peek >= lines.length || !TAB_OPEN.test(lines[peek])) break;
-
-      const title = lines[peek].match(TAB_OPEN)[1];
-      const body = [];
-      i = peek + 1;
-      while (i < lines.length && !TAB_CLOSE.test(lines[i])) {
-        body.push(lines[i]);
-        i++;
-      }
-      i++; // 닫는 표시 건너뛰기
-      tabs.push({ title, body: body.join('\n').trim() });
-    }
-
-    if (tabs.length === 0) continue;
-
-    group++;
-    const name = `notion-tabs-${group}`;
-    const head = tabs.map(
-      (tab, index) =>
-        `<input type="radio" name="${name}" id="${name}-${index}"${index === 0 ? ' checked="checked"' : ''} />\n` +
-        `<label for="${name}-${index}">${escapeHtml(tab.title)}</label>`
-    );
-    const panels = tabs.map(
-      (tab) => `<div class="notion-tab-panel" markdown="1">\n\n${tab.body}\n\n</div>`
-    );
-
-    out.push(
-      `<div class="notion-tabs" markdown="1">`,
-      ...head,
-      ...panels,
-      `</div>`,
-      ''
-    );
-  }
-
-  return out.join('\n');
 }
 
 /**
@@ -615,7 +589,7 @@ export async function postProcess(markdown, { mediaDir, mediaSubpath }) {
   const audio = await processEmbeddedMedia(fixToggles(media.markdown), { mediaDir });
 
   const { markdown: withoutThumb, thumbnail } = await extractThumbnail(audio.markdown, { mediaDir });
-  const body = fixIndentedBlocks(groupTabs(withoutThumb));
+  const body = fixIndentedBlocks(withoutThumb);
 
   return {
     markdown: body,

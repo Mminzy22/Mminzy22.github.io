@@ -34,30 +34,52 @@ if (!NOTION_TOKEN || !NOTION_DATABASE_ID) {
 const notion = new Client({ auth: NOTION_TOKEN });
 const n2m = new NotionToMarkdown({ notionClient: notion });
 
+function escapeHtml(text) {
+  return String(text)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+let tabGroupSeq = 0;
+
 // Notion 탭은 공개 API 에 정식 타입이 없어 'tab' 으로만 온다.
-// 기본 동작은 내용을 들여쓰기로 뱉어 마크다운 코드블록으로 깨진다.
-// 여기서는 표시만 남기고, 연속된 탭을 하나로 묶는 일은 후처리가 맡는다.
+// 이 블록은 개별 탭이 아니라 탭 묶음 전체의 컨테이너이고,
+// 자식 하나하나가 탭이다(제목은 자식의 rich_text, 내용은 그 자식의 하위 블록).
 n2m.setCustomTransformer('tab', async (block) => {
   try {
-    const data = block.tab || {};
-    const title =
-      (data.rich_text || data.title || [])
-        .map((item) => item?.plain_text ?? '')
-        .join('')
-        .trim() || '탭';
+    const { results } = await notion.blocks.children.list({
+      block_id: block.id,
+      page_size: 100
+    });
+    if (results.length === 0) return false;
 
-    let body = '';
-    if (block.has_children) {
-      const mdBlocks = await n2m.pageToMarkdown(block.id);
-      body = (n2m.toMarkdownString(mdBlocks).parent || '').trim();
+    const group = `notion-tabs-${++tabGroupSeq}`;
+    const heads = [];
+    const panels = [];
+
+    for (const [index, child] of results.entries()) {
+      const data = child[child.type] || {};
+      const title =
+        (data.rich_text || []).map((item) => item.plain_text).join('').trim() ||
+        `탭 ${index + 1}`;
+
+      let body = '';
+      if (child.has_children) {
+        const mdBlocks = await n2m.pageToMarkdown(child.id);
+        body = (n2m.toMarkdownString(mdBlocks).parent || '').trim();
+      }
+
+      const checked = index === 0 ? ' checked="checked"' : '';
+      heads.push(
+        `<input type="radio" name="${group}" id="${group}-${index}"${checked} />\n` +
+          `<label for="${group}-${index}">${escapeHtml(title)}</label>`
+      );
+      panels.push(`<div class="notion-tab-panel" markdown="1">\n\n${body}\n\n</div>`);
     }
 
-    if (!body) return false;
-
-    // 주석 문법을 깨뜨리지 않도록 제목을 정리한다
-    const safeTitle = title.replace(/-->/g, '→').replace(/[\r\n]+/g, ' ');
-
-    return `<!--notion-tab:${safeTitle}-->\n${body}\n<!--/notion-tab-->\n\n`;
+    return `<div class="notion-tabs" markdown="1">\n${heads.join('\n')}\n${panels.join('\n')}\n</div>\n\n`;
   } catch (error) {
     console.warn(`   ⚠️  탭 변환 실패, 기본 처리로 대체: ${error.message}`);
     return false;
@@ -68,10 +90,6 @@ n2m.setCustomTransformer('tab', async (block) => {
 n2m.setCustomTransformer('bookmark', async (block) => {
   const content = block.bookmark;
   if (!content?.url) return false;
-
-  // 동영상 링크를 북마크로 넣은 경우에는 재생기가 낫다
-  const embed = parseVideoEmbed(content.url);
-  if (embed) return `{% include embed/${embed.platform}.html id='${embed.id}' %}\n\n`;
 
   const caption = (content.caption || []).map((item) => item.plain_text).join('').trim();
   const fallback = `[${caption || content.url}](${content.url})\n\n`;
