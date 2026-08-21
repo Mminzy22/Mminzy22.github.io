@@ -231,21 +231,27 @@ const THUMBNAIL_HEADING = /^#{1,6}\s*(썸네일|thumbnail)\s*$/i;
 async function toShareableThumbnail(mediaDir, filename) {
   if (!filename.endsWith('.webp')) return filename;
 
-  const jpegName = filename.replace(/\.webp$/, '.jpg');
-  const jpegPath = join(mediaDir, jpegName);
+  const source = join(mediaDir, filename);
 
   try {
+    // 투명한 이미지는 그대로 둔다. JPEG 로 바꾸면 투명 부분이 단색으로 채워져
+    // 라이트/다크 한쪽에서 반드시 어색해진다.
+    // Chirpy 는 대문 이미지 뒤에 테마에 맞는 배경(--img-bg)을 깔아주므로
+    // 투명 상태가 양쪽 모두에서 자연스럽다.
+    const { hasAlpha } = await sharp(source).metadata();
+    if (hasAlpha) return filename;
+
+    // 불투명한 이미지는 공유 미리보기 호환성을 위해 JPEG 사본을 쓴다
+    const jpegName = filename.replace(/\.webp$/, '.jpg');
+    const jpegPath = join(mediaDir, jpegName);
+
     if (!existsSync(jpegPath)) {
-      // JPEG 는 투명도를 못 담는다. sharp 기본 채움색이 검정이라 흰색을 지정한다.
-      await sharp(join(mediaDir, filename))
-        .flatten({ background: '#ffffff' })
-        .jpeg({ quality: 85 })
-        .toFile(jpegPath);
+      await sharp(source).jpeg({ quality: 85 }).toFile(jpegPath);
     }
     return jpegName;
   } catch (error) {
     // 사본을 못 만들어도 썸네일 자체는 살린다
-    console.warn(`   ⚠️  썸네일 JPEG 사본 생성 실패(${error.message}), 원본 사용`);
+    console.warn(`   ⚠️  썸네일 사본 생성 실패(${error.message}), 원본 사용`);
     return filename;
   }
 }
