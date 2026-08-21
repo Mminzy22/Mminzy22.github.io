@@ -18,12 +18,20 @@ document.addEventListener('DOMContentLoaded', () => {
     ticking = false;
   };
 
+  const isFrame = (target) => target && target.tagName === 'IFRAME';
+
   document.addEventListener(
     'mousemove',
     (event) => {
+      // iframe 으로 들어가면 mouseover 직후 target 이 IFRAME 인 mousemove 가
+      // 한 번 더 도착한다. 여기서 다시 보이게 하면 숨김이 즉시 취소된다.
+      if (isFrame(event.target)) {
+        cursor.classList.remove('is-visible');
+        return;
+      }
+
       x = event.clientX;
       y = event.clientY;
-      // mousemove 가 왔다는 것 자체가 iframe 밖이라는 뜻이다
       cursor.classList.add('is-visible');
 
       // 프레임당 한 번만 갱신
@@ -42,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener(
     'mouseover',
     (event) => {
-      if (event.target.tagName === 'IFRAME') {
+      if (isFrame(event.target)) {
         cursor.classList.remove('is-visible');
       }
     },
