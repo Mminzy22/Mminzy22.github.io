@@ -61,6 +61,10 @@ details > :last-child {
    kramdown 이 라디오와 라벨을 <p> 로 감싸므로 형제 선택자 대신 :has() 를 쓴다. */
 .notion-tabs {
   margin-bottom: 1rem;
+  /* 본문 흐름과 확실히 구분되도록 테두리로 묶는다 */
+  border: 1px solid var(--main-border-color);
+  border-radius: 8px;
+  padding: 0.7rem 1rem 0.9rem;
 }
 
 .notion-tabs input[type='radio'] {
@@ -71,31 +75,29 @@ details > :last-child {
 .notion-tabs > p:first-child {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.15rem;
+  gap: 0.2rem;
   margin-bottom: 0;
-  border-bottom: 1px solid var(--main-border-color);
 }
 
 .notion-tabs label {
-  padding: 0.45rem 0.9rem;
-  margin-bottom: -1px;
+  padding: 0.3rem 0.75rem;
   cursor: pointer;
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   color: var(--text-muted-color);
-  border: 1px solid transparent;
-  border-radius: 6px 6px 0 0;
+  border-radius: 6px;
   user-select: none;
   white-space: nowrap;
 }
 
 .notion-tabs label:hover {
   color: var(--text-color);
+  background: var(--main-border-color);
 }
 
 .notion-tabs > .notion-tab-panel {
   display: none;
-  padding: 1rem 0.2rem 0.2rem;
+  padding-top: 0.9rem;
 }
 
 .notion-tabs > .notion-tab-panel > :first-child {
@@ -115,10 +117,8 @@ details > :last-child {
 .notion-tabs:has(> p > input:nth-of-type(6):checked) > p > label:nth-of-type(6),
 .notion-tabs:has(> p > input:nth-of-type(7):checked) > p > label:nth-of-type(7),
 .notion-tabs:has(> p > input:nth-of-type(8):checked) > p > label:nth-of-type(8) {
-  color: var(--link-color);
-  border-color: var(--main-border-color);
-  border-bottom-color: var(--main-bg);
-  background: var(--main-bg);
+  color: var(--text-color);
+  background: var(--main-border-color);
 }
 
 /* 선택된 탭의 패널만 보여준다 */
