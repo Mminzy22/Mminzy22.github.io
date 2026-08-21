@@ -79,7 +79,7 @@ details > :last-child {
   gap: 0.25rem;
   margin: 0; /* 문단 기본 여백이 탭 위에 빈 공간을 만든다 */
   padding: 0.55rem 0.8rem 0;
-  background: var(--main-border-color);
+  background: var(--notion-tab-bar-bg);
   border-bottom: 1px solid var(--notion-box-border);
 }
 
@@ -254,4 +254,10 @@ details > :last-child {
 
 .notion-indent > :last-child {
   margin-bottom: 0;
+}
+
+/* 표 — 넓은 화면에서 폭이 남을 때 왼쪽으로 치우치지 않게 가운데로 */
+.content .table-wrapper > table {
+  margin-left: auto;
+  margin-right: auto;
 }

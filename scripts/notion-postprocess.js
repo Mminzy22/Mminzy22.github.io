@@ -569,6 +569,43 @@ function escapeHtml(text) {
 }
 
 /**
+ * 표가 아닌 줄의 세로줄을 이스케이프한다.
+ *
+ * kramdown 은 세로줄이 있는 줄을 표로 해석한다. 그래서 `$|x|$` 같은 인라인 수식이나
+ * "a | b" 같은 평범한 문장이 통째로 표가 되어 버린다.
+ *
+ * 실제 표(`| 셀 |`로 시작), 코드블록, 우리가 만든 HTML, 인라인 코드는 건드리지 않는다.
+ */
+export function escapeStrayPipes(markdown) {
+  const lines = markdown.split('\n');
+  let fence = null;
+
+  return lines
+    .map((line) => {
+      const trimmed = line.trim();
+
+      const fenceMark = trimmed.match(/^(```+|~~~+)/);
+      if (fenceMark) {
+        if (fence === null) fence = fenceMark[1][0];
+        else if (trimmed.startsWith(fence.repeat(3))) fence = null;
+        return line;
+      }
+      if (fence !== null) return line;
+
+      if (!line.includes('|')) return line;
+      if (trimmed.startsWith('|')) return line; // 표
+      if (trimmed.startsWith('<')) return line; // 변환기가 만든 HTML
+
+      // 인라인 코드(`...`) 안의 파이프는 셸 명령 등에서 정상 문법이므로 그대로 둔다
+      return line
+        .split(/(`+[^`]*`+)/)
+        .map((part) => (part.startsWith('`') ? part : part.replace(/(?<!\\)\|/g, '\\|')))
+        .join('');
+    })
+    .join('\n');
+}
+
+/**
  * 본문을 보고 mermaid / math 사용 여부를 판단한다.
  *
  * Chirpy 는 front matter 플래그가 켜져 있을 때만 해당 라이브러리를 불러오는데,
@@ -595,7 +632,7 @@ export async function postProcess(markdown, { mediaDir, mediaSubpath }) {
   const audio = await processEmbeddedMedia(fixToggles(media.markdown), { mediaDir });
 
   const { markdown: withoutThumb, thumbnail } = await extractThumbnail(audio.markdown, { mediaDir });
-  const body = fixIndentedBlocks(withoutThumb);
+  const body = escapeStrayPipes(fixIndentedBlocks(withoutThumb));
 
   return {
     markdown: body,
