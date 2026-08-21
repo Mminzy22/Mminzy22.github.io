@@ -34,10 +34,41 @@ if (!NOTION_TOKEN || !NOTION_DATABASE_ID) {
 const notion = new Client({ auth: NOTION_TOKEN });
 const n2m = new NotionToMarkdown({ notionClient: notion });
 
+// Notion 탭은 공개 API 에 정식 타입이 없어 'tab' 으로만 온다.
+// 기본 동작은 내용을 들여쓰기로 뱉어 마크다운 코드블록으로 깨진다.
+// 구조가 가장 가까운 토글로 바꿔 최소한 읽을 수 있게 한다.
+n2m.setCustomTransformer('tab', async (block) => {
+  try {
+    const data = block.tab || {};
+    const title =
+      (data.rich_text || data.title || [])
+        .map((item) => item?.plain_text ?? '')
+        .join('')
+        .trim() || '탭';
+
+    let body = '';
+    if (block.has_children) {
+      const mdBlocks = await n2m.pageToMarkdown(block.id);
+      body = (n2m.toMarkdownString(mdBlocks).parent || '').trim();
+    }
+
+    if (!body) return false;
+
+    return `<details markdown="1">\n<summary>${title}</summary>\n\n${body}\n\n</details>\n\n`;
+  } catch (error) {
+    console.warn(`   ⚠️  탭 변환 실패, 기본 처리로 대체: ${error.message}`);
+    return false;
+  }
+});
+
 // 기본 변환은 링크 글자를 'bookmark' 라는 타입 이름으로 넣어 읽기 나쁘다.
 n2m.setCustomTransformer('bookmark', async (block) => {
   const content = block.bookmark;
   if (!content?.url) return false;
+
+  // 동영상 링크를 북마크로 넣은 경우에는 재생기가 낫다
+  const embed = parseVideoEmbed(content.url);
+  if (embed) return `{% include embed/${embed.platform}.html id='${embed.id}' %}\n\n`;
 
   const caption = (content.caption || []).map((item) => item.plain_text).join('').trim();
   return `[${caption || content.url}](${content.url})\n\n`;
@@ -539,6 +570,9 @@ async function convertPageToMarkdown(pageId, { mediaDir, mediaSubpath }) {
     const unknown = [...warnUnknownBlockTypes(mdBlocks)].filter((t) => !KNOWN_BLOCK_TYPES.has(t));
     if (unknown.length > 0) {
       console.warn(`   ⚠️  처음 보는 블록 타입: ${unknown.join(', ')} — 출력이 깨질 수 있습니다`);
+      if (process.env.DEBUG) {
+        console.warn(`      구조 확인용: ${JSON.stringify(mdBlocks).slice(0, 500)}`);
+      }
     }
 
     const mdString = n2m.toMarkdownString(mdBlocks);
