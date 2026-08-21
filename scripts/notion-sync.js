@@ -301,6 +301,24 @@ function getPropertyValue(page, propertyName, propertyType) {
   }
 }
 
+const MEDIA_ROOT = 'assets/img';
+
+/**
+ * Notion 의 "미디어 경로" 속성을 실제 경로로 정규화한다.
+ *
+ * 앞의 /assets/img/ 는 고정이므로 폴더 이름만 적어도 되고,
+ * 전체 경로를 적어도(기존 글 호환) 그대로 인정한다.
+ * 비워두면 글마다 슬러그 이름의 폴더를 쓴다.
+ */
+function resolveMediaSubpath(declared, slug) {
+  const value = (declared || '').trim().replace(/^\/+|\/+$/g, '');
+
+  if (!value) return `/${MEDIA_ROOT}/${slug}`;
+  if (value === MEDIA_ROOT || value.startsWith(`${MEDIA_ROOT}/`)) return `/${value}`;
+
+  return `/${MEDIA_ROOT}/${value}`;
+}
+
 /**
  * 파일명·경로 결정에 필요한 값만 먼저 추출
  */
@@ -333,9 +351,8 @@ function generateFrontMatter(page, options = {}) {
     : getPropertyValue(page, 'math', 'checkbox') || false;
   
   // 이미지 관련 속성 (선택사항)
-  // Notion 속성으로 지정한 경로가 우선하고, 없으면 동기화가 정한 경로를 쓴다
-  const mediaSubpath =
-    getPropertyValue(page, '미디어 경로', 'rich_text') || options.mediaSubpath || null;
+  // 정규화는 호출부에서 끝내고 여기서는 받은 값만 쓴다
+  const mediaSubpath = options.mediaSubpath || null;
   // 본문 최상단 "썸네일" 섹션이 우선하고, 없으면 Notion 속성을 쓴다
   const imagePath =
     options.thumbnail?.path || getPropertyValue(page, '이미지 경로', 'rich_text') || null;
@@ -591,12 +608,9 @@ async function main() {
           continue;
         }
 
-        // 미디어 저장 위치 결정 (Notion 속성이 있으면 그쪽을 쓴다)
+        // 미디어 저장 위치 결정
         const declaredSubpath = getPropertyValue(page, '미디어 경로', 'rich_text');
-        const mediaSubpath =
-          declaredSubpath && declaredSubpath.trim()
-            ? declaredSubpath.trim()
-            : `/assets/img/${slug}`;
+        const mediaSubpath = resolveMediaSubpath(declaredSubpath, slug);
         const mediaDir = join(REPO_ROOT, mediaSubpath.replace(/^\//, ''));
 
         // 본문 변환 (+ 미디어 내려받기, 토글·콜아웃 보정)
@@ -612,8 +626,9 @@ async function main() {
           console.log(`   🖼️  썸네일: ${thumbnail.path}`);
         }
 
+        const hasDeclaredSubpath = Boolean(declaredSubpath && declaredSubpath.trim());
         const { frontMatter } = generateFrontMatter(page, {
-          mediaSubpath: downloaded + skipped > 0 ? mediaSubpath : null,
+          mediaSubpath: downloaded + skipped > 0 || hasDeclaredSubpath ? mediaSubpath : null,
           features,
           thumbnail
         });
