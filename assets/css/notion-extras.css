@@ -242,3 +242,16 @@ details > :last-child {
     display: none;
   }
 }
+
+/* 들여쓴 블록 (Notion 에서 Tab 으로 밀어 넣은 내용) */
+.notion-indent {
+  margin-left: 1.5rem;
+}
+
+.notion-indent > :first-child {
+  margin-top: 0;
+}
+
+.notion-indent > :last-child {
+  margin-bottom: 0;
+}

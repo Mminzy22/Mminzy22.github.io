@@ -445,6 +445,76 @@ export function renderLinkCard(url, preview) {
   );
 }
 
+const LIST_ITEM = /^([-*+]\s|\d+[.)]\s)/;
+
+/**
+ * Notion 에서 Tab 으로 들여쓴 블록을 처리한다.
+ *
+ * notion-to-md 는 중첩 블록을 4칸 들여쓰기로 표현하는데,
+ * 목록이 아닌 경우 마크다운에서는 그게 코드블록 문법이라 내용이 깨진다.
+ * 들여쓴 만큼 여백을 주는 div 로 감싸 원래 의도대로 보이게 한다.
+ */
+export function fixIndentedBlocks(markdown) {
+  const lines = markdown.split('\n');
+  const out = [];
+  let fence = null;
+  let lastTopLevelWasList = false;
+  let i = 0;
+
+  while (i < lines.length) {
+    const line = lines[i];
+    const trimmed = line.trim();
+
+    // 코드블록 안은 손대지 않는다
+    const fenceMark = trimmed.match(/^(```+|~~~+)/);
+    if (fenceMark) {
+      if (fence === null) fence = fenceMark[1][0];
+      else if (trimmed.startsWith(fence.repeat(3))) fence = null;
+      out.push(line);
+      i++;
+      continue;
+    }
+    if (fence !== null) {
+      out.push(line);
+      i++;
+      continue;
+    }
+
+    const indent = line.length - line.trimStart().length;
+
+    if (indent === 0) {
+      if (trimmed !== '') lastTopLevelWasList = LIST_ITEM.test(trimmed);
+      out.push(line);
+      i++;
+      continue;
+    }
+
+    // 목록의 하위 항목이면 4칸 들여쓰기가 정상 문법이다
+    if (indent < 4 || lastTopLevelWasList) {
+      out.push(line);
+      i++;
+      continue;
+    }
+
+    // 들여쓴 구간을 모아 한 단계 벗겨낸다
+    const block = [];
+    while (
+      i < lines.length &&
+      (lines[i].trim() === '' || lines[i].length - lines[i].trimStart().length >= 4)
+    ) {
+      block.push(lines[i].slice(4));
+      i++;
+    }
+    while (block.length && block[block.length - 1].trim() === '') block.pop();
+
+    // 더 깊은 들여쓰기는 재귀로 처리한다
+    const inner = fixIndentedBlocks(block.join('\n')).trim();
+    out.push('<div class="notion-indent" markdown="1">', '', inner, '', '</div>', '');
+  }
+
+  return out.join('\n');
+}
+
 const TAB_OPEN = /^<!--notion-tab:(.*)-->$/;
 const TAB_CLOSE = /^<!--\/notion-tab-->$/;
 
@@ -545,7 +615,7 @@ export async function postProcess(markdown, { mediaDir, mediaSubpath }) {
   const audio = await processEmbeddedMedia(fixToggles(media.markdown), { mediaDir });
 
   const { markdown: withoutThumb, thumbnail } = await extractThumbnail(audio.markdown, { mediaDir });
-  const body = groupTabs(withoutThumb);
+  const body = fixIndentedBlocks(groupTabs(withoutThumb));
 
   return {
     markdown: body,
