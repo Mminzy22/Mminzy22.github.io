@@ -394,10 +394,18 @@ export async function fetchLinkPreview(url) {
     metaPattern('twitter:image')
   ]);
 
+  // <link rel="icon"> 계열에서 파비콘을 찾는다
+  const iconHref = firstMatch(html, [
+    /<link[^>]+rel=["'][^"']*apple-touch-icon[^"']*["'][^>]+href=["']([^"']+)["']/i,
+    /<link[^>]+rel=["'][^"']*icon[^"']*["'][^>]+href=["']([^"']+)["']/i,
+    /<link[^>]+href=["']([^"']+)["'][^>]+rel=["'][^"']*icon[^"']*["']/i
+  ]);
+
   return {
     title,
     description,
     image: image ? new URL(image, response.url).href : null,
+    favicon: iconHref ? new URL(iconHref, response.url).href : new URL('/favicon.ico', response.url).href,
     site: new URL(response.url).hostname.replace(/^www\./, '')
   };
 }
@@ -410,22 +418,30 @@ export async function fetchLinkPreview(url) {
  * kramdown 이 중간에 문단을 끼워 넣지 않도록 한 줄로 만든다.
  */
 export function renderLinkCard(url, preview) {
-  const parts = [
-    `<span class="notion-bookmark-title">${escapeHtml(preview.title)}</span>`
-  ];
+  const safe = (value) => escapeHtml(value ?? '');
 
-  if (preview.description) {
-    parts.push(`<span class="notion-bookmark-desc">${escapeHtml(preview.description)}</span>`);
-  }
-  parts.push(`<span class="notion-bookmark-site">${escapeHtml(preview.site)}</span>`);
+  const head = [
+    preview.favicon
+      ? `<img class="notion-bookmark-favicon no-refactor" src="${safe(preview.favicon)}" alt="" loading="lazy" />`
+      : '',
+    `<span class="notion-bookmark-site">${safe(preview.site)}</span>`
+  ].join('');
+
+  const body = [
+    `<span class="notion-bookmark-title">${safe(preview.title)}</span>`,
+    preview.description
+      ? `<span class="notion-bookmark-desc">${safe(preview.description)}</span>`
+      : '',
+    `<span class="notion-bookmark-meta">${head}</span>`
+  ].join('');
 
   const thumb = preview.image
-    ? `<span class="notion-bookmark-thumb" style="background-image:url('${preview.image.replace(/['"\\]/g, '')}')"></span>`
+    ? `<span class="notion-bookmark-thumb"><img class="no-refactor" src="${safe(preview.image)}" alt="" loading="lazy" /></span>`
     : '';
 
   return (
-    `<a class="notion-bookmark" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">` +
-    `<span class="notion-bookmark-body">${parts.join('')}</span>${thumb}</a>`
+    `<a class="notion-bookmark" href="${safe(url)}" target="_blank" rel="noopener noreferrer">` +
+    `<span class="notion-bookmark-body">${body}</span>${thumb}</a>`
   );
 }
 

@@ -61,6 +61,13 @@
       {% continue %}
     {% endunless %}
 
+    <!-- 'no-refactor' 클래스가 붙은 이미지는 손대지 않는다.
+         (링크 카드 썸네일처럼 이미 <a> 안에 있어 팝업 링크로 감싸면 안 되는 경우) -->
+    {% if _left contains 'no-refactor' %}
+      {% assign _img_content = _img_content | append: IMG_TAG | append: _img_snippet %}
+      {% continue %}
+    {% endif %}
+
     {% assign _left = _left | remove: ' /' | replace: ' w=', ' width=' | replace: ' h=', ' height=' %}
     {% assign _attrs = _left | split: '" ' %}
 
