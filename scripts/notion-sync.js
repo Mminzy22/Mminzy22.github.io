@@ -575,7 +575,7 @@ const KNOWN_BLOCK_TYPES = new Set([
   'code', 'quote', 'callout', 'divider', 'equation',
   'image', 'video', 'audio', 'file', 'pdf',
   'bookmark', 'embed', 'link_preview', 'link_to_page',
-  'table', 'table_row', 'column_list', 'column', 'synced_block',
+  'table', 'table_row', 'column_list', 'column', 'synced_block', 'tab',
   'child_page', 'child_database', 'breadcrumb', 'table_of_contents', 'template'
 ]);
 
@@ -787,7 +787,7 @@ async function main() {
 
         const { markdown: content, downloaded, skipped, features, thumbnail } = converted;
 
-        if (downloaded > 0) {
+        if (downloaded + skipped > 0) {
           console.log(`   📎 미디어 ${downloaded}개 저장 (재사용 ${skipped}개)`);
         }
 
