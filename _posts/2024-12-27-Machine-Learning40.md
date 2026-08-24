@@ -2,8 +2,8 @@
 title: "고객 세분화 분석(클러스터링 기법 비교 및 시각화)"
 author: mminzy22
 date: 2024-12-27 10:00:00 +0900
-categories: [Machine Learning, 과제]
-tags: [Bootcamp, Python, Machine Learning, TIL]
+categories: [Machine Learning]
+tags: [Bootcamp, Python, Machine Learning, TIL, 과제]
 description: "고객 세분화 분석을 통해 다양한 클러스터링 기법(KMeans, 계층적 군집화, DBSCAN, GMM)을 비교하고 최적의 클러스터 수를 결정합니다. 실루엣 점수와 엘보우 방법을 사용하여 성능을 평가하고, 결과를 시각화합니다."
 pin: false
 ---

@@ -2,7 +2,7 @@
 title: "RAG 프롬프트 구성 및 LLM 응답 생성- Part.5"
 author: mminzy22
 date: 2025-02-14 19:30:00 +0900
-categories: [Machine Learning, Deep Learning, LLM]
+categories: [Machine Learning, Deep Learning]
 tags: [Bootcamp, Python, Machine Learning, Deep Learning, LLM, RAG, AI, TIL]
 description: "검색된 문서를 기반으로 LLM이 최적의 답변을 생성하는 방법. 효과적인 프롬프트 템플릿 작성법, RAG 체인 구성, 환각 방지 기법을 적용하여 AI 챗봇의 응답 품질을 개선하는 방법을 배울 수 있습니다."
 pin: false

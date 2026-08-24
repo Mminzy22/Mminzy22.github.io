@@ -2,8 +2,8 @@
 title: "주택 가격 예측 모델 구축(데이터 조회 및 결측치 처리)"
 author: mminzy22
 date: 2024-12-23 10:00:00 +0900
-categories: [Machine Learning, 과제]
-tags: [Bootcamp, Python, Machine Learning, TIL]
+categories: [Machine Learning]
+tags: [Bootcamp, Python, Machine Learning, TIL, 과제]
 description: "주택 가격 예측 모델 구축을 위한 데이터 조회 및 결측치 처리 과제입니다."
 pin: false
 ---

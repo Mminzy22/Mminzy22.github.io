@@ -2,7 +2,7 @@
 title: "RAG (Retrieval-Augmented Generation) 개념 및 구축 과정 개요- Part.1"
 author: mminzy22
 date: 2025-02-14 19:30:00 +0900
-categories: [Machine Learning, Deep Learning, LLM]
+categories: [Machine Learning, Deep Learning]
 tags: [Bootcamp, Python, Machine Learning, Deep Learning, LLM, RAG, AI, TIL]
 description: "LLM의 한계를 극복하는 최신 AI 검색 기술, RAG의 개념과 구축 과정 5단계를 쉽게 설명합니다."
 pin: false

@@ -2,8 +2,8 @@
 title: "지도학습: 주택 가격 예측 모델 구축 (과제 해설)"
 author: mminzy22
 date: 2025-02-12 19:00:00 +0900
-categories: [Machine Learning, 과제]
-tags: [Bootcamp, Python, Machine Learning, TIL]
+categories: [Machine Learning]
+tags: [Bootcamp, Python, Machine Learning, TIL, 과제]
 description: "Python과 Scikit-learn을 활용하여 보스턴 주택 데이터셋의 가격을 예측하는 머신러닝 모델을 구축합니다. 데이터 전처리, 선형 회귀, 의사결정나무, 랜덤 포레스트, 앙상블 기법, 하이퍼파라미터 튜닝을 포함한 상세 가이드를 제공합니다."
 pin: false
 ---

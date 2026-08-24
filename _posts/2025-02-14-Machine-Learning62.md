@@ -2,7 +2,7 @@
 title: "벡터 저장소 구축과 리트리버 활용- Part.4"
 author: mminzy22
 date: 2025-02-14 19:30:00 +0900
-categories: [Machine Learning, Deep Learning, LLM]
+categories: [Machine Learning, Deep Learning]
 tags: [Bootcamp, Python, Machine Learning, Deep Learning, LLM, RAG, AI, TIL]
 description: "RAG 시스템에서 가장 중요한 벡터 저장소(Vector Store)와 리트리버(Retriever) 활용법. FAISS 기반 벡터 저장소 구축, 검색 최적화, 그리고 유사도 기반 검색 기법을 배울 수 있습니다."
 pin: false

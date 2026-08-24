@@ -2,7 +2,7 @@
 title: "LangChain Expression Language(LCEL) 이해하기 - 특강4"
 author: mminzy22
 date: 2025-02-14 09:15:00 +0900
-categories: [Machine Learning, Deep Learning, LLM]
+categories: [Machine Learning, Deep Learning]
 tags: [Bootcamp, Python, Machine Learning, Deep Learning, LLM, AI, TIL]
 description: "LangChain Expression Language(LCEL)를 사용하여 체인을 구성하고 실행하는 방법을 알아봅니다. LCEL의 기본 개념, 체인에 컴포넌트 추가하기, 조건부 체인, 실행 시간 측정 등을 다룹니다."
 pin: false

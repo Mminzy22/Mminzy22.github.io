@@ -2,8 +2,8 @@
 title: "고객 세분화 분석(데이터 조회 및 전처리)"
 author: mminzy22
 date: 2024-12-26 10:00:00 +0900
-categories: [Machine Learning, 과제]
-tags: [Bootcamp, Python, Machine Learning, TIL]
+categories: [Machine Learning]
+tags: [Bootcamp, Python, Machine Learning, TIL, 과제]
 description: "고객 데이터를 분석하여 비슷한 행동을 보이는 그룹을 식별하고, 다양한 클러스터링 기법을 비교합니다."
 pin: false
 ---

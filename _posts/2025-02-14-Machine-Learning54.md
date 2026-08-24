@@ -2,7 +2,7 @@
 title: "프롬프트 템플릿 활용하기 (ChatPromptTemplate) - 특강2"
 author: mminzy22
 date: 2025-02-14 09:05:00 +0900
-categories: [Machine Learning, Deep Learning, LLM]
+categories: [Machine Learning, Deep Learning]
 tags: [Bootcamp, Python, Machine Learning, Deep Learning, LLM, AI, TIL]
 description: "LangChain의 ChatPromptTemplate 클래스를 사용하여 프롬프트를 템플릿화하는 방법과 이를 통해 효율적으로 LLM과 상호작용하는 방법을 다룹니다."
 pin: false

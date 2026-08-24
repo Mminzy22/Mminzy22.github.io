@@ -2,7 +2,7 @@
 title: "AI 서비스 개발, 내가 시작한 이유와 목표"
 author: mminzy22
 date: 2024-11-18 10:00:00 +0900
-categories: [Bootcamp]
+categories: [WIL]
 tags: [Bootcamp]
 description: "AI 부트캠프를 통해 새로운 도전을 시작한 이유와 목표"
 pin: false
