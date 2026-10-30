@@ -233,6 +233,31 @@ n2m.setCustomTransformer('unsupported', async (block) => {
   }
 });
 
+// Notion 에 나중에 생긴 "제목 4"는 notion-to-md 가 몰라서 제목 표시(####) 없이
+// 평범한 문단 글자로 내보낸다. 서식은 살리려고 문단 변환기를 빌려 쓰고 #### 를 붙인다.
+n2m.setCustomTransformer('heading_4', async (block) => {
+  const { rich_text, is_toggleable } = block.heading_4;
+  const text = (
+    await n2m.blockToMarkdown({
+      ...block,
+      type: 'paragraph',
+      has_children: false,
+      paragraph: { rich_text }
+    })
+  ).trim();
+
+  if (!text) return false;
+
+  // 토글 제목이면 안쪽 내용을 제목 아래에 펼쳐 둔다
+  let nested = '';
+  if (is_toggleable && block.has_children) {
+    const mdBlocks = await n2m.pageToMarkdown(block.id);
+    nested = (n2m.toMarkdownString(mdBlocks).parent || '').trim();
+  }
+
+  return `#### ${text}\n\n${nested ? `${nested}\n\n` : ''}`;
+});
+
 // Notion 콜아웃 이모지 → Chirpy prompt 종류
 const PROMPT_BY_EMOJI = {
   '💡': 'tip',
@@ -570,7 +595,7 @@ function getGitLastCommitTime(filepath) {
 
 // 변환기가 제대로 다루는 블록 타입. 여기 없는 타입이 나오면 출력이 깨질 수 있다.
 const KNOWN_BLOCK_TYPES = new Set([
-  'paragraph', 'heading_1', 'heading_2', 'heading_3',
+  'paragraph', 'heading_1', 'heading_2', 'heading_3', 'heading_4',
   'bulleted_list_item', 'numbered_list_item', 'to_do', 'toggle',
   'code', 'quote', 'callout', 'divider', 'equation',
   'image', 'video', 'audio', 'file', 'pdf',
