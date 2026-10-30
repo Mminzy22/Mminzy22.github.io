@@ -2,7 +2,7 @@
 title: "딥러닝 모델 설계와 학습"
 author: mminzy22
 date: 2024-12-05 10:18:00 +0900
-categories: [Machine Learning]
+categories: [AI, Machine Learning]
 tags: [Bootcamp, Python, Machine Learning, TIL]
 description: "기본 신경망 설계, 학습 과정, 그리고 딥러닝 모델 구현의 주요 단계"
 pin: false

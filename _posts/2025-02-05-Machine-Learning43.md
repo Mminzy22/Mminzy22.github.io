@@ -2,7 +2,7 @@
 title: "GitHub 오픈소스를 활용한 AI 프로젝트 시작하기"
 author: mminzy22
 date: 2025-02-05 16:00:00 +0900
-categories: [Machine Learning]
+categories: [AI, Machine Learning]
 tags: [Bootcamp, Python, Machine Learning, GitHub, Deep Learning, PyTorch, API, Transformers, TIL]
 description: "GitHub의 오픈소스 프로젝트를 활용하여 다양한 AI 프로젝트를 시작하는 방법 소개"
 pin: false

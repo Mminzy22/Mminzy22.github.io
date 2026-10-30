@@ -2,7 +2,7 @@
 title: "딥러닝과 인공 신경망: 텐서플로를 활용한 패션 MNIST 분류"
 author: mminzy22
 date: 2024-12-19 10:00:00 +0900
-categories: [Machine Learning]
+categories: [AI, Machine Learning]
 tags: [Bootcamp, Python, Machine Learning, TIL]
 description: "텐서플로와 케라스를 활용하여 패션 MNIST 데이터셋을 분류하는 딥러닝 모델을 구축하고 평가하는 방법을 다룹니다."
 pin: false

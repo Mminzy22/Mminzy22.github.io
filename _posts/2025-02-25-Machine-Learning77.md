@@ -2,7 +2,7 @@
 title: "LangChain과 데이터베이스 및 벡터DB 연동 - part.6"
 author: mminzy22
 date: 2025-02-25 20:00:00 +0900
-categories: [LangChain]
+categories: [AI, LangChain]
 tags: [Bootcamp, Python, Machine Learning, LangChain, VectorDB, AI, TIL]
 description: "LangChain을 활용하여 관계형 데이터베이스(SQL) 및 벡터 데이터베이스(VectorDB)와 연동하는 방법을 소개합니다."
 pin: false

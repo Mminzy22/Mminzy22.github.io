@@ -2,7 +2,7 @@
 title: "LangGraph Workflows와 Agents - part.2"
 author: mminzy22
 date: 2026-01-19 13:57:00 +0900
-categories: ["LangChain","LangGraph"]
+categories: ["AI","LangGraph"]
 tags: ["TIL","LangChain","LangGraph","AI","LLM"]
 description: "LangGraph에서 Parallelization(병렬 처리)와 Routing(라우팅) 패턴을 정리하고 Graph API/Functional API 예제로 이해한다."
 pin: false

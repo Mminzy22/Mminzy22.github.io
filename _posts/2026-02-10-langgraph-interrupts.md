@@ -2,7 +2,7 @@
 title: "LangGraph Interrupts 정리: pause/resume로 Human-in-the-Loop 구현하기 part.01"
 author: mminzy22
 date: 2026-02-10 11:35:00 +0900
-categories: ["LangChain","LangGraph"]
+categories: ["AI","LangGraph"]
 tags: ["TIL","LangChain","LangGraph","AI","LLM"]
 description: "LangGraph의 interrupt()로 그래프 실행을 중단하고 Command로 재개하는 방법을, Rules of interrupts 섹션 전까지 정리"
 pin: false

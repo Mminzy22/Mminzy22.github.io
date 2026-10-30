@@ -2,7 +2,7 @@
 title: "LangGraph Persistence - part.03"
 author: mminzy22
 date: 2026-02-09 10:57:00 +0900
-categories: ["LangChain","LangGraph"]
+categories: ["AI","LangGraph"]
 tags: ["TIL","LangChain","LangGraph","AI","LLM"]
 description: "LangGraph의 checkpointer 라이브러리 구성, BaseCheckpointSaver 인터페이스, serializer(pickle/encryption) 옵션, 그리고 persistence로 가능한 기능(HITL/Memory/Time travel/Fault-tolerance)을 정리"
 pin: false

@@ -2,7 +2,7 @@
 title: "머신러닝의 유형"
 author: mminzy22
 date: 2024-12-05 10:01:00 +0900
-categories: [Machine Learning]
+categories: [AI, Machine Learning]
 tags: [Bootcamp, Python, Machine Learning, TIL]
 description: "머신러닝의 주요 유형과 각 유형의 정의, 특징, 활용 사례 및 예제를 소개합니다. 지도 학습, 비지도 학습, 강화 학습의 차이점을 비교하고, 각 유형이 어떤 문제 해결에 적합한지 알아봅니다."
 pin: false

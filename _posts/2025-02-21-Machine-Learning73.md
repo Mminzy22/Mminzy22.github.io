@@ -2,7 +2,7 @@
 title: "LangChain의 프롬프트 엔지니어링과 메시지 유형 활용하기 - part.2"
 author: mminzy22
 date: 2025-02-21 21:00:00 +0900
-categories: [LangChain]
+categories: [AI, LangChain]
 tags: [Bootcamp, Python, Machine Learning, LangChain, 프롬프트 엔지니어링, AI, TIL]
 description: "LangChain에서 효과적인 프롬프트를 설계하는 방법과 다양한 메시지 유형을 활용하는 기법을 소개합니다."
 pin: false

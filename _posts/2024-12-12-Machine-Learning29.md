@@ -2,7 +2,7 @@
 title: "교차 검증과 그리드 서치"
 author: mminzy22
 date: 2024-12-12 10:30:00 +0900
-categories: [Machine Learning]
+categories: [AI, Machine Learning]
 tags: [Bootcamp, Python, Machine Learning, TIL]
 description: "교차 검증과 그리드 서치를 통해 머신러닝 모델의 성능을 평가하고 최적의 하이퍼파라미터를 찾는 방법을 다룹니다."
 pin: false

@@ -2,7 +2,7 @@
 title: "머신러닝 모델 평가: 선형 회귀와 다항 회귀 실습"
 author: mminzy22
 date: 2024-12-10 11:00:00 +0900
-categories: [Machine Learning]
+categories: [AI, Machine Learning]
 tags: [Bootcamp, Python, Machine Learning, TIL]
 description: "머신러닝 모델 평가 및 실습: 선형 회귀와 다항 회귀를 사용한 농어 데이터 분석"
 pin: false

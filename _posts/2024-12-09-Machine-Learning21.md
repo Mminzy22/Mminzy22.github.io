@@ -2,7 +2,7 @@
 title: "도미와 빙어 데이터를 활용한 지도 학습 실습"
 author: mminzy22
 date: 2024-12-09 10:00:00 +0900
-categories: [Machine Learning]
+categories: [AI, Machine Learning]
 tags: [Bootcamp, Python, Machine Learning, TIL]
 description: "지도 학습(Supervised Learning)의 대표적인 알고리즘인 K-최근접 이웃(K-Nearest Neighbors, KNN)을 실습하면서 기본 개념과 과정"
 pin: false

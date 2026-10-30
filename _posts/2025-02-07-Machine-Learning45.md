@@ -2,7 +2,7 @@
 title: "Hugging Face의 Transformers 라이브러리로 NLP 모델 활용하기"
 author: mminzy22
 date: 2025-02-07 20:00:00 +0900
-categories: [Machine Learning]
+categories: [AI, Machine Learning]
 tags: [Bootcamp, Python, Machine Learning, Hugging Face, Transformers, Deep Learning, AI, TIL]
 description: "Hugging Face의 Transformers 라이브러리를 활용해 BERT, GPT-2, RoBERTa 등 다양한 NLP 모델을 쉽게 사용하는 방법"
 pin: false

@@ -2,7 +2,7 @@
 title: "ML: 인공신경망의 기본 개념"
 author: mminzy22
 date: 2024-12-05 10:16:00 +0900
-categories: [Machine Learning]
+categories: [AI, Machine Learning]
 tags: [Bootcamp, Python, Machine Learning, TIL]
 description: "뉴런, 활성화 함수, 가중치의 역할과 역전파 알고리즘을 통한 인공신경망의 기본 원리"
 pin: false

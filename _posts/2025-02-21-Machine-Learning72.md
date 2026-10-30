@@ -2,7 +2,7 @@
 title: "LangChain 개요 및 환경 설정 - part.1"
 author: mminzy22
 date: 2025-02-21 20:00:00 +0900
-categories: [LangChain]
+categories: [AI, LangChain]
 tags: [Bootcamp, Python, Machine Learning, LangChain, LLM, AI, TIL]
 description: "LangChain의 개념과 주요 기능, 환경 설정 방법을 소개합니다."
 pin: false

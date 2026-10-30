@@ -2,7 +2,7 @@
 title: "AI 활용 vs 연구: 차이점과 실무 적용법"
 author: mminzy22
 date: 2025-02-04 19:00:00 +0900
-categories: [Machine Learning]
+categories: [AI, Machine Learning]
 tags: [Bootcamp, Python, Machine Learning, Deep Learning, AI활용, HuggingFace, TIL]
 description: "AI 활용과 연구의 차이점. 그리고 API 및 사전 학습 모델, 파이썬 패키지 관리, 허깅페이스를 활용하는 방법"
 pin: false

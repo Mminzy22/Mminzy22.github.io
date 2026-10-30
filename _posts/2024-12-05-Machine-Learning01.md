@@ -2,7 +2,7 @@
 title: "머신러닝이란?"
 author: mminzy22
 date: 2024-12-05 10:00:00 +0900
-categories: [Machine Learning]
+categories: [AI, Machine Learning]
 tags: [Bootcamp, Python, Machine Learning, TIL]
 description: "머신러닝의 정의, 필요성, 전통적인 프로그래밍과의 차이점, 그리고 작동 원리에 대해 설명합니다."
 pin: false

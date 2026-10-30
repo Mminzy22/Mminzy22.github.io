@@ -2,7 +2,7 @@
 title: "로지스틱 회귀: 럭키백 확률 계산 및 K-최근접 이웃 분류기"
 author: mminzy22
 date: 2024-12-11 10:00:00 +0900
-categories: [Machine Learning]
+categories: [AI, Machine Learning]
 tags: [Bootcamp, Python, Machine Learning, TIL]
 description: "로지스틱 회귀와 K-최근접 이웃 분류기를 사용하여 생선 데이터를 분석하고 분류하는 방법을 다룹니다. 데이터 준비, 모델 훈련 및 평가, 확률 예측 등의 과정을 포함합니다."
 pin: false

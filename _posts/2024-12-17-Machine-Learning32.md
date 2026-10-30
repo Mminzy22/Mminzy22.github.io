@@ -2,7 +2,7 @@
 title: "k-평균 알고리즘을 활용한 과일 사진 자동 군집화"
 author: mminzy22
 date: 2024-12-17 10:00:00 +0900
-categories: [Machine Learning]
+categories: [AI, Machine Learning]
 tags: [Bootcamp, Python, Machine Learning, TIL]
 description: "k-평균 알고리즘을 사용하여 과일 사진을 자동으로 군집화하는 방법을 학습합니다."
 pin: false

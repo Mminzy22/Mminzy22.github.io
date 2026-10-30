@@ -2,7 +2,7 @@
 title: "ML: 데이터 전처리"
 author: mminzy22
 date: 2024-12-05 10:04:00 +0900
-categories: [Machine Learning]
+categories: [AI, Machine Learning]
 tags: [Bootcamp, Python, Machine Learning, TIL]
 description: "머신러닝 모델의 성능을 최적화하기 위해 필수적인 데이터 전처리 기법에 대해 다룹니다. 결측값 처리, 이상치 탐지와 처리, 데이터 정규화와 표준화, 데이터 분할 방법을 자세히 설명합니다."
 pin: false

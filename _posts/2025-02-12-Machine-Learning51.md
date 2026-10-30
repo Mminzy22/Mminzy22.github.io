@@ -2,7 +2,7 @@
 title: "비지도 학습: 고객 세분화 분석 모델 (과제 해설)"
 author: mminzy22
 date: 2025-02-12 20:00:00 +0900
-categories: [Machine Learning]
+categories: [AI, Machine Learning]
 tags: [Bootcamp, Python, Machine Learning, Unsupervised Learning, TIL, 과제]
 description: "비지도 학습을 활용한 고객 세분화 분석 방법을 소개합니다. K-Means, 계층적 군집화, DBSCAN, GMM 등 다양한 클러스터링 기법을 비교하고, 데이터 전처리부터 시각화, 고객 행동 예측 모델 구축까지 자세히 설명합니다."
 pin: false

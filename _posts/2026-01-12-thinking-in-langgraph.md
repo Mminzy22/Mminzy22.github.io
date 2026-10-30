@@ -2,7 +2,7 @@
 title: "Thinking in LangGraph"
 author: mminzy22
 date: 2026-01-12 21:11:00 +0900
-categories: ["LangChain","LangGraph"]
+categories: ["AI","LangGraph"]
 tags: ["TIL","LangChain","LangGraph","AI","LLM"]
 description: "LangGraph 공식 문서 기반 에이전트를 설계하는 사고방식"
 pin: false

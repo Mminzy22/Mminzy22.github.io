@@ -2,7 +2,7 @@
 title: "LangGraph Workflows와 Agents - part.4"
 author: mminzy22
 date: 2026-01-19 14:34:00 +0900
-categories: ["LangChain","LangGraph"]
+categories: ["AI","LangGraph"]
 tags: ["TIL","LangChain","LangGraph","AI","LLM"]
 description: "Evaluator-Optimizer 패턴의 개념, 사용 사례, 반복 개선 루프, LangGraph 구현 예시(Graph API/Functional API)를 정리한다."
 pin: false

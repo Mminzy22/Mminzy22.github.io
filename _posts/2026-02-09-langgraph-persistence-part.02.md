@@ -2,7 +2,7 @@
 title: "LangGraph Persistence - part.02"
 author: mminzy22
 date: 2026-02-09 10:49:00 +0900
-categories: ["LangChain","LangGraph"]
+categories: ["AI","LangGraph"]
 tags: ["TIL","LangChain","LangGraph","AI","LLM"]
 description: "LangGraph의 Memory store(Store 인터페이스)를 통해 thread 간에 정보를 공유하는 방법을 정리"
 pin: false

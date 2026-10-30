@@ -2,7 +2,7 @@
 title: "LangChain과 API 및 외부 서비스 연동 - part.7"
 author: mminzy22
 date: 2025-02-25 20:30:00 +0900
-categories: [LangChain]
+categories: [AI, LangChain]
 tags: [Bootcamp, Python, Machine Learning, LangChain, AI, TIL]
 description: "LangChain을 활용하여 REST API 및 외부 서비스와 연동하는 방법을 소개합니다."
 pin: false

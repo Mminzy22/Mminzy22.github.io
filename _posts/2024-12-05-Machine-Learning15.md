@@ -2,7 +2,7 @@
 title: "ML: 심층 강화 학습의 세부 원리"
 author: mminzy22
 date: 2024-12-05 10:14:00 +0900
-categories: [Machine Learning]
+categories: [AI, Machine Learning]
 tags: [Bootcamp, Python, Machine Learning, TIL]
 description: "심층 강화 학습의 주요 알고리즘인 DQN, DDQN, DDPG, A3C의 원리"
 pin: false

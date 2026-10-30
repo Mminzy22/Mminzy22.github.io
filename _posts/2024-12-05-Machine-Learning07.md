@@ -2,7 +2,7 @@
 title: "ML: 선형 회귀와 로지스틱 회귀"
 author: mminzy22
 date: 2024-12-05 10:06:00 +0900
-categories: [Machine Learning]
+categories: [AI, Machine Learning]
 tags: [Bootcamp, Python, Machine Learning, TIL]
 description: "머신러닝에서 선형 회귀와 로지스틱 회귀의 기본 개념, 구현 방법, 활용 사례를 다룹니다."
 pin: false

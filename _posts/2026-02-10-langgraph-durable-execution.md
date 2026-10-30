@@ -2,7 +2,7 @@
 title: "LangGraph Durable Execution 개념과 사용 방법 정리"
 author: mminzy22
 date: 2026-02-10 10:45:00 +0900
-categories: ["LangChain","LangGraph"]
+categories: ["AI","LangGraph"]
 tags: ["TIL","LangChain","LangGraph","AI","LLM"]
 description: "LangGraph의 Durable Execution 개념과 persistence, determinism, task 사용 방법 정리"
 pin: false

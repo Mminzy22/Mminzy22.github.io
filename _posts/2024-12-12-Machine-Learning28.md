@@ -2,7 +2,7 @@
 title: "결정 트리와 로지스틱 회귀를 활용한 와인 분류"
 author: mminzy22
 date: 2024-12-12 10:00:00 +0900
-categories: [Machine Learning]
+categories: [AI, Machine Learning]
 tags: [Bootcamp, Python, Machine Learning, TIL]
 description: "로지스틱 회귀를 통해 와인 데이터를 분류한 후, 결정 트리를 활용하여 학습 성능을 비교하고 이를 시각화"
 pin: false

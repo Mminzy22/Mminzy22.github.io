@@ -2,7 +2,7 @@
 title: "ML: 심층 강화 학습의 응용"
 author: mminzy22
 date: 2024-12-05 10:15:00 +0900
-categories: [Machine Learning]
+categories: [AI, Machine Learning]
 tags: [Bootcamp, Python, Machine Learning, TIL]
 description: "자율주행, 게임 플레이, 금융 모델링의 구체적인 사례"
 pin: false

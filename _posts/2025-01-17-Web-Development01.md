@@ -2,7 +2,7 @@
 title: "쿠키와 세션의 이해"
 author: mminzy22
 date: 2025-01-17 10:00:00 +0900
-categories: [Web Development]
+categories: [Backend, Web]
 tags: [Bootcamp, Web Development, Authentication, TIL]
 description: "웹 개발에서 쿠키와 세션의 정의, 특징, 작동 방식, 주요 활용 사례, 차이점에 대한 심층적인 이해를 제공합니다."
 pin: false

@@ -2,7 +2,7 @@
 title: "Hugging Face 모델의 사전 학습과 파인 튜닝"
 author: mminzy22
 date: 2025-02-07 20:30:00 +0900
-categories: [Machine Learning]
+categories: [AI, Machine Learning]
 tags: [Bootcamp, Python, Machine Learning, Hugging Face, Transformers, Deep Learning, AI, TIL]
 description: "Hugging Face 모델의 사전 학습(Pre-training)과 파인 튜닝(Fine-tuning)의 개념을 배우고, IMDb 데이터셋을 활용해 BERT 모델을 파인 튜닝하는 방법"
 pin: false

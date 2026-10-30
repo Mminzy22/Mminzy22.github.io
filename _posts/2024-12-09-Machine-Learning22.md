@@ -2,7 +2,7 @@
 title: "데이터 전처리와 K-최근접 이웃 알고리즘 실습"
 author: mminzy22
 date: 2024-12-09 11:00:00 +0900
-categories: [Machine Learning]
+categories: [AI, Machine Learning]
 tags: [Bootcamp, Python, Machine Learning, TIL]
 description: "도미와 빙어 데이터를 이용해 데이터 전처리 과정을 살펴보고, 이를 활용한 K-최근접 이웃(KNN) 알고리즘 실습"
 pin: false

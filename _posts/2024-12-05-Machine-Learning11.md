@@ -2,7 +2,7 @@
 title: "ML: 피처 생성 (Feature Engineering)"
 author: mminzy22
 date: 2024-12-05 10:10:00 +0900
-categories: [Machine Learning]
+categories: [AI, Machine Learning]
 tags: [Bootcamp, Python, Machine Learning, TIL]
 description: "새로운 변수 생성 기법과 텍스트 및 시계열 데이터 처리 방법"
 pin: false

@@ -2,7 +2,7 @@
 title: "LangGraph Streaming"
 author: mminzy22
 date: 2026-02-10 11:00:00 +0900
-categories: ["LangChain","LangGraph"]
+categories: ["AI","LangGraph"]
 tags: ["TIL","LangChain","LangGraph","AI","LLM"]
 description: "LangGraph의 스트리밍(Streaming) 시스템과 stream_mode별 동작, 서브그래프/토큰/커스텀 데이터 스트리밍, Python < 3.11 비동기 주의사항을 정리"
 pin: false

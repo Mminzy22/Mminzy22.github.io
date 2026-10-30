@@ -2,7 +2,7 @@
 title: "주택 가격 예측 모델 구축(스케일링 및 이상치 처리)"
 author: mminzy22
 date: 2024-12-24 10:00:00 +0900
-categories: [Machine Learning]
+categories: [AI, Machine Learning]
 tags: [Bootcamp, Python, Machine Learning, TIL, 과제]
 description: "주택 가격 예측 모델 구축을 위한 데이터 전처리 및 스케일링 방법을 다룹니다."
 pin: false

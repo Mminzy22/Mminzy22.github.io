@@ -2,7 +2,7 @@
 title: "LangGraph Persistence - part.01"
 author: mminzy22
 date: 2026-01-22 10:25:00 +0900
-categories: ["LangChain","LangGraph"]
+categories: ["AI","LangGraph"]
 tags: ["TIL","LangChain","LangGraph","AI","LLM"]
 description: "LangGraph의 영속성(persistence) 구조 정리"
 pin: false

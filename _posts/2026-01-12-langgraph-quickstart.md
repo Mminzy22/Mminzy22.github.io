@@ -2,7 +2,7 @@
 title: "LangGraph Quickstart"
 author: mminzy22
 date: 2026-01-12 20:57:00 +0900
-categories: ["LangChain","LangGraph"]
+categories: ["AI","LangGraph"]
 tags: ["TIL","LangChain","LangGraph","AI","LLM"]
 description: "LangGraph 공식 문서 Quickstart를 기반으로 Graph API와 Functional API를 사용해 계산기 에이전트를 만드는 과정 정리"
 pin: false

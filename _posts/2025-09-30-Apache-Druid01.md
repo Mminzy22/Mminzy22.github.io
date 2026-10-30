@@ -2,7 +2,7 @@
 title: "Apache Druid의 개념 및 특징"
 author: mminzy22
 date: 2025-09-30 02:00:00 +0900
-categories: [Druid]
+categories: [Data, Druid]
 tags: [TIL, Apache Druid, Druid, olap, introduction]
 description: "Apache Druid의 개념, 특징, 아키텍처 개요를 정리한 글"
 pin: false

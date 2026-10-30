@@ -2,7 +2,7 @@
 title: "ML: 피처 선택 (Feature Selection)"
 author: mminzy22
 date: 2024-12-05 10:09:00 +0900
-categories: [Machine Learning]
+categories: [AI, Machine Learning]
 tags: [Bootcamp, Python, Machine Learning, TIL]
 description: "상관 분석과 차원 축소(PCA)를 활용한 피처 선택 기법"
 pin: false

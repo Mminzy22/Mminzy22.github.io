@@ -2,7 +2,7 @@
 title: "ML: 데이터 시각화"
 author: mminzy22
 date: 2024-12-05 10:05:00 +0900
-categories: [Machine Learning]
+categories: [AI, Machine Learning]
 tags: [Bootcamp, Python, Machine Learning, TIL]
 description: "데이터 탐색을 위한 도구와 기법, 시각화를 통한 데이터 패턴 이해에 대해 다룹니다."
 pin: false

@@ -2,7 +2,7 @@
 title: "트리 앙상블 (Tree Ensemble)"
 author: mminzy22
 date: 2024-12-13 10:00:00 +0900
-categories: [Machine Learning]
+categories: [AI, Machine Learning]
 tags: [Bootcamp, Python, Machine Learning, TIL]
 description: "다양한 트리 앙상블 알고리즘(Random Forest, Extra Trees, Gradient Boosting, HistGradientBoosting, XGBoost, LightGBM)을 활용하여 와인 데이터셋을 분석하고, 각 모델의 성능을 비교합니다. 교차 검증, 특성 중요도 분석, OOB 점수 등을 통해 모델을 평가하고, 하이퍼파라미터 조정을 통해 성능을 향상시키는 방법"
 pin: false

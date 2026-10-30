@@ -2,7 +2,7 @@
 title: "확률적 경사 하강법 (Stochastic Gradient Descent, SGD)"
 author: mminzy22
 date: 2024-12-11 11:00:00 +0900
-categories: [Machine Learning]
+categories: [AI, Machine Learning]
 tags: [Bootcamp, Python, Machine Learning, TIL]
 description: "확률적 경사 하강법(SGD)의 개념과 다양한 경사 하강법의 종류, 손실 함수, 에포크와 조기 종료, 그리고 실제 예제를 통해 SGD의 사용 방법"
 pin: false

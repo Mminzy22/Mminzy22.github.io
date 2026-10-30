@@ -2,7 +2,7 @@
 title: "pre-commit으로 코드 관리 자동화"
 author: mminzy22
 date: 2025-07-13 21:00:00 +0900
-categories: [Development]
+categories: [DevOps, Git]
 tags: [TIL, pre-commit, 코드 품질, 자동화]
 description: "pre-commit 도구를 사용해 Git 커밋 시 자동으로 코드 포맷팅, 린트, 불필요한 공백 제거 등 다양한 검사를 적용하는 방법"
 pin: false

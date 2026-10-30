@@ -2,7 +2,7 @@
 title: "도미와 빙어 데이터를 활용한 머신러닝 학습"
 author: mminzy22
 date: 2024-12-06 10:00:00 +0900
-categories: [Machine Learning]
+categories: [AI, Machine Learning]
 tags: [Bootcamp, Python, Machine Learning, TIL]
 description: "도미와 빙어 데이터를 활용해 머신러닝 알고리즘 중 하나인 k-최근접 이웃(KNN)을 학습하고 이를 통해 데이터를 분류하는 방법"
 pin: false

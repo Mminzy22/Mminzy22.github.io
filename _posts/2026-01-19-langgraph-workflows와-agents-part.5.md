@@ -2,7 +2,7 @@
 title: "LangGraph Workflows와 Agents - part.5"
 author: mminzy22
 date: 2026-01-19 14:40:00 +0900
-categories: ["LangChain","LangGraph"]
+categories: ["AI","LangGraph"]
 tags: ["TIL","LangChain","LangGraph","AI","LLM"]
 description: "LangGraph Agents 패턴 구조와 예제 정리"
 pin: false

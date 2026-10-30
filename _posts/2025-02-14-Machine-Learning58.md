@@ -2,7 +2,7 @@
 title: "LangChain을 활용한 고급 체인 구성 및 최적화 전략"
 author: mminzy22
 date: 2025-02-14 10:00:00 +0900
-categories: [Machine Learning, Deep Learning]
+categories: [AI, Deep Learning]
 tags: [Bootcamp, Python, Machine Learning, Deep Learning, LLM, LangChain, AI, TIL]
 description: "LangChain을 활용하여 고급 체인 구성 및 최적화 전략을 다루는 글입니다. 동적 체인 구성, 병렬 처리, 캐싱, 디버깅 및 로깅, 조건부 실행 등 다양한 기법을 통해 효율적인 애플리케이션 개발 방법을 소개합니다."
 pin: false

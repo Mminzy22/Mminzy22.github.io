@@ -2,7 +2,7 @@
 title: "LangChain에서 Multi-turn 대화와 Memory 활용하기 - part.3"
 author: mminzy22
 date: 2025-02-21 21:30:00 +0900
-categories: [LangChain]
+categories: [AI, LangChain]
 tags: [Bootcamp, Python, Machine Learning, LangChain, Multi-turn, AI, TIL]
 description: "LangChain에서 Multi-turn 대화를 구현하고 다양한 Memory 시스템을 활용하는 방법을 소개합니다."
 pin: false

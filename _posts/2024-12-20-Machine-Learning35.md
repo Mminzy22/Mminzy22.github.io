@@ -2,7 +2,7 @@
 title: "심층 신경망 구현 및 학습: 패션 MNIST 데이터셋 사례"
 author: mminzy22
 date: 2024-12-20 10:00:00 +0900
-categories: [Machine Learning]
+categories: [AI, Machine Learning]
 tags: [Bootcamp, Python, Machine Learning, TIL]
 description: "패션 MNIST 데이터셋을 사용하여 심층 신경망을 구현하고 학습하는 과정을 다룹니다."
 pin: false

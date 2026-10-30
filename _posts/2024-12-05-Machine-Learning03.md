@@ -2,7 +2,7 @@
 title: "머신러닝의 주요 활용 분야"
 author: mminzy22
 date: 2024-12-05 10:02:00 +0900
-categories: [Machine Learning]
+categories: [AI, Machine Learning]
 tags: [Bootcamp, Python, Machine Learning, TIL]
 description: "머신러닝의 주요 활용 분야인 이미지 인식, 자연어 처리, 추천 시스템에 대해 다룹니다. 각 분야의 정의, 활용 사례, 대표 알고리즘과 기술, 코드 예제를 통해 머신러닝의 실제 적용 사례를 살펴봅니다."
 pin: false

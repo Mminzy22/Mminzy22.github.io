@@ -2,7 +2,7 @@
 title: "k-최근접 이웃 회귀와 머신러닝 데이터 준비 과정"
 author: mminzy22
 date: 2024-12-10 10:00:00 +0900
-categories: [Machine Learning]
+categories: [AI, Machine Learning]
 tags: [Bootcamp, Python, Machine Learning, TIL]
 description: "k-최근접 이웃 회귀 알고리즘과 머신러닝 데이터 준비 과정을 다룹니다. 지도 학습의 기본 개념인 분류와 회귀의 차이점을 설명하고, k-최근접 이웃 알고리즘을 사용한 분류 및 회귀 예제를 제공합니다. 또한, 데이터 준비 과정에서 넘파이 배열 생성, 데이터 시각화, 데이터셋 분리, 차원 조정, 모델 훈련 및 평가 방법을 상세히 설명합니다."
 pin: false

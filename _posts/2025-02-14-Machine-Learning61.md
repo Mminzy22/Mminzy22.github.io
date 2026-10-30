@@ -2,7 +2,7 @@
 title: "문서 처리: Chunking과 Embedding- Part.3"
 author: mminzy22
 date: 2025-02-14 19:30:00 +0900
-categories: [Machine Learning, Deep Learning]
+categories: [AI, Deep Learning]
 tags: [Bootcamp, Python, Machine Learning, Deep Learning, LLM, RAG, AI, TIL]
 description: "RAG 성능을 높이려면 문서 청크(Chunking)와 임베딩(Embedding)을 최적화해야 합니다. 문서를 작은 단위로 나누고 벡터화하여 검색 성능을 개선하는 방법을 실습 코드와 함께 제공합니다."
 pin: false

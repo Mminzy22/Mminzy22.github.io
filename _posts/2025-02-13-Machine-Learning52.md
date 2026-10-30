@@ -2,7 +2,7 @@
 title: "Hugging Face와 Stable Diffusion을 활용한 생성형 AI 모델 사용법"
 author: mminzy22
 date: 2025-02-13 19:00:00 +0900
-categories: [Machine Learning]
+categories: [AI, Machine Learning]
 tags: [Bootcamp, Python, Machine Learning, Deep Learning, Hugging Face, Stable Diffusion, NLP, AI, TIL]
 description: "Hugging Face와 Stable Diffusion을 활용하여 텍스트 생성 및 이미지 생성 모델을 실제로 사용하는 방법"
 pin: false

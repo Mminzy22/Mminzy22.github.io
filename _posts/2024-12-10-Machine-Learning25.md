@@ -2,7 +2,7 @@
 title: "특성 공학과 규제: 머신러닝 모델의 숨은 비법"
 author: mminzy22
 date: 2024-12-10 11:30:00 +0900
-categories: [Machine Learning]
+categories: [AI, Machine Learning]
 tags: [Bootcamp, Python, Machine Learning, TIL]
 description: "특성 공학으로 데이터를 확장하고, 릿지와 라쏘 규제를 활용하여 모델 성능을 최적화하는 과정"
 pin: false

@@ -2,7 +2,7 @@
 title: "LangGraph Workflows와 Agents - part.1"
 author: mminzy22
 date: 2026-01-13 23:23:00 +0900
-categories: ["LangChain","LangGraph"]
+categories: ["AI","LangGraph"]
 tags: ["TIL","LangChain","LangGraph","AI","LLM"]
 description: "LangGraph의 workflow/agent 개념을 정리하고, LLM augmentations와 Prompt Chaining 패턴을 예제로 이해한다."
 pin: false

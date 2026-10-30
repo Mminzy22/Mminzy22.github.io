@@ -2,7 +2,7 @@
 title: "특강: PyTorch 기초 - 텐서와 기본 연산"
 author: mminzy22
 date: 2025-02-06 21:00:00 +0900
-categories: [Machine Learning]
+categories: [AI, Machine Learning]
 tags: [Bootcamp, Python, Machine Learning, PyTorch, TIL]
 description: "PyTorch의 기본 개념과 텐서를 활용한 연산"
 pin: false

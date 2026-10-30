@@ -2,7 +2,7 @@
 title: "ML: 고급 머신러닝 알고리즘: 앙상블 학습"
 author: mminzy22
 date: 2024-12-05 10:11:00 +0900
-categories: [Machine Learning]
+categories: [AI, Machine Learning]
 tags: [Bootcamp, Python, Machine Learning, TIL]
 description: "앙상블 학습의 배깅(Bagging)과 부스팅(Boosting), 그리고 대표적인 알고리즘인 랜덤포레스트(Random Forest), XGBoost, LightGBM"
 pin: false

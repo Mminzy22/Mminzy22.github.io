@@ -2,7 +2,7 @@
 title: "ML: 모델 성능 평가"
 author: mminzy22
 date: 2024-12-05 10:08:00 +0900
-categories: [Machine Learning]
+categories: [AI, Machine Learning]
 tags: [Bootcamp, Python, Machine Learning, TIL]
 description: "평가 지표(정확도, 정밀도, 재현율, F1 점수)와 혼동 행렬(Confusion Matrix)의 개념과 활용 방법"
 pin: false

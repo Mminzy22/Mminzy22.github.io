@@ -2,7 +2,7 @@
 title: "LangGraph를 활용한 복잡한 AI 워크플로우 구축 - part.8"
 author: mminzy22
 date: 2025-02-26 20:00:00 +0900
-categories: [LangChain]
+categories: [AI, LangChain]
 tags: [Bootcamp, Python, Machine Learning, LangChain, AI, TIL]
 description: "LangGraph를 활용하여 복잡한 AI 워크플로우를 설계하고 실행하는 방법을 소개합니다."
 pin: false

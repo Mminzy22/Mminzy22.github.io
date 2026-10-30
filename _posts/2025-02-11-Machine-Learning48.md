@@ -2,7 +2,7 @@
 title: "특강: 인공신경망과 딥러닝 학습 과정 정리"
 author: mminzy22
 date: 2025-02-11 20:00:00 +0900
-categories: [Machine Learning]
+categories: [AI, Machine Learning]
 tags: [Bootcamp, Python, Machine Learning, Deep Learning, TIL]
 description: "퍼셉트론과 다층 퍼셉트론(MLP)의 개념, 신경망의 학습 과정, 경사하강법, 활성화 함수 등을 설명하고, PyTorch를 활용한 신경망 구현 예제를 제공합니다."
 pin: false

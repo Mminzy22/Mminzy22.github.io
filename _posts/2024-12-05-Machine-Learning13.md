@@ -2,7 +2,7 @@
 title: "ML: 비지도 학습"
 author: mminzy22
 date: 2024-12-05 10:12:00 +0900
-categories: [Machine Learning]
+categories: [AI, Machine Learning]
 tags: [Bootcamp, Python, Machine Learning, TIL]
 description: "비지도 학습의 대표적인 기법인 군집화(K-Means, DBSCAN)와 차원 축소(t-SNE, UMAP)"
 pin: false

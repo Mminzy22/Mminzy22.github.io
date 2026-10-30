@@ -2,7 +2,7 @@
 title: "LangGraph 개요 정리"
 author: mminzy22
 date: 2026-01-12 20:47:00 +0900
-categories: ["LangChain","LangGraph"]
+categories: ["AI","LangGraph"]
 tags: ["TIL","LangChain","LangGraph","AI","LLM"]
 description: "LangGraph 공식 문서의 Overview를 기반 LangGraph의 개념, 목적, 핵심 장점 정리"
 pin: false

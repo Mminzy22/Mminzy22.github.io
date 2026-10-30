@@ -2,7 +2,7 @@
 title: "특강: 딥러닝. 퍼셉트론에서 RNN까지"
 author: mminzy22
 date: 2025-02-03 20:00:00 +0900
-categories: [Machine Learning]
+categories: [AI, Machine Learning]
 tags: [Bootcamp, Python, Machine Learning, Deep Learning, 퍼셉트론, MLP, DNN, RNN, TIL]
 description: "딥러닝의 기본 개념을 뉴런에서 시작해 퍼셉트론, 다층 퍼셉트론(MLP), DNN, RNN까지 살펴보기. XOR 문제 해결부터 순환 신경망(RNN)의 등장까지, 인공지능의 발전 과정"
 pin: false

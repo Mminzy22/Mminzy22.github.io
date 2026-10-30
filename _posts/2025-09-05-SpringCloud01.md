@@ -2,7 +2,7 @@
 title: "Spring Cloud 개념"
 author: mminzy22
 date: 2025-09-05 23:00:00 +0900
-categories: [Spring, Spring Cloud]
+categories: [Backend, Spring]
 tags: [TIL, Spring Cloud, MSA]
 description: "Spring Cloud - 왜 필요한지, 무엇을 해결하는지, 각 구성요소의 역할과 선택 기준, 운영 시 고려사항까지 정리"
 pin: false

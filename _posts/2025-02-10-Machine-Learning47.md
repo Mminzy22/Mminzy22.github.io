@@ -2,7 +2,7 @@
 title: "생성형 AI(Generative AI)의 개발 과정과 어려움"
 author: mminzy22
 date: 2025-02-10 21:00:00 +0900
-categories: [Machine Learning]
+categories: [AI, Machine Learning]
 tags: [Bootcamp, Python, Machine Learning, Fine-tuning, AI, TIL]
 description: "생성형 AI의 개념, 개발 과정에서의 어려움, 그리고 이를 극복하기 위한 파인 튜닝의 중요성에 대해 다룹니다."
 pin: false

@@ -2,7 +2,7 @@
 title: "LangGraph Workflows와 Agents - part.3"
 author: mminzy22
 date: 2026-01-19 14:02:00 +0900
-categories: ["LangChain","LangGraph"]
+categories: ["AI","LangGraph"]
 tags: ["TIL","LangChain","LangGraph","AI","LLM"]
 description: "LangGraph의 Orchestrator-worker 패턴 구조와 Graph API / Functional API 예제로 이해한다."
 pin: false

@@ -2,7 +2,7 @@
 title: "LangChain에서 실시간 응답을 위한 Streaming 구현"
 author: mminzy22
 date: 2025-02-17 19:35:00 +0900
-categories: [LangChain]
+categories: [AI, LangChain]
 tags: [Bootcamp, Python, Machine Learning, Deep Learning, LLM, RAG, LangChain, AI, TIL]
 description: "LangChain에서 실시간 응답을 위한 Streaming 기능을 구현하는 방법과 그 원리에 대해 설명합니다. Streaming을 통해 챗봇의 응답 속도를 향상시키고, 사용자 경험을 개선하는 방법을 알아봅니다."
 pin: false

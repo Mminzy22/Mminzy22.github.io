@@ -2,7 +2,7 @@
 title: "ML: 분류와 회귀 문제 이해"
 author: mminzy22
 date: 2024-12-05 10:07:00 +0900
-categories: [Machine Learning]
+categories: [AI, Machine Learning]
 tags: [Bootcamp, Python, Machine Learning, TIL]
 description: "머신러닝의 분류와 회귀 문제를 이해하고, 주요 알고리즘(의사결정나무, KNN, SVM 등)을 살펴봅니다."
 pin: false

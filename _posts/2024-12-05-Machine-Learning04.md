@@ -2,7 +2,7 @@
 title: "ML: 데이터 이해와 전처리"
 author: mminzy22
 date: 2024-12-05 10:03:00 +0900
-categories: [Machine Learning]
+categories: [AI, Machine Learning]
 tags: [Bootcamp, Python, Machine Learning, TIL]
 description: "머신러닝에서 데이터의 중요성과 데이터셋의 종류 및 품질 관리 방법에 대해 다룹니다."
 pin: false

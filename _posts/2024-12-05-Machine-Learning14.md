@@ -2,7 +2,7 @@
 title: "ML: 강화 학습 개요"
 author: mminzy22
 date: 2024-12-05 10:13:00 +0900
-categories: [Machine Learning]
+categories: [AI, Machine Learning]
 tags: [Bootcamp, Python, Machine Learning, TIL]
 description: "강화 학습의 기본 원리와 주요 알고리즘"
 pin: false

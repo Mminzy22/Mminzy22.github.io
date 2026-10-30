@@ -2,7 +2,7 @@
 title: "Apache Druid 아키텍처: 컴포넌트, 세그먼트, 쿼리 흐름"
 author: mminzy22
 date: 2025-10-06 22:00:00 +0900
-categories: [Druid]
+categories: [Data, Druid]
 tags: [TIL, Apache Druid, Druid, architecture]
 description: "Apache Druid 아키텍처의 핵심 구성요소, 세그먼트 수명주기, 데이터 적재 및 쿼리 흐름을 정리한 글"
 pin: false

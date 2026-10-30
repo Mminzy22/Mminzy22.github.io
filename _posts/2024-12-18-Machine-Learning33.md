@@ -2,7 +2,7 @@
 title: "차원 축소와 PCA(주성분 분석) 이해하기"
 author: mminzy22
 date: 2024-12-18 10:00:00 +0900
-categories: [Machine Learning]
+categories: [AI, Machine Learning]
 tags: [Bootcamp, Python, Machine Learning, TIL]
 description: "머신러닝에서 차원 축소와 주성분 분석(PCA)에 대해 설명하고, 이를 Python 코드로 구현하는 방법을 다룹니다."
 pin: false
