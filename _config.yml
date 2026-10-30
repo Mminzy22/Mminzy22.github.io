@@ -135,6 +135,9 @@ assets:
     # only works if `assets.self_host.enabled` is 'true'
     env: # [development | production]
 
+# Trending Tags 에서 뺄 태그. 대부분의 글에 붙는 기록·과정용 태그라 주제를 보여주지 못한다.
+trending_tags_exclude: [TIL, Bootcamp, Cloud Bootcamp]
+
 pwa:
   enabled: true # The option for PWA feature (installable)
   cache:

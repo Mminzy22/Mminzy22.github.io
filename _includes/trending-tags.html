@@ -5,7 +5,10 @@
 {% assign size_list = '' | split: '' %}
 {% assign tag_list = '' | split: '' %}
 
+{% assign excluded = site.trending_tags_exclude | default: empty %}
+
 {% for tag in site.tags %}
+  {% if excluded contains tag[0] %}{% continue %}{% endif %}
   {% assign size = tag | last | size %}
   {% assign size_list = size_list | push: size %}
 
