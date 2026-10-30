@@ -261,3 +261,14 @@ details > :last-child {
   margin-left: auto;
   margin-right: auto;
 }
+
+/* 본문 이미지 — 다크 모드에서 밝기를 낮추고 모서리를 둥글게 해 화면에서 덜 튀게 한다 */
+.content img {
+  border-radius: 6px;
+  filter: var(--content-img-filter, none);
+  transition: filter 0.2s;
+}
+
+.content img:hover {
+  filter: none;
+}

@@ -14,7 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const render = () => {
     // left/top 대신 transform 을 쓰면 레이아웃 재계산 없이 합성만 일어난다
-    cursor.style.transform = `translate3d(${x + 10}px, ${y + 10}px, 0)`;
+    // 기본 화살표 오른쪽 아래에 붙여서, 가리키는 글자를 덮지 않게 한다
+    cursor.style.transform = `translate3d(${x + 14}px, ${y + 18}px, 0)`;
     ticking = false;
   };
 
