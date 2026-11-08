@@ -84,3 +84,26 @@
     {% endcase %}
   {% endif %}
 {% endif %}
+
+{% if page.layout == 'post' %}
+  <!-- Open external article links in a new tab; keep navigation and image popups unchanged. -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('article .content a[href]').forEach((link) => {
+        let url;
+        try {
+          url = new URL(link.getAttribute('href'), window.location.href);
+        } catch {
+          return;
+        }
+        if (!['http:', 'https:'].includes(url.protocol) ||
+            url.origin === window.location.origin ||
+            link.classList.contains('popup') ||
+            link.hasAttribute('download')) return;
+
+        link.target = '_blank';
+        link.relList.add('noopener', 'noreferrer');
+      });
+    });
+  </script>
+{% endif %}
