@@ -85,7 +85,7 @@
   {% endif %}
 {% endif %}
 
-{% if page.layout == 'post' %}
+{% if page.layout == 'post' or page.layout == 'page' %}
   <!-- Open external article links in a new tab; keep navigation and image popups unchanged. -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
