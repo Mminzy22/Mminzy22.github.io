@@ -606,6 +606,32 @@ export function escapeStrayPipes(markdown) {
 }
 
 /**
+ * Notion의 'plain text' 언어 이름을 kramdown이 인식하는 단일 토큰으로 바꾼다.
+ * 코드 예제 안에 들어 있는 울타리는 바꾸지 않는다.
+ */
+export function normalizeCodeFenceLanguages(markdown) {
+  let fence = null;
+
+  return markdown.split('\n').map((line) => {
+    const match = line.match(/^([ \t]*)(`{3,}|~{3,})([^\r\n]*)(\r?)$/);
+    if (!match) return line;
+
+    const [, indent, marker, info, cr] = match;
+    if (fence) {
+      if (marker[0] === fence.char && marker.length >= fence.length && !info.trim()) {
+        fence = null;
+      }
+      return line;
+    }
+
+    fence = { char: marker[0], length: marker.length };
+    return /^plain text$/i.test(info.trim())
+      ? `${indent}${marker}plaintext${cr}`
+      : line;
+  }).join('\n');
+}
+
+/**
  * 본문을 보고 mermaid / math 사용 여부를 판단한다.
  *
  * Chirpy 는 front matter 플래그가 켜져 있을 때만 해당 라이브러리를 불러오는데,
@@ -626,7 +652,7 @@ export function detectFeatures(markdown) {
  * 후처리 전체를 순서대로 적용한다.
  */
 export async function postProcess(markdown, { mediaDir, mediaSubpath }) {
-  const media = await processMedia(markdown, { mediaDir, mediaSubpath });
+  const media = await processMedia(normalizeCodeFenceLanguages(markdown), { mediaDir, mediaSubpath });
 
   // 콜아웃은 notion-sync.js 의 커스텀 변환기가 이미 prompt 로 바꿔둔다
   const audio = await processEmbeddedMedia(fixToggles(media.markdown), { mediaDir });
